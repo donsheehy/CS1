@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Higher-Level Programming Principles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Higher-Level Programming Principles</h1>
+<p>General concepts for an introductory course — the ideas behind the specific
+Python topics, not the syntax itself.</p>
+<h2>Data and state</h2>
+<ul>
+<li>Variables, state, and mutation (a variable as a named, changeable location)</li>
+<li>Scope and lifetime (local vs. global, why scope exists)</li>
+<li>Types and type systems (what a type guarantees)</li>
+<li>Values vs. references / identity vs. equality</li>
+</ul>
+<h2>Abstraction</h2>
+<ul>
+<li>Abstraction as hiding detail behind an interface</li>
+<li>Decomposition (breaking a problem into smaller parts)</li>
+<li>Functions as the primary unit of abstraction</li>
+<li>Interfaces vs. implementation (the &quot;what&quot; vs. the &quot;how&quot;)</li>
+<li>Naming as a design act (good names <em>are</em> documentation)</li>
+</ul>
+<h2>Control and flow</h2>
+<ul>
+<li>Sequence, selection, iteration (the three building blocks of all programs)</li>
+<li>Recursion as an alternative to iteration</li>
+<li>Invariants (things that stay true as code runs)</li>
+</ul>
+<h2>Program design</h2>
+<ul>
+<li>DRY (Don't Repeat Yourself) and single source of truth</li>
+<li>Separation of concerns</li>
+<li>Coupling and cohesion (keep related things together, unrelated things apart)</li>
+<li>Modularity and reuse</li>
+<li>Readability and code as communication (you write for humans, not just the machine)</li>
+</ul>
+<h2>Correctness and quality</h2>
+<ul>
+<li>Testing: unit tests, edge cases, test-driven thinking</li>
+<li>Debugging as a systematic process (hypothesize, isolate, verify)</li>
+<li>Defensive programming and input validation</li>
+<li>Specifications and preconditions/postconditions (a contract for a function)</li>
+</ul>
+<h2>Data organization</h2>
+<ul>
+<li>Data structures as a choice, not a given (why a list vs. a dict matters)</li>
+<li>Algorithms as recipes; correctness and efficiency</li>
+<li>Intro to computational cost (some approaches scale, some don't)</li>
+</ul>
+<h2>Working process</h2>
+<ul>
+<li>Incremental development (small steps, run often)</li>
+<li>Version control as a way of thinking (checkpoints, history, experiments)</li>
+<li>Reading and reusing others' code / documentation</li>
+</ul>
+<h2>Conceptual foundations</h2>
+<ul>
+<li>Models of computation (the computer as something that follows rules exactly)</li>
+<li>Representation (everything is encoded — numbers, text, images as bits)</li>
+<li>Determinism and reproducibility</li>
+</ul>
+<h2>Throughline</h2>
+<p>The single most important idea for beginners is <strong>abstraction and
+decomposition</strong> — nearly everything else (functions, modularity, testing, data
+structures) is a special case of &quot;manage complexity by breaking it up and
+hiding detail.&quot;</p>
+
+</body>
+</html>

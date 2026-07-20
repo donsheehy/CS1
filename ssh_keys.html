@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SSH and SSH Keys</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>SSH and SSH Keys</h1>
+<p>A fundamental computer-usage topic for CS students. SSH connects directly to
+pushing to GitHub, and teaches the core idea of public-key cryptography through
+something students actually use.</p>
+<h2>What SSH is</h2>
+<ul>
+<li>SSH (&quot;Secure Shell&quot;) is a protocol for connecting to another machine, or
+authenticating to a service, over an encrypted connection.</li>
+<li>Two everyday uses for a beginner:
+<ul>
+<li>Logging into a remote computer/server and using its terminal.</li>
+<li>Authenticating to GitHub so you can push/pull without typing a password.</li>
+</ul>
+</li>
+</ul>
+<h2>The core idea: key pairs</h2>
+<ul>
+<li>SSH authentication uses a <strong>key pair</strong>: a <strong>private key</strong> and a <strong>public key</strong>.</li>
+<li>The <strong>private key</strong> stays on your machine and is never shared — treat it like
+the physical key to your house.</li>
+<li>The <strong>public key</strong> can be shared freely — think of it as a lock you hand out.
+Anyone can lock with it, but only your private key can unlock.</li>
+<li>This is the same public/private idea behind a lot of modern security; SSH is a
+concrete first encounter with it.</li>
+</ul>
+<h2>Generating a key pair</h2>
+<ul>
+<li>Command: <code>ssh-keygen -t ed25519 -C &quot;your_email@example.com&quot;</code>
+<ul>
+<li><code>ed25519</code> is a modern, recommended key type.</li>
+<li><code>-C</code> adds a comment (usually your email) to label the key.</li>
+</ul>
+</li>
+<li>By default keys land in <code>~/.ssh/</code>:
+<ul>
+<li><code>id_ed25519</code> — the <strong>private</strong> key (keep secret).</li>
+<li><code>id_ed25519.pub</code> — the <strong>public</strong> key (safe to share).</li>
+</ul>
+</li>
+<li>The <strong>passphrase</strong> prompt: an optional extra layer that encrypts the private
+key on disk, so a stolen laptop doesn't hand over the key.</li>
+</ul>
+<h2>Connecting SSH to GitHub</h2>
+<ol>
+<li>Generate a key pair (above).</li>
+<li>Copy the <strong>public</strong> key (<code>cat ~/.ssh/id_ed25519.pub</code>).</li>
+<li>Paste it into GitHub → Settings → SSH and GPG keys → New SSH key.</li>
+<li>Use the SSH remote URL (<code>git@github.com:user/repo.git</code>), not the HTTPS one.</li>
+<li>Test with <code>ssh -T git@github.com</code> — GitHub greets you by username on success.</li>
+</ol>
+<ul>
+<li>Payoff: <code>git push</code> / <code>git pull</code> now work with no password prompt.</li>
+</ul>
+<h2>The <code>~/.ssh/</code> directory</h2>
+<ul>
+<li><code>id_ed25519</code>, <code>id_ed25519.pub</code> — your key pair.</li>
+<li><code>known_hosts</code> — servers you've connected to before (basis of the &quot;authenticity
+of host can't be established&quot; prompt on a first connection).</li>
+<li><code>config</code> — optional shortcuts and per-host settings.</li>
+</ul>
+<h2>Safety habits to teach</h2>
+<ul>
+<li><strong>Never share or commit a private key.</strong> It should never appear in a repo — a
+natural tie-in to <code>.gitignore</code>.</li>
+<li>Public key = shareable; private key = secret. Reinforce which is which.</li>
+<li>Use a passphrase on the private key.</li>
+<li>If a private key is ever exposed, remove it from GitHub and generate a new pair.</li>
+</ul>
+<h2>Common student pitfalls</h2>
+<ul>
+<li>Confusing which key to upload (it's always the <code>.pub</code> one).</li>
+<li>Pasting the key into the wrong GitHub settings page.</li>
+<li>Using the HTTPS remote URL and wondering why SSH keys aren't being used.</li>
+<li>Permissions errors — SSH refuses to use keys that are too widely readable.</li>
+</ul>
+
+</body>
+</html>

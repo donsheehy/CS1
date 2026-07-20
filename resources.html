@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Free Online Resources for Introductory CS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Free Online Resources for Introductory CS</h1>
+<p>Organized to match the topic areas in <code>topics.md</code>. Resources marked <strong>★</strong> are especially recommended for this course.</p>
+<hr>
+<h2>Complete Courses (cover many topics at once)</h2>
+<p><strong>★ <a href="https://cs50.harvard.edu/x/">Harvard CS50x</a></strong> — The gold standard free intro CS course. Covers abstraction, algorithms, data structures, programming in C/Python/SQL/JavaScript, and more. Free with certificate. 40+ hours; videos, problem sets, and projects. Excellent production quality; great for self-paced or supplemental use.</p>
+<p><strong>★ <a href="https://pll.harvard.edu/course/cs50s-introduction-programming-python">Harvard CS50P: Introduction to Programming with Python</a></strong> — Python-only version of CS50, more focused than CS50x. Ideal supplement for sections 4–8 (programming, data structures, algorithms, recursion).</p>
+<p><strong>★ <a href="https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/">MIT OpenCourseWare 6.100L</a></strong> — The actual MIT intro course (updated 2022). Full lecture videos, problem sets, and exams. Covers programming through data structures and computational thinking. Rigorous; well-matched to this course's level.</p>
+<p><strong><a href="https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/">MIT OpenCourseWare 6.0001</a></strong> — Older version of the MIT intro course (2016). Still excellent; slightly more accessible than 6.100L.</p>
+<p><strong><a href="https://www.khanacademy.org/computing">Khan Academy Computing</a></strong> — Free, browser-based. Covers AP CS Principles topics: digital information, internet, algorithms, and programming. Good for review and lighter introductory content. Less rigorous than the above but highly accessible.</p>
+<hr>
+<h2>Free Textbooks</h2>
+<p><strong>★ <a href="https://runestone.academy/ns/books/published/thinkcspy/index.html">How to Think Like a Computer Scientist (Interactive Edition)</a></strong> — Free, browser-based interactive Python textbook via Runestone Academy. Code runs inline. Covers topics 4–9 (programming fundamentals through OOP). Excellent for self-study and assignments.</p>
+<p><strong>★ <a href="https://runestone.academy/ns/books/published/pythonds3/index.html">Problem Solving with Algorithms and Data Structures using Python</a></strong> — Runestone Academy, 3rd ed. The best free resource for topics 5–6 and 8 (data structures, algorithms, recursion). Includes interactive code, visualizations, and exercises.</p>
+<p><strong><a href="https://automatetheboringstuff.com/">Automate the Boring Stuff with Python</a></strong> — Al Sweigart, free under Creative Commons. Very practical; motivating for students because every chapter produces something useful. Good complement for section 4 (programming fundamentals) and section 11 (data/files).</p>
+<p><strong><a href="https://allendowney.github.io/ThinkPython/">Think Python, 3rd ed.</a></strong> — Allen Downey, free online. Clear and concise intro to Python with good exercises. Overlaps with Runestone's thinkcspy but slightly more concise.</p>
+<hr>
+<h2>Video Series (YouTube)</h2>
+<p><strong>★ <a href="https://www.youtube.com/playlist?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo">Crash Course Computer Science</a></strong> — 40 episodes, ~10 min each. Covers the full sweep of CS: history, hardware, Boolean logic, networking, programming, algorithms, OS, AI, and ethics. Hosted by Carrie Anne Philbin. Ideal for topics 1–3, 10, 13–16. Not a substitute for coding practice, but excellent conceptual grounding.</p>
+<p><strong>★ <a href="https://www.youtube.com/playlist?list=PL8dPuuaLjXtO65LeD2p4_Sb5XQ51par_b">Crash Course AI</a></strong> — 20 episodes. Covers ML, neural networks, NLP, computer vision, ethics. Good match for topic 16.</p>
+<p><strong><a href="https://www.youtube.com/c/3blue1brown">3Blue1Brown: Essence of Linear Algebra / Neural Networks</a></strong> — Stunning visual explanations. Useful for topic 17 (math foundations) and AI/ML. Not Python-focused; use selectively.</p>
+<hr>
+<h2>Topic-Specific Resources</h2>
+<h3>Topic 1 – History of Computing</h3>
+<ul>
+<li>Crash Course Computer Science episodes 1–2 (early computing) and 16–20 (software, internet)</li>
+<li><a href="https://computerhistory.org/exhibits/">Computer History Museum online exhibits</a> — free</li>
+</ul>
+<h3>Topics 2 &amp; 7 – Computer Organization, Abstraction</h3>
+<ul>
+<li><strong><a href="https://www.nand2tetris.org/">nand2tetris</a></strong> — Free course + book. Build a computer from logic gates up through assembler and OS. Exceptional for topic 2 (architecture) and topic 7 (abstraction). Project-friendly.</li>
+<li>Crash Course CS episodes 3–8 (Boolean logic, ALU, registers, memory, CPU)</li>
+</ul>
+<h3>Topic 3 – Networks and the Internet</h3>
+<ul>
+<li><strong><a href="https://www.khanacademy.org/computing/computers-and-internet">Khan Academy: The Internet</a></strong> — free, short interactive lessons; covers IP, DNS, HTTP, encryption</li>
+<li>Crash Course CS episode 28 (computer networks) and 29 (internet)</li>
+<li>CS50x Week 8 (networking and web)</li>
+</ul>
+<h3>Topics 4–9 – Programming (Python), Data Structures, Algorithms, Recursion, OOP</h3>
+<ul>
+<li>MIT 6.100L (primary)</li>
+<li>How to Think Like a Computer Scientist (Runestone) — interactive exercises</li>
+<li>Problem Solving with Algorithms (Runestone) — data structures and algorithms</li>
+<li>Automate the Boring Stuff — practical projects</li>
+</ul>
+<h3>Topic 10 – Computational Thinking</h3>
+<ul>
+<li><strong><a href="https://csunplugged.org/en/">CS Unplugged</a></strong> — free activities teaching CS concepts without computers; good for early weeks</li>
+</ul>
+<h3>Topic 11 – Data and Information</h3>
+<ul>
+<li><strong><a href="https://www.kaggle.com/learn">Kaggle Learn: Python &amp; Pandas</a></strong> — free, browser-based notebooks. Good intro to data analysis with Python.</li>
+<li>Automate the Boring Stuff, chapters on CSV and file handling</li>
+</ul>
+<h3>Topic 12 – Visual and Creative Computing</h3>
+<ul>
+<li><strong><a href="https://academy.cs.cmu.edu/">CMU CS Academy</a></strong> — free Python curriculum centered on graphics. Engaging for beginners; good for projects.</li>
+<li><strong><a href="https://www.youtube.com/c/TheCodingTrain">The Coding Train (YouTube)</a></strong> — creative coding projects (Processing/p5.js, some Python). Inspiring for generative art and simulations.</li>
+</ul>
+<h3>Topic 13 – Software Development Practices</h3>
+<ul>
+<li><strong><a href="https://missing.csail.mit.edu/">MIT: The Missing Semester of Your CS Education</a></strong> — free. Covers Git, shell, debugging, editors. Excellent for topic 13.</li>
+<li><strong><a href="https://skills.github.com/">GitHub Skills</a></strong> — free, interactive Git/GitHub tutorials</li>
+</ul>
+<h3>Topic 14 – Theory of Computation</h3>
+<ul>
+<li>Crash Course CS episode 40 (the limits of computation)</li>
+<li><strong><a href="https://www.udacity.com/course/intro-to-theoretical-computer-science--cs313">Intro to Theoretical Computer Science (Udacity)</a></strong> — free; covers computability and complexity</li>
+</ul>
+<h3>Topic 15 – Ethics, Society, and Impacts</h3>
+<ul>
+<li>Crash Course AI episode 18 (Algorithmic Bias and Fairness)</li>
+<li><strong><a href="http://www.exploringcs.org/curriculum">Exploring Computer Science (ECS)</a></strong> — free curriculum with strong social impact focus</li>
+<li><strong><a href="https://cs50.harvard.edu/ai/">Ethics in Technology (Harvard CS50 AI)</a></strong> — CS50's AI course includes ethics; free</li>
+</ul>
+<h3>Topic 16 – Artificial Intelligence and Machine Learning</h3>
+<ul>
+<li><strong><a href="https://cs50.harvard.edu/ai/">CS50 AI</a></strong> — Harvard's free intro AI course (Python). Covers search, knowledge, ML, neural networks</li>
+<li>Crash Course AI (full playlist, above)</li>
+<li><strong><a href="https://course.fast.ai/">fast.ai: Practical Deep Learning</a></strong> — free; more advanced, but accessible final-week material</li>
+<li><strong><a href="https://developers.google.com/machine-learning/crash-course">Google ML Crash Course</a></strong> — free; good conceptual intro to supervised learning</li>
+</ul>
+<h3>Topic 17 – Mathematical Foundations</h3>
+<ul>
+<li><strong><a href="https://www.khanacademy.org/computing/ap-computer-science-principles">Khan Academy: Discrete Math</a></strong> — covers logic, sets, combinations</li>
+<li><strong><a href="http://discrete.openmathbooks.org/">Discrete Mathematics: An Open Introduction</a></strong> — free textbook; useful reference for proofs, graphs, combinatorics</li>
+<li>3Blue1Brown for intuition on linear algebra and probability</li>
+</ul>
+<hr>
+<h2>Coding Environments (free, no install required)</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://colab.research.google.com/">Google Colab</a></td>
+<td>Python notebooks, data, ML</td>
+</tr>
+<tr>
+<td><a href="https://replit.com/">Replit</a></td>
+<td>General Python, sharing student code</td>
+</tr>
+<tr>
+<td><a href="https://pythontutor.com/">Python Tutor</a></td>
+<td>Visualizing code execution, debugging</td>
+</tr>
+<tr>
+<td><a href="https://cs50.dev/">CS50 Codespace</a></td>
+<td>CS50-style IDE in the browser</td>
+</tr>
+<tr>
+<td><a href="https://jupyter.org/try/">Jupyter Lite</a></td>
+<td>Lightweight notebooks, no account</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>Quick Reference Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Topics covered</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Harvard CS50x</td>
+<td>2, 3, 4, 5, 6, 13, 15, 16</td>
+<td>Intro–intermediate</td>
+</tr>
+<tr>
+<td>Harvard CS50P</td>
+<td>4, 5, 6, 8, 11</td>
+<td>Intro</td>
+</tr>
+<tr>
+<td>MIT 6.100L</td>
+<td>4, 5, 6, 7, 8, 9, 10</td>
+<td>Intro–intermediate</td>
+</tr>
+<tr>
+<td>Crash Course CS (YouTube)</td>
+<td>1, 2, 3, 10, 14, 15, 16</td>
+<td>Light intro</td>
+</tr>
+<tr>
+<td>Runestone: thinkcspy</td>
+<td>4, 5, 7, 8, 9</td>
+<td>Intro</td>
+</tr>
+<tr>
+<td>Runestone: pythonds</td>
+<td>5, 6, 8</td>
+<td>Intermediate</td>
+</tr>
+<tr>
+<td>nand2tetris</td>
+<td>2, 7</td>
+<td>Intermediate (project)</td>
+</tr>
+<tr>
+<td>Khan Academy Computing</td>
+<td>3, 6, 10, 15</td>
+<td>Light intro</td>
+</tr>
+<tr>
+<td>CS50 AI</td>
+<td>6, 16, 15</td>
+<td>Intermediate</td>
+</tr>
+<tr>
+<td>The Missing Semester</td>
+<td>13</td>
+<td>Intermediate</td>
+</tr>
+<tr>
+<td>Automate the Boring Stuff</td>
+<td>4, 11</td>
+<td>Intro (practical)</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

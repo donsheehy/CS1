@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Intro to Python — Topic Sequence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Intro to Python — Topic Sequence</h1>
+<p>A teaching order where each unit depends only on earlier ones. String
+manipulation is placed after loops, so every string skill lands right when
+students have a use for it.</p>
+<h2>1. Getting started</h2>
+<ul>
+<li>Running Python (REPL, scripts, <code>print()</code>)</li>
+<li>Comments (<code>#</code>)</li>
+<li><code>input()</code> for user input</li>
+</ul>
+<h2>2. Variables and basic types</h2>
+<ul>
+<li>Variables and assignment (<code>=</code>)</li>
+<li>Numbers: <code>int</code>, <code>float</code>; arithmetic (<code>+ - * / // % **</code>)</li>
+<li>Strings <em>basics only</em>: quotes, concatenation, f-strings, <code>len()</code></li>
+<li><code>type()</code> and type conversion (<code>int()</code>, <code>float()</code>, <code>str()</code>)</li>
+<li>Booleans (<code>True</code> / <code>False</code>)</li>
+</ul>
+<h2>3. Conditionals</h2>
+<ul>
+<li>Comparison operators (<code>== != &lt; &gt; &lt;= &gt;=</code>)</li>
+<li><code>if</code> / <code>elif</code> / <code>else</code></li>
+<li>Logical operators (<code>and</code>, <code>or</code>, <code>not</code>)</li>
+</ul>
+<h2>4. Loops</h2>
+<ul>
+<li><code>while</code> loops</li>
+<li><code>for</code> loops and <code>range()</code></li>
+<li><code>break</code> and <code>continue</code></li>
+<li>Accumulator patterns (counters, sums)</li>
+</ul>
+<h2>5. Strings in depth <em>(now that students can iterate)</em></h2>
+<ul>
+<li>Indexing and slicing (<code>s[0]</code>, <code>s[1:4]</code>, negative indices)</li>
+<li>Looping over characters</li>
+<li>Methods: <code>.lower()</code>, <code>.upper()</code>, <code>.strip()</code>, <code>.split()</code>, <code>.replace()</code>, <code>.find()</code></li>
+</ul>
+<h2>6. Lists</h2>
+<ul>
+<li>Creating, indexing, slicing (reuses string indexing — now familiar)</li>
+<li>Methods: <code>.append()</code>, <code>.pop()</code>, <code>.insert()</code>, <code>.remove()</code>, <code>.sort()</code>, <code>len()</code>, <code>in</code></li>
+<li>Iterating over lists</li>
+<li>Nested lists (intro to 2D)</li>
+</ul>
+<h2>7. Functions</h2>
+<ul>
+<li><code>def</code>, parameters, <code>return</code></li>
+<li>Arguments vs. return values</li>
+<li>Scope (local vs. global)</li>
+<li>Default parameters</li>
+</ul>
+<h2>8. More data structures</h2>
+<ul>
+<li>Tuples</li>
+<li>Dictionaries: keys/values, <code>.get()</code>, <code>.keys()</code>, <code>.items()</code>, iterating</li>
+<li>Sets (brief)</li>
+</ul>
+<h2>9. Working with data</h2>
+<ul>
+<li>List comprehensions (basic)</li>
+<li>Reading/writing files (<code>open()</code>, <code>with</code>, <code>.read()</code>, <code>.readlines()</code>)</li>
+</ul>
+<h2>10. Errors and robustness</h2>
+<ul>
+<li>Reading tracebacks</li>
+<li><code>try</code> / <code>except</code></li>
+</ul>
+<h2>11. Organizing code</h2>
+<ul>
+<li>Importing modules (<code>math</code>, <code>random</code>, <code>datetime</code>)</li>
+<li>Writing/importing your own modules</li>
+</ul>
+<h2>12. Optional stretch topics</h2>
+<ul>
+<li>Classes and objects (<code>class</code>, <code>__init__</code>, methods)</li>
+<li><code>enumerate()</code>, <code>zip()</code></li>
+<li>Lambda / <code>map</code> / <code>filter</code></li>
+</ul>
+
+</body>
+</html>

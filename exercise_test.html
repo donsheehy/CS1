@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Exercises</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Exercises</h1>
+<p>This file is just a test that we can use exercises with hidden solutions.</p>
+<p>What does the following code produce?</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">0</span>
+y = <span class="hljs-number">1</span>
+x = x + y
+y = y + x
+x = <span class="hljs-number">10</span>
+x = x + y
+
+<span class="hljs-built_in">print</span>(x)
+</code></pre>
+<details><summary>Click to reveal.</summary>
+<p>12</p>
+</details>
+<p>Write a function that turns &quot;military time&quot; into am/pm.
+The input should be a string <code>&quot;xx:yy&quot;</code> where <code>xx</code> is the two digit hour and <code>yy</code> is the two digit minute.</p>
+<details><summary>Click to reveal.</summary>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">am_pm</span>(<span class="hljs-params">t</span>):
+    hours, minutes = t.split(<span class="hljs-string">&#x27;:&#x27;</span>)
+    hours = (<span class="hljs-built_in">int</span>(hours) - <span class="hljs-number">1</span>) % <span class="hljs-number">12</span> + <span class="hljs-number">1</span> 
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;<span class="hljs-subst">{hours}</span>:<span class="hljs-subst">{minutes}</span>&quot;</span>
+
+<span class="hljs-built_in">print</span>(am_pm(<span class="hljs-string">&quot;0:40&quot;</span>))
+</code></pre>
+</details>
+
+</body>
+</html>

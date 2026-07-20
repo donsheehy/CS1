@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nesting: One Pattern That Shows Up Everywhere</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Nesting: One Pattern That Shows Up Everywhere</h1>
+<h2>The idea</h2>
+<p><strong>Nesting is when a thing contains another thing of the same kind.</strong></p>
+<p>A box holds smaller boxes, which hold smaller boxes still. There's no fixed limit to how deep it goes, and the same rule applies at every level. Once you learn to spot this pattern, a lot of computer science stops looking like a pile of separate topics and starts looking like the same shape over and over.</p>
+<p>Here are twelve places you'll meet it, roughly from the most familiar to the most powerful.</p>
+<h2>1. Outlines and menus</h2>
+<p>A document outline has sections, which contain subsections, which contain sub-subsections. A restaurant menu has categories, and a category can have a sub-menu. Each level looks like the level above it, just narrower.</p>
+<h2>2. Folders and files</h2>
+<p>A folder contains files — and other folders. Because a folder is itself a kind of file, the container and the thing contained are the same kind of thing. That's why &quot;look through this folder&quot; naturally means &quot;look through everything inside it, including the folders inside it.&quot;</p>
+<h2>3. HTML tags</h2>
+<p>A tag can contain other tags:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Hello <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>world<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</code></pre>
+<p>The <code>&lt;strong&gt;</code> sits inside the <code>&lt;p&gt;</code>, which sits inside the <code>&lt;div&gt;</code>. The nesting <em>is</em> the structure of the page.</p>
+<h2>4. Nested loops</h2>
+<p>A loop can run inside another loop. For each step of the outer loop, the inner loop runs all the way through:</p>
+<pre><code class="hljs"><span class="hljs-keyword">for</span> <span class="hljs-keyword">each</span> <span class="hljs-type">row</span>:
+    <span class="hljs-keyword">for</span> <span class="hljs-keyword">each</span> <span class="hljs-keyword">column</span>:
+        print the cell
+</code></pre>
+<p>If the outer loop runs n times and the inner runs n times, you do n × n steps — so nesting also shows you where work piles up.</p>
+<h2>5. Nested conditionals</h2>
+<p>An <code>if</code> can live inside another <code>if</code>. You ask one question, and <em>depending on the answer</em> you ask another:</p>
+<pre><code class="hljs"><span class="hljs-attribute">if logged_in</span><span class="hljs-punctuation">:</span>
+    <span class="hljs-attribute">if is_admin</span><span class="hljs-punctuation">:</span>
+        show admin panel
+</code></pre>
+<p>Each decision opens up a smaller set of further decisions.</p>
+<h2>6. Nested data</h2>
+<p>Data holds data. A list can contain lists; a dictionary can contain dictionaries:</p>
+<pre><code class="hljs">classroom = [
+    {<span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;grades&quot;</span>: [<span class="hljs-number">90</span>, <span class="hljs-number">85</span>]},
+    {<span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;grades&quot;</span>: [<span class="hljs-number">88</span>, <span class="hljs-number">92</span>]},
+]
+</code></pre>
+<p>Here a list contains dictionaries, and each dictionary contains a list. Real-world data almost always nests like this.</p>
+<h2>7. Parenthesized expressions</h2>
+<p>Parentheses nest, and so does the math inside them:</p>
+<pre><code class="hljs"><span class="hljs-symbol">2 </span>* (<span class="hljs-number">3</span> + (<span class="hljs-number">4</span> - <span class="hljs-number">1</span>))
+</code></pre>
+<p>Every expression is either a plain value or an operation on smaller expressions. To evaluate the whole thing, you work from the innermost parentheses outward.</p>
+<h2>8. Variable scopes</h2>
+<p>Blocks of code nest, and so do the &quot;scopes&quot; that decide which variables exist where. An inner block can see variables from the block around it, but the outer block can't see inside the inner one — just like a small box can be aware of the room it's in, but the room can't see inside a closed box.</p>
+<h2>9. Objects containing objects</h2>
+<p>An object can hold other objects. A <code>Course</code> holds a list of <code>Student</code> objects, and each <code>Student</code> holds a list of <code>Grade</code> objects. The data model nests the same way the data does.</p>
+<h2>10. Grammars: the rules of a language</h2>
+<p>The rules that define a language can refer to themselves. A <em>program</em> is a list of <em>statements</em>; a <em>statement</em> can be a <em>loop</em>; and a <em>loop</em> contains more <em>statements</em>. Because the rules loop back on themselves, a small, finite set of rules can describe infinitely many valid programs (or sentences).</p>
+<h2>11. The call stack</h2>
+<p>Nesting can happen in <em>time</em>, not just on the page. When function <code>f</code> calls <code>g</code>, and <code>g</code> calls <code>h</code>, the calls are nested: <code>h</code> has to finish before <code>g</code> can finish, which has to finish before <code>f</code> can. The most recently opened call is the first one to close — the innermost box comes out first.</p>
+<h2>12. Recursion</h2>
+<p>A function can call <em>itself</em>. Each call is a smaller copy of the same problem nested inside the last one — like opening a set of Russian dolls. Recursion needs two parts:</p>
+<ul>
+<li>a <strong>base case</strong>: the smallest doll, which contains nothing more, and</li>
+<li>a <strong>recursive case</strong>: &quot;this problem contains a smaller version of the same problem.&quot;</li>
+</ul>
+<p>This is nesting turned into a technique: the structure and the solution have the exact same shape.</p>
+<h2>Where all of this leads: trees</h2>
+<p>Look back at the twelve examples. Almost every one of them is a <strong>tree</strong> — a top thing that branches into smaller things, which branch into smaller things, down to the pieces that don't split any further.</p>
+<ul>
+<li>The top folder branches into folders and files.</li>
+<li>The <code>&lt;div&gt;</code> branches into the tags inside it.</li>
+<li><code>2 * (3 + (4 - 1))</code> branches into its smaller expressions.</li>
+</ul>
+<p>Trees are the shape of nesting, and <strong>recursion is the natural way to work with a tree</strong>: handle the current level, then do the same thing to each branch. That's why these ideas keep appearing together. Learn to see the tree, and you'll know how to write the code that walks it.</p>
+<blockquote>
+<p><strong>The one thing to remember:</strong> nesting lets a small, fixed set of rules manage unlimited complexity — because the same rule works at every level, all the way down.</p>
+</blockquote>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Getting Started with Git Bash (Windows)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Getting Started with Git Bash (Windows)</h1>
+<p>Git Bash gives you a Unix-style command line on Windows — the same kind of shell
+your classmates on Mac and Linux are using. Follow these steps to install it and
+run your first commands.</p>
+<h2>1. Download</h2>
+<ol>
+<li>Go to <a href="https://git-scm.com/download/win">https://git-scm.com/download/win</a>.</li>
+<li>The download should start automatically. If it doesn't, click the link for
+the <strong>64-bit Git for Windows Setup</strong>.</li>
+</ol>
+<h2>2. Install</h2>
+<ol>
+<li>Open the file you downloaded (something like <code>Git-2.x.x-64-bit.exe</code>).</li>
+<li>Click through the installer. <strong>The default options are fine</strong> — you do not
+need to change anything. Just keep clicking <strong>Next</strong>, then <strong>Install</strong>.</li>
+<li>When it finishes, uncheck any &quot;View release notes&quot; boxes and click <strong>Finish</strong>.</li>
+</ol>
+<p>You do <strong>not</strong> need administrator rights or a reboot.</p>
+<h2>3. Open Git Bash</h2>
+<ul>
+<li>Click the <strong>Start</strong> menu, type <code>Git Bash</code>, and press <strong>Enter</strong>.</li>
+<li>A black terminal window opens with a prompt ending in <code>$</code>. This is your shell.</li>
+</ul>
+<p>Tip: You can also right-click inside any folder in File Explorer and choose
+<strong>Open Git Bash here</strong> to start in that folder.</p>
+<h2>4. Try your first commands</h2>
+<p>Type each of these and press <strong>Enter</strong>:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">pwd</span>           <span class="hljs-comment"># print the folder you&#x27;re currently in</span>
+<span class="hljs-built_in">ls</span>            <span class="hljs-comment"># list files in the current folder</span>
+<span class="hljs-built_in">cd</span> Desktop    <span class="hljs-comment"># move into your Desktop folder</span>
+<span class="hljs-built_in">mkdir</span> cs1     <span class="hljs-comment"># make a new folder called cs1</span>
+<span class="hljs-built_in">cd</span> cs1        <span class="hljs-comment"># move into it</span>
+</code></pre>
+<p>To go back up one folder, use <code>cd ..</code>.</p>
+<h2>5. Check that everything works</h2>
+<p>Run:</p>
+<pre><code class="hljs language-bash">git --version
+</code></pre>
+<p>You should see a version number (for example, <code>git version 2.45.0</code>). If you do,
+you're all set.</p>
+<h2>Quick reference</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pwd</code></td>
+<td>Show the current folder</td>
+</tr>
+<tr>
+<td><code>ls</code></td>
+<td>List files</td>
+</tr>
+<tr>
+<td><code>cd X</code></td>
+<td>Move into folder <code>X</code></td>
+</tr>
+<tr>
+<td><code>cd ..</code></td>
+<td>Move up one folder</td>
+</tr>
+<tr>
+<td><code>mkdir X</code></td>
+<td>Make a new folder <code>X</code></td>
+</tr>
+<tr>
+<td><code>clear</code></td>
+<td>Clear the screen</td>
+</tr>
+</tbody>
+</table>
+<h2>Running Python in Git Bash</h2>
+<p>Python is <strong>not</strong> included with Git Bash — install it separately.</p>
+<ol>
+<li>Download it from <a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a>.</li>
+<li>Run the installer. <strong>On the first screen, check the box &quot;Add Python to
+PATH.&quot;</strong> This step is easy to miss and things won't work without it.</li>
+<li>Click <strong>Install Now</strong> and finish.</li>
+</ol>
+<p>Close and reopen Git Bash, then check it worked:</p>
+<pre><code class="hljs language-bash">python --version
+</code></pre>
+<p>You should see a version number (for example, <code>Python 3.12.0</code>).</p>
+<p><strong>To run a program</strong>, put your code in a file and run it:</p>
+<pre><code class="hljs language-bash">python myscript.py
+</code></pre>
+<p>This works exactly the same as on Mac and Linux.</p>
+<p><strong>One quirk:</strong> the <em>interactive</em> Python prompt (typing just <code>python</code> with no
+file) may appear to hang in Git Bash. If that happens, use one of these instead:</p>
+<pre><code class="hljs language-bash">winpty python    <span class="hljs-comment"># or:</span>
+py
+</code></pre>
+<p>Running <code>.py</code> files is not affected — only the interactive prompt. The simplest
+habit is to always write your code in a file and run it with <code>python file.py</code>.</p>
+<h2>Set Git Bash as your VS Code terminal</h2>
+<p>If you use VS Code, you can make its built-in terminal use Git Bash so it matches
+these instructions.</p>
+<ol>
+<li>Open the terminal: <strong>View → Terminal</strong> (or press <code>Ctrl+`</code>).</li>
+<li>Click the <strong>dropdown arrow</strong> (˅) next to the <code>+</code> at the top-right of the
+terminal panel.</li>
+<li>Choose <strong>Select Default Profile</strong>.</li>
+<li>Pick <strong>Git Bash</strong> from the list.</li>
+<li>Click the <code>+</code> to open a new terminal — it will now be Git Bash.</li>
+</ol>
+<p>VS Code finds Git Bash automatically once Git for Windows is installed.</p>
+<h2>Getting help</h2>
+<p>If a command doesn't work, first check for typos — the shell is case-sensitive
+and spaces matter. If you're still stuck, bring the exact command you typed and
+the error message to class or office hours.</p>
+
+</body>
+</html>

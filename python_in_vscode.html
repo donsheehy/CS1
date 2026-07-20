@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Running Python in VSCode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Running Python in VSCode</h1>
+<p>For a first-time setup, the simplest path is:</p>
+<p><strong>1. Install Python</strong> from python.org. On Windows, check &quot;Add Python to PATH&quot; during install. This is the one step people skip and then nothing works.</p>
+<p><strong>2. Install the Microsoft Python extension</strong> in VSCode (Extensions sidebar → search &quot;Python&quot; → install the one by Microsoft).</p>
+<p><strong>3. Open a folder</strong>, not just a loose file (File → Open Folder). VSCode behaves better when it has a folder to work in.</p>
+<p><strong>4. Run the code</strong> by opening a <code>.py</code> file and clicking the ▶ Run button in the top-right corner. That's it — output appears in the integrated terminal.</p>
+<p>The Run button is the key thing for beginners. It handles selecting the interpreter and running the file so they don't have to touch the command line or learn <code>python filename.py</code> yet.</p>
+<p>Two things worth flagging to avoid early frustration: if the Run button doesn't appear or errors, they may need to pick an interpreter (bottom bar, or Ctrl+Shift+P → &quot;Python: Select Interpreter&quot;). And students who install from the Microsoft Store version of Python sometimes hit permission oddities — the python.org installer is more predictable for a class.</p>
+<p>Want me to write this up as a one-page handout (Word or PDF) for your CS1 students?</p>
+
+</body>
+</html>

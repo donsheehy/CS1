@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Variable Scopes in Python</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Variable Scopes in Python</h1>
+<p>A variable's <strong>scope</strong> is the region of your program where that variable's name is
+visible and can be used. Understanding scope answers questions like: &quot;Why can't I
+use this variable outside the function?&quot; and &quot;Why didn't my function change my
+variable?&quot; This guide walks through the rules Python uses.</p>
+<h2>The core idea</h2>
+<p>When you use a name (like <code>x</code>), Python has to figure out <em>which</em> <code>x</code> you mean. It
+searches through a series of scopes in a fixed order until it finds the name. When
+you <em>assign</em> to a name, Python decides which scope the name belongs to based on
+where the assignment happens.</p>
+<h2>The LEGB rule</h2>
+<p>To <em>look up</em> a name, Python searches four scopes in order:</p>
+<ol>
+<li><strong>L — Local</strong>: names defined inside the current function.</li>
+<li><strong>E — Enclosing</strong>: names in any function that encloses the current one.</li>
+<li><strong>G — Global</strong>: names defined at the top level of the module (file).</li>
+<li><strong>B — Built-in</strong>: names Python provides automatically, like <code>print</code>, <code>len</code>, <code>range</code>.</li>
+</ol>
+<p>Python stops at the first match. If the name isn't found in any of the four, you get
+a <code>NameError</code>.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-string">&quot;global&quot;</span>          <span class="hljs-comment"># global scope</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">outer</span>():
+    x = <span class="hljs-string">&quot;enclosing&quot;</span>   <span class="hljs-comment"># enclosing scope (relative to inner)</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">inner</span>():
+        x = <span class="hljs-string">&quot;local&quot;</span>   <span class="hljs-comment"># local scope</span>
+        <span class="hljs-built_in">print</span>(x)      <span class="hljs-comment"># finds local first -&gt; &quot;local&quot;</span>
+
+    inner()
+
+outer()
+</code></pre>
+<p>If you remove the local <code>x</code>, <code>inner</code> finds the enclosing one; remove that too, and it
+finds the global one. Python always walks outward, never inward.</p>
+<h2>Local scope</h2>
+<p>A variable assigned inside a function is <strong>local</strong> to that function. It exists only
+while the function runs and is invisible outside it.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">greet</span>():
+    message = <span class="hljs-string">&quot;hello&quot;</span>   <span class="hljs-comment"># local</span>
+    <span class="hljs-built_in">print</span>(message)
+
+greet()
+<span class="hljs-built_in">print</span>(message)          <span class="hljs-comment"># NameError: name &#x27;message&#x27; is not defined</span>
+</code></pre>
+<p>Function parameters are local variables too. Each call gets its own fresh set of
+locals, which is why functions don't accidentally share data between calls.</p>
+<h2>Global scope</h2>
+<p>Names defined at the top level of a file are <strong>global</strong> (module-level). They can be
+<em>read</em> from inside functions without any special declaration:</p>
+<pre><code class="hljs language-python">count = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">show</span>():
+    <span class="hljs-built_in">print</span>(count)   <span class="hljs-comment"># reading a global is fine -&gt; 0</span>
+
+show()
+</code></pre>
+<p>But <em>assigning</em> to that name inside a function creates a new <strong>local</strong> variable
+instead of changing the global one:</p>
+<pre><code class="hljs language-python">count = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">increment</span>():
+    count = count + <span class="hljs-number">1</span>   <span class="hljs-comment"># error: see below</span>
+
+increment()
+</code></pre>
+<p>This raises <code>UnboundLocalError</code>. Because <code>increment</code> assigns to <code>count</code>, Python
+treats <code>count</code> as local <em>throughout the whole function</em> — so <code>count + 1</code> tries to
+read a local that hasn't been given a value yet.</p>
+<h3>The <code>global</code> keyword</h3>
+<p>To actually reassign a global from inside a function, declare it <code>global</code>:</p>
+<pre><code class="hljs language-python">count = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">increment</span>():
+    <span class="hljs-keyword">global</span> count
+    count = count + <span class="hljs-number">1</span>
+
+increment()
+increment()
+<span class="hljs-built_in">print</span>(count)   <span class="hljs-comment"># 2</span>
+</code></pre>
+<p>Use <code>global</code> sparingly. Functions that quietly modify globals are harder to reason
+about and test. Prefer returning a value and letting the caller decide what to do
+with it:</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">increment</span>(<span class="hljs-params">count</span>):
+    <span class="hljs-keyword">return</span> count + <span class="hljs-number">1</span>
+
+count = <span class="hljs-number">0</span>
+count = increment(count)   <span class="hljs-comment"># explicit and easy to follow</span>
+</code></pre>
+<h2>Enclosing scope and <code>nonlocal</code></h2>
+<p>When you nest a function inside another, the inner function can <em>read</em> variables from
+the outer (enclosing) function:</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">outer</span>():
+    tally = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">add</span>():
+        <span class="hljs-built_in">print</span>(tally)   <span class="hljs-comment"># reads the enclosing tally -&gt; 0</span>
+
+    add()
+
+outer()
+</code></pre>
+<p>Just like with globals, <em>assigning</em> to <code>tally</code> inside <code>add</code> would make a new local.
+To reassign the enclosing variable, use <code>nonlocal</code>:</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">make_counter</span>():
+    count = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">increment</span>():
+        <span class="hljs-keyword">nonlocal</span> count
+        count += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">return</span> count
+
+    <span class="hljs-keyword">return</span> increment
+
+counter = make_counter()
+<span class="hljs-built_in">print</span>(counter())   <span class="hljs-comment"># 1</span>
+<span class="hljs-built_in">print</span>(counter())   <span class="hljs-comment"># 2</span>
+<span class="hljs-built_in">print</span>(counter())   <span class="hljs-comment"># 3</span>
+</code></pre>
+<p><code>nonlocal</code> tells Python to bind to the nearest enclosing function's variable, not to
+create a local one and not to reach all the way out to the global scope.</p>
+<h2>Built-in scope</h2>
+<p>The outermost scope holds names Python provides for you: <code>print</code>, <code>len</code>, <code>sum</code>,
+<code>range</code>, <code>list</code>, <code>dict</code>, and many more. You never declare these, but they're findable
+from anywhere.</p>
+<p>A common bug is <em>shadowing</em> a built-in by using its name as a variable:</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">list</span> = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]        <span class="hljs-comment"># &#x27;list&#x27; now refers to your list, not the built-in</span>
+new = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>))    <span class="hljs-comment"># TypeError: &#x27;list&#x27; object is not callable</span>
+</code></pre>
+<p>The fix is simply to avoid built-in names for your own variables. Good alternatives:
+<code>items</code>, <code>values</code>, <code>numbers</code>, <code>my_list</code>.</p>
+<h2>Scope and blocks: an important non-rule</h2>
+<p>Unlike many languages (C, Java, JavaScript with <code>let</code>), Python does <strong>not</strong> create a
+new scope for <code>if</code>, <code>for</code>, <code>while</code>, or <code>with</code> blocks. Variables assigned inside these
+blocks live in the <em>enclosing function or module</em>, not the block:</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">if</span> <span class="hljs-literal">True</span>:
+    y = <span class="hljs-number">10</span>
+
+<span class="hljs-built_in">print</span>(y)   <span class="hljs-comment"># 10 — y is still visible</span>
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):
+    <span class="hljs-keyword">pass</span>
+
+<span class="hljs-built_in">print</span>(i)   <span class="hljs-comment"># 2 — the loop variable survives after the loop</span>
+</code></pre>
+<p>Only functions (and classes, and comprehensions) introduce new scopes.</p>
+<h2>Comprehensions have their own scope</h2>
+<p>Every comprehension (list, set, dict) and generator expression runs in its own
+function-like scope. Unlike a plain <code>for</code> loop, the loop variable does <strong>not</strong> leak
+into the surrounding code:</p>
+<pre><code class="hljs language-python">squares = [i * i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]
+<span class="hljs-built_in">print</span>(i)   <span class="hljs-comment"># NameError: name &#x27;i&#x27; is not defined</span>
+</code></pre>
+<p>Because names assigned inside a comprehension are local to it, they can't clobber
+your outer variables. The comprehension can still <em>read</em> enclosing and global names
+through the usual LEGB search:</p>
+<pre><code class="hljs language-python">factor = <span class="hljs-number">10</span>
+scaled = [n * factor <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]   <span class="hljs-comment"># reads &#x27;factor&#x27; from outside -&gt; [0, 10, 20]</span>
+</code></pre>
+<p>The mechanism is that Python effectively rewrites a comprehension into a hidden
+function. This:</p>
+<pre><code class="hljs language-python">result = [f(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> some_iterable <span class="hljs-keyword">if</span> cond(x)]
+</code></pre>
+<p>behaves roughly like:</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">_comp</span>(<span class="hljs-params">it</span>):
+    out = []
+    <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> it:
+        <span class="hljs-keyword">if</span> cond(x):
+            out.append(f(x))
+    <span class="hljs-keyword">return</span> out
+result = _comp(<span class="hljs-built_in">iter</span>(some_iterable))   <span class="hljs-comment"># outermost iterable evaluated outside</span>
+</code></pre>
+<p>One subtlety: the iterable of the <em>outermost</em> <code>for</code> is evaluated in the enclosing
+scope, but everything else runs inside the comprehension's own scope. That's why the
+loop variable is contained — it's a local of that hidden function.</p>
+<p>A gotcha appears inside a class body: a comprehension can't see the class's other
+attributes, because class scopes aren't part of the enclosing-function chain.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span>:
+    values = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+    factor = <span class="hljs-number">10</span>
+    doubled = [v * <span class="hljs-number">2</span> <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> values] 
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;This works: &#x27;values&#x27; is the outermost iterable&quot;</span>)
+</code></pre>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span>:
+    values = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+    pairs = [v * n <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> values <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> values]  <span class="hljs-comment"># NameError: the *second*</span>
+    <span class="hljs-comment">#     &#x27;values&#x27; is not the outermost iterable, so it runs in the comprehension&#x27;s</span>
+    <span class="hljs-comment">#     own scope and can&#x27;t see the class attribute</span>
+</code></pre>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span>:
+    values = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+    factor = <span class="hljs-number">10</span>
+    scaled = [v * factor <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> values]  <span class="hljs-comment"># NameError: &#x27;factor&#x27; is a class attribute</span>
+</code></pre>
+<p>Only the outermost iterable gets the special treatment of being evaluated in the
+enclosing (here, class) scope. Every other name in the comprehension — including a
+second <code>for</code>'s iterable — is resolved inside the comprehension's own scope.</p>
+<h2>Quick reference</h2>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>What to use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Read a global inside a function</td>
+<td>Nothing special — just read it</td>
+</tr>
+<tr>
+<td>Reassign a global inside a function</td>
+<td><code>global name</code></td>
+</tr>
+<tr>
+<td>Read an enclosing variable in a nested function</td>
+<td>Nothing special — just read it</td>
+</tr>
+<tr>
+<td>Reassign an enclosing variable in a nested function</td>
+<td><code>nonlocal name</code></td>
+</tr>
+<tr>
+<td>Avoid a <code>NameError</code></td>
+<td>Make sure the name is assigned before use in a reachable scope</td>
+</tr>
+<tr>
+<td>Avoid an <code>UnboundLocalError</code></td>
+<td>Don't assign to a name you also want to read as a global/enclosing, unless you declare it</td>
+</tr>
+</tbody>
+</table>
+<h2>Common pitfalls, summarized</h2>
+<p>Assigning to a name anywhere in a function makes it local for the <em>entire</em> function,
+even on lines before the assignment. This is the usual cause of <code>UnboundLocalError</code>.</p>
+<p>Reading is permissive (LEGB search), but writing is strict (defaults to local). The
+<code>global</code> and <code>nonlocal</code> keywords are the only ways to change where a write lands.</p>
+<p>Shadowing built-ins like <code>list</code>, <code>dict</code>, <code>sum</code>, <code>id</code>, or <code>type</code> doesn't error
+immediately — it quietly replaces them and causes confusing failures later.</p>
+<p>Loop variables and variables set inside <code>if</code>/<code>for</code> blocks persist after the block,
+because blocks aren't scopes.</p>
+<h2>Mental model to remember</h2>
+<p>To look up a name, search outward: <strong>L → E → G → B</strong>. To assign a name, Python writes
+to the local scope by default; use <code>global</code> to write to the module scope and
+<code>nonlocal</code> to write to an enclosing function's scope.</p>
+
+</body>
+</html>

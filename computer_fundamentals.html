@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Fundamentals of Using a Computer as a Computer Scientist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Fundamentals of Using a Computer as a Computer Scientist</h1>
+<h2>Topics</h2>
+<h3>Using the terminal</h3>
+<ul>
+<li>Opening a terminal and knowing what a shell is</li>
+<li>Command structure: command, flags/options, arguments</li>
+<li>Tab completion and command history (up-arrow)</li>
+<li>Reading <code>--help</code> / man pages</li>
+</ul>
+<h3>Writing Python</h3>
+<ul>
+<li>Running a script vs. using the REPL</li>
+<li>Installing Python and checking versions (<code>python --version</code>)</li>
+<li>Virtual environments (<code>venv</code>) and <code>pip install</code></li>
+</ul>
+<h3>Using a code editor (VS Code)</h3>
+<ul>
+<li>Opening a folder/project and navigating files</li>
+<li>Editing, saving, and running code from the editor</li>
+<li>The command palette and useful keyboard shortcuts</li>
+<li>Extensions (e.g., the Python extension)</li>
+</ul>
+<h3>Working with markdown files</h3>
+<ul>
+<li>Basic syntax: headings, lists, links, code blocks, emphasis</li>
+<li>What markdown is for (READMEs, notes, documentation)</li>
+<li>Previewing rendered markdown in VS Code</li>
+</ul>
+<h3>Working with Git</h3>
+<ul>
+<li>The full loop: <code>status</code> → <code>add</code> → <code>commit</code> → <code>push</code> → <code>pull</code></li>
+<li>Reading diffs and commit history (<code>git log</code>, <code>git diff</code>)</li>
+<li>Branches and merging (even lightly)</li>
+<li>Cloning existing repos</li>
+<li>What <code>.gitignore</code> is for</li>
+</ul>
+<h3>Pushing to GitHub</h3>
+<ul>
+<li>Creating a repository and connecting a remote</li>
+<li>Authenticating (SSH keys or token)</li>
+<li>Pushing local commits and pulling changes</li>
+<li>Viewing your project on GitHub</li>
+</ul>
+<h3>Filesystem literacy</h3>
+<ul>
+<li>Understanding paths: absolute vs. relative, <code>.</code>, <code>..</code>, <code>~</code></li>
+<li>Directory navigation and structure (<code>cd</code>, <code>ls</code>, <code>pwd</code>, <code>mkdir</code>)</li>
+<li>File operations from the terminal (<code>cp</code>, <code>mv</code>, <code>rm</code>, <code>cat</code>)</li>
+<li>File extensions and what they actually mean</li>
+<li>Hidden files (dotfiles like <code>.gitignore</code>)</li>
+</ul>
+<h3>The command line, more deeply</h3>
+<ul>
+<li>Command structure: command, flags/options, arguments</li>
+<li>Tab completion and command history (up-arrow)</li>
+<li>Piping and redirection (<code>|</code>, <code>&gt;</code>, <code>&gt;&gt;</code>)</li>
+<li>Reading <code>--help</code> / man pages</li>
+<li>Environment variables and <code>PATH</code> (why &quot;command not found&quot; happens)</li>
+</ul>
+<h3>Running and managing Python</h3>
+<ul>
+<li>Installing Python and checking versions (<code>python --version</code>)</li>
+<li>Virtual environments (<code>venv</code>) and <code>pip install</code></li>
+<li>The difference between running a script vs. the REPL</li>
+</ul>
+<h3>Version control, beyond the basics</h3>
+<ul>
+<li>The full loop: <code>status</code> → <code>add</code> → <code>commit</code> → <code>push</code> → <code>pull</code></li>
+<li>Reading diffs and commit history (<code>git log</code>, <code>git diff</code>)</li>
+<li>Branches and merging (even lightly)</li>
+<li>Cloning existing repos</li>
+<li>What <code>.gitignore</code> is for</li>
+</ul>
+<h3>Getting unstuck / literacy skills</h3>
+<ul>
+<li>Reading error messages and tracebacks carefully</li>
+<li>Effective searching (docs, Stack Overflow, and how to phrase a query)</li>
+<li>Keyboard shortcuts (copy/paste, switching windows, VS Code command palette)</li>
+<li>Basic touch typing / not fearing the keyboard</li>
+</ul>
+<h3>Digital hygiene and safety</h3>
+<ul>
+<li>Backups and why they matter (ties into Git/GitHub)</li>
+<li>Password managers and SSH keys (SSH keys connect to the GitHub-push topic)</li>
+<li>Plain text vs. rich text (why code editors, not Word)</li>
+<li>Character encodings and line endings (UTF-8, the <code>\n</code> vs <code>\r\n</code> gotcha)</li>
+</ul>
+<h2>Highest-priority additions</h2>
+<ul>
+<li><strong>Filesystem/path literacy</strong> — students constantly get lost without it.</li>
+<li><strong>Reading error messages</strong> — the single highest-leverage debugging skill.</li>
+<li><strong>SSH keys</strong> — connects directly to the GitHub-push topic.</li>
+</ul>
+
+</body>
+</html>
