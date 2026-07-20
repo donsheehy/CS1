@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Babbage&#x27;s Analytical Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Babbage's Analytical Engine</h1>
+<h2>From the Difference Engine to Something Greater</h2>
+<p>By the late 1830s, Charles Babbage had spent years — and considerable government money — trying to build his <a href="/difference_engine.html" class="wikilink">Difference Engine</a>, a machine for automatically computing mathematical tables. The project had stalled, largely due to engineering and funding difficulties. But while working through its design, Babbage had a more radical idea: what if, instead of a machine that could only evaluate polynomials by the method of differences, he built a machine that could perform <em>any</em> mathematical operation, in <em>any</em> sequence, under the control of instructions fed in from outside?</p>
+<p>This was the <strong>Analytical Engine</strong> — a concept Babbage developed from around 1833 onward and refined for the rest of his life.</p>
+<h2>Architecture</h2>
+<p>The Analytical Engine's design anticipated the architecture of modern computers with remarkable fidelity. Babbage identified several functional components that map almost directly onto parts of a modern CPU:</p>
+<p><strong>The Store</strong> was where numbers were held during computation — equivalent to memory. Babbage envisioned it holding up to 1,000 numbers of 50 decimal digits each, implemented as columns of interlocking wheels.</p>
+<p><strong>The Mill</strong> was where arithmetic operations were performed — equivalent to the processor or arithmetic logic unit (ALU). Numbers would be brought from the Store into the Mill, operated upon, and the results returned to the Store.</p>
+<p><strong>The Control</strong> regulated the sequence of operations, directing which numbers moved where and which operations were performed. This was driven by punched cards.</p>
+<p><strong>Input and Output</strong> rounded out the design. Numbers and instructions would be fed in via punched cards (an idea borrowed from the Jacquard loom, which used punched cards to control weaving patterns), and results would be printed automatically.</p>
+<h2>The Punched Card Innovation</h2>
+<p>The borrowing of the <strong>Jacquard loom's punched cards</strong> was a conceptual leap. Babbage distinguished between two kinds of cards: <em>operation cards</em>, which specified what the Mill should do (add, subtract, multiply, divide), and <em>variable cards</em>, which specified which numbers from the Store should be involved. By changing the deck of cards, you could make the machine perform a completely different computation — it was, in principle, a programmable machine.</p>
+<p><a href="/ada_lovelace.html" class="wikilink">Ada Lovelace</a> grasped the significance of this more clearly than almost anyone else at the time, writing that the Analytical Engine &quot;weaves algebraical patterns just as the Jacquard-loom weaves flowers and leaves.&quot;</p>
+<h2>Conditional Branching</h2>
+<p>One of the most sophisticated features Babbage contemplated was <strong>conditional branching</strong> — the ability for the machine to follow different sequences of operations depending on the result of a calculation. This is the &quot;if...then&quot; logic at the heart of all modern programming. Babbage described a mechanism by which the machine could, based on whether a quantity was positive or negative, advance the card reader forward or backward — effectively looping or jumping to a different part of the program.</p>
+<h2>It Was Never Built</h2>
+<p>Like the Difference Engine before it, the Analytical Engine was never completed. Babbage worked on its design for over 30 years, producing thousands of engineering drawings and notebooks, but never assembled a working version. The project required a level of precision manufacturing that strained the capabilities of 19th-century engineering, and Babbage's habit of continually revising and improving the design made it impossible to settle on a final version to build.</p>
+<h2>Significance</h2>
+<p>The Analytical Engine is recognized today as the first design for a general-purpose, programmable, automatic computer. It had a store (memory), a processor (the Mill), a control unit, input and output, and the capacity for conditional branching — all the essential elements of a modern computer, conceived in the 1830s and 40s.</p>
+<p>The machine's influence was largely theoretical until the 20th century, when historians of computing recognized how fully Babbage had anticipated the machines that would be built a century later. Alan Turing, John von Neumann, and others arrived at similar architectures independently — but Babbage had been there first.</p>
+
+</body>
+</html>

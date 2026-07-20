@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Do Real Stuff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Do Real Stuff</h1>
+<p>There is a trend in higher education when it comes to teaching computer science.
+It goes like this: no one wants to deal with all the problems that arise from different students working with their own computers.
+The result is more and more systems designed to hide or simulate the local computer environment.</p>
+<p>The advantages seem obvious.  <strong>You get to focus on the technical learning objectives.</strong></p>
+<p>The disadvantages are even more obvious.  <strong>You don't know how to use your own computer.</strong></p>
+<p>Getting into trouble with your environment, your path setup, your Python installation, your git credentials, your virtual environment, or whatever <em>is a good thing</em>.
+Growth is a function of the number of problems you solve, not the number of problems you avoid.</p>
+<h2>A Basic Learning Objective: Be Able to Do Stuff</h2>
+<p>If you finish a course in Python, you should be able ot sit down at your computer and write a working Python program.
+You shouldn't need an internet connection or a hosted environment.</p>
+<p>There is something even worse about this approach.
+It teaches the students that this computing stuff is too hard for you.</p>
+<h2>More effort leads to worse results.</h2>
+<p>The weirdest phenomenon in higher education is that increasing teacher effort leads to worse results.
+People are surprised to hear this, but it has a simple explanation.
+When attempting to improve a class, the most natural place to look is at the parts of the course that cause the most problems.
+What is the most confusing or difficult part.
+Then, we try to &quot;improve&quot; it.<br>
+We add more scaffolding.<br>
+We make it easier.<br>
+The result: We eliminate the challenges that create the learning opportunities.</p>
+<h2>Simulated Learning is not Learning</h2>
+<p>There is a concept of simulation that is fundamental to many aspects of computer science.
+The idea is that something can simulate another by mimicking the behavior.
+If the mimic is perfect, then it can be treated as the original.</p>
+<p>Take this into the realm of teaching.
+We decide that those who learn some material will be able to answer certain types of questions.
+Then, we train students to answer those questions.
+The goal is not learning, it's just simulated learning.</p>
+<p>Some will ask, &quot;Isn't that just as good?&quot;
+<strong>No.</strong>
+The logic only goes one way.
+If you understand, then you can get the answer.
+If you can get the answer, you don't necessarily understand.</p>
+
+</body>
+</html>

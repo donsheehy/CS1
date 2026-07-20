@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ada Lovelace and the First Algorithm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Ada Lovelace and the First Algorithm</h1>
+<h2>Who Was Ada Lovelace?</h2>
+<p>Augusta Ada King, Countess of Lovelace (1815–1852), was a British mathematician and the daughter of the poet Lord Byron. She is widely regarded as the world's first computer programmer — more than a century before modern computers existed.</p>
+<h2>Charles Babbage and the Analytical Engine</h2>
+<p>Ada's story is inseparable from that of <a href="/charles_babbage.html" class="wikilink">Charles Babbage</a>, a mathematician and inventor who designed a mechanical computing machine called the <a href="/analytical_engine.html" class="wikilink">Analytical Engine</a> in the 1830s. The Analytical Engine was never fully built in his lifetime, but its design was remarkably prescient: it included an input mechanism, a memory store, an arithmetic unit, and a way to output results — the conceptual skeleton of a modern computer.</p>
+<h2>Ada's Translation and Notes</h2>
+<p>In 1842, Italian mathematician Luigi Menabrea published a paper in French describing the Analytical Engine. Babbage asked Ada to translate it into English. She went far beyond a simple translation, adding her own <strong>Notes</strong> — which ended up being three times longer than the original paper.</p>
+<h2>What Are Bernoulli Numbers?</h2>
+<p>Bernoulli numbers are a sequence of rational numbers discovered by the Swiss mathematician Jacob Bernoulli (published posthumously in 1713). They arise naturally in the study of sums of powers of integers. For example, if you want a formula for the sum 1² + 2² + 3² + ... + n², Bernoulli numbers appear in the coefficients. More formally, they are defined by the coefficients in the Taylor series expansion of the function t / (eᵗ − 1).</p>
+<p>The sequence begins: B₀ = 1, B₁ = −½, B₂ = ⅙, B₃ = 0, B₄ = −1/30, and so on. All odd Bernoulli numbers after B₁ are zero, and the even ones alternate in sign. They grow rapidly in magnitude and have deep connections to number theory, including the distribution of prime numbers and the values of the Riemann zeta function at even integers.</p>
+<p>Computing them by hand is tedious — each new value depends on all the previous ones — which made them an ideal test case for a mechanical computing engine.</p>
+<h2>The First Algorithm</h2>
+<p>Buried in her notes, labeled <strong>Note G</strong>, Ada described a method for the Analytical Engine to compute <strong>Bernoulli numbers</strong>. Her description was a complete, step-by-step set of instructions for the machine to follow, specifying exactly how the machine's operations should be sequenced to produce each successive value in the series.</p>
+<p>This is considered the <strong>first published algorithm</strong> intended for execution on a machine — making Ada Lovelace the first computer programmer in history.</p>
+<h2>Ada's Broader Vision</h2>
+<p>What set Ada apart was not just her technical work, but her <strong>visionary thinking</strong>. While Babbage saw his engine primarily as a calculator for numbers, Ada recognized something deeper: that any process which could be represented symbolically could, in principle, be carried out by such a machine. She wrote that the engine &quot;might compose elaborate and scientific pieces of music of any degree of complexity.&quot;</p>
+<p>This insight — that a machine could manipulate <em>symbols</em>, not just numbers — anticipates the modern conception of computation itself.</p>
+<h2>Legacy</h2>
+<p>Ada Lovelace's contributions were largely overlooked for over a century. Her work was rediscovered in the 1950s by computer historian B.V. Bowden. Today she is celebrated as a pioneer of computing. The programming language <strong>Ada</strong>, developed for the U.S. Department of Defense in the 1980s, was named in her honor.</p>
+<p><strong>Ada Lovelace Day</strong> is observed every October as an international celebration of women in science, technology, engineering, and mathematics.</p>
+
+</body>
+</html>

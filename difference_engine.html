@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Babbage&#x27;s Difference Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Babbage's Difference Engine</h1>
+<h2>Background and Motivation</h2>
+<p>In the early 19th century, mathematical tables were essential tools for navigation, astronomy, engineering, and finance. These tables — listing logarithms, trigonometric values, interest rates, and the like — were computed by hand by teams of human &quot;computers&quot; working in parallel. They were riddled with errors, and those errors had real consequences: ships ran aground, financial calculations went wrong, artillery trajectories missed.</p>
+<p>Charles Babbage (1791–1871) became obsessed with this problem. Around 1820, he famously exclaimed to his colleague John Herschel, while checking a set of error-filled tables: <em>&quot;I wish to God these calculations had been executed by steam.&quot;</em> This moment is often cited as the seed of his life's work.</p>
+<h2>What Is the Method of Differences?</h2>
+<p>The Difference Engine was designed around a mathematical technique called the <strong>method of finite differences</strong>. Many common mathematical functions — polynomials, logarithms, trigonometric functions — can be approximated by polynomials. And polynomials have a useful property: if you repeatedly take the differences between consecutive values, the differences eventually become constant.</p>
+<p>For example, consider the squares: 1, 4, 9, 16, 25...</p>
+<ul>
+<li>First differences: 3, 5, 7, 9... (each term minus the previous)</li>
+<li>Second differences: 2, 2, 2, 2... (constant!)</li>
+</ul>
+<p>Once you reach a constant difference, you can extend the table mechanically by simple addition alone — no multiplication or division required. This made the method ideally suited to an automatic machine with interlocking gears.</p>
+<h2>The Machine</h2>
+<p>Babbage began designing <strong>Difference Engine No. 1</strong> in 1822 and received government funding to build it. The design called for around 25,000 precision parts. It would have stood 2.4 meters tall and weighed several tonnes.</p>
+<p>It was never completed. Over the course of a decade, Babbage's relationship with his chief engineer Joseph Clement broke down, costs spiraled, and the government eventually withdrew funding in 1842. Only a small demonstration piece was ever assembled in Babbage's lifetime.</p>
+<p>Undeterred, Babbage designed a more refined <strong>Difference Engine No. 2</strong> in the 1840s — more elegant and requiring fewer parts — but it was also never built in his lifetime.</p>
+<h2>The Completed Machine</h2>
+<p>In 1991, to mark the 200th anniversary of Babbage's birth, the Science Museum in London completed Difference Engine No. 2 from Babbage's original drawings. It worked perfectly on the first try, vindicating Babbage's designs and demonstrating that the engineering of his era was, in principle, up to the task. A second complete version was built and is on display at the Computer History Museum in Mountain View, California.</p>
+<h2>Significance</h2>
+<p>The Difference Engine was not a general-purpose computer — it could only evaluate polynomials using the method of differences. But it was a landmark in the history of computing: a serious, funded, engineering attempt to automate mathematical calculation. Its failure to be completed, and Babbage's frustration with that failure, directly motivated his far more ambitious next project: the <a href="/analytical_engine.html" class="wikilink">Analytical Engine</a>.</p>
+
+</body>
+</html>

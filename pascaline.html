@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Pascal&#x27;s Computer: The Pascaline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Pascal's Computer: The Pascaline</h1>
+<h2>Who Was Blaise Pascal?</h2>
+<p>Blaise Pascal (1623–1662) was a French mathematician, physicist, and philosopher.
+He was one of the most brilliant minds of the 17th century.
+He made foundational contributions to probability theory, projective geometry, fluid mechanics, and philosophy.
+He was also, at age 18, a practical engineer facing a very concrete problem.</p>
+<h2>The Problem Pascal Was Solving</h2>
+<p>Pascal's father, Étienne Pascal, was a tax commissioner in Rouen, France.
+His job required endless tedious arithmetic, adding up long columns of figures in the old French currency system, which was not decimal. (There were 12 deniers to a sou, and 20 sous to a livre.) Watching his father labor over these calculations, Pascal set out to build a machine that could do the arithmetic automatically.</p>
+<h2>The Machine</h2>
+<p>Between 1642 and 1644, Pascal designed and built the <strong>Pascaline</strong>, a mechanical calculator capable of performing addition and subtraction.
+The machine consisted of a row of interlocking gears, each representing a digit.
+Turning a wheel by a certain amount added that value to the running total displayed in windows at the top of the box.</p>
+<p>The most clever feature was its <strong>automatic carry mechanism</strong>: when a gear completed a full rotation (rolling over from 9 to 0), it automatically advanced the next gear by one, just as we carry a 1 when adding digits by hand.
+This was mechanically tricky to implement reliably, and Pascal went through approximately 50 prototypes before arriving at a working design.</p>
+<p>The Pascaline could handle numbers up to 9,999,999.
+Subtraction was performed using a technique based on nine's complements.
+This is a workaround required because the carry mechanism only worked in one direction.</p>
+<h2>Reception and Legacy</h2>
+<p>Pascal built around 20 machines in total. They were expensive to produce and finicky to operate, and they never became commercially successful.
+Human computers remained cheaper and more flexible.
+However, the Pascaline was a genuine technological achievement, the first mechanical calculator known to have actually worked and been used.</p>
+<p>Several Pascalines survive today and are held in museums in France and elsewhere.</p>
+<p>Pascal's work directly inspired later inventors.
+Gottfried Wilhelm Leibniz studied the Pascaline and built his own more capable machine, the <strong>Stepped Reckoner</strong>, in 1694, which could also multiply and divide.
+The lineage of mechanical calculation runs from Pascal through Leibniz and eventually to <a href="/difference_engine.html" class="wikilink">Babbage</a> and beyond.</p>
+<h2>Place in History</h2>
+<p>The Pascaline predates Babbage's engines by nearly two centuries.
+Where Babbage's machines were designed to automate entire <em>computations</em>, running through a sequence of operations automatically, the Pascaline simply mechanized a single arithmetic operation at a time, with a human directing each step.
+The distinction is important: Pascal built a calculator; Babbage aspired to build a computer.</p>
+<p>Still, Pascal's insight that arithmetic could be offloaded to a machine was the foundational idea. Everything that followed built on it.</p>
+
+</body>
+</html>

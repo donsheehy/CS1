@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Charles Babbage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h1>Charles Babbage</h1>
+<h2>Life and Background</h2>
+<p>Charles Babbage (1791–1871) was an English mathematician, philosopher, inventor, and mechanical engineer. Born in London, he showed an early gift for mathematics and went on to study at Cambridge, where he helped found the Analytical Society — a group of students who campaigned to modernize British mathematics by adopting the continental notation of Leibniz over the older Newtonian notation.</p>
+<p>After Cambridge, Babbage became a fellow of the Royal Society and held the Lucasian Professorship of Mathematics at Cambridge from 1828 to 1839 — the same chair once held by Isaac Newton and later by Stephen Hawking — though he never delivered a single lecture.</p>
+<h2>A Mind for Systems</h2>
+<p>Babbage was fascinated by systems, efficiency, and the mechanization of labor. In 1832 he published <em>On the Economy of Machinery and Manufactures</em>, a pioneering work in what we might now call operations research or industrial organization. He visited factories across Britain and Europe, studying how work was divided and how machines could replace or assist human labor. The book was widely read and influential, and was one of the sources Karl Marx drew upon in <em>Das Kapital</em>.</p>
+<p>He also proposed several innovations that were ahead of their time, including a black box recorder for trains, a speedometer, and an early version of what we would now call a skeleton key. He was a tireless correspondent and a prominent figure in Victorian scientific society.</p>
+<h2>The Calculating Engines</h2>
+<p>Babbage's most ambitious work was his decades-long effort to build automatic calculating machines. He pursued two major designs across his lifetime:</p>
+<ul>
+<li>The <a href="/difference_engine.html" class="wikilink">Difference Engine</a> — a special-purpose machine for computing mathematical tables by the method of finite differences</li>
+<li>The <a href="/analytical_engine.html" class="wikilink">Analytical Engine</a> — a far more ambitious general-purpose programmable computing machine, never completed in his lifetime</li>
+</ul>
+<p>These projects consumed most of his professional energy and much of his personal fortune, and their failure to be built became a source of lasting bitterness.</p>
+<h2>Character and Legacy</h2>
+<p>Babbage was brilliant but difficult — famously quarrelsome, easily frustrated, and prone to feuds. He campaigned loudly against street musicians (whom he considered a distraction to intellectual work), wrote extensively about his grievances with the Royal Society, and had a falling out with virtually every engineer he worked with. His autobiography, <em>Passages from the Life of a Philosopher</em> (1864), is a remarkable mix of technical insight and personal score-settling.</p>
+<p>Despite never seeing his engines built, Babbage is now recognized as a foundational figure in the history of computing. His designs anticipated the architecture of modern computers by over a century, and the partial Difference Engine No. 2 completed by the Science Museum in 1991 demonstrated that his engineering vision was sound.</p>
+
+</body>
+</html>
