@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>topics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h2>Topics By Week</h2>
+<h3>Week 1</h3>
+<h4>Tools</h4>
+<ul>
+<li>Navigating the File System from the Terminal</li>
+<li>Essential Bash</li>
+<li>Running Python programs from the Terminal</li>
+</ul>
+<h4>Python</h4>
+<ul>
+<li><code>print</code></li>
+<li><code>input</code></li>
+<li>string variables</li>
+<li>f-strings</li>
+</ul>
+<h4>Principles</h4>
+<ul>
+<li>the file system</li>
+<li>inputs and outputs as a model of computation</li>
+<li>programs as sequences of operations</li>
+<li>the processor</li>
+</ul>
+<h3>Week 2</h3>
+<h4>Tools</h4>
+<ul>
+<li>git</li>
+<li>vscode</li>
+<li>markdown</li>
+</ul>
+<h4>Python</h4>
+<ul>
+<li>arithmetic and evaluation</li>
+<li>numerical types</li>
+<li>variables and assignment</li>
+<li>booleans</li>
+<li>conditionals: <code>if</code> ... <code>elif</code> ... <code>else</code></li>
+<li>tuples</li>
+<li>basic types</li>
+</ul>
+<h4>Principles</h4>
+<ul>
+<li>control flow</li>
+<li>storing numbers</li>
+<li>bits, bytes, words</li>
+<li>solving general problems</li>
+</ul>
+<h3>Week 3</h3>
+<h4>Tools</h4>
+<ul>
+<li>Github</li>
+</ul>
+<h4>Python</h4>
+<ul>
+<li>loops: <code>for</code> and <code>while</code></li>
+<li><code>list</code></li>
+<li>functions: <code>def</code></li>
+<li>scope rules</li>
+<li>objects and methods</li>
+</ul>
+<h4>Principles</h4>
+<ul>
+<li>variable scope</li>
+<li>iteration</li>
+<li>memory</li>
+<li>types</li>
+<li>functional abstraction</li>
+</ul>
+<h3>Week 4</h3>
+<h4>Tools</h4>
+<ul>
+<li>svg</li>
+<li>pip</li>
+</ul>
+<h4>Python</h4>
+<ul>
+<li>errors: <code>try</code> and <code>except</code></li>
+<li><code>import</code></li>
+<li><code>if __name__ == '__main__':</code></li>
+</ul>
+<h4>Principles</h4>
+<ul>
+<li>the all stack</li>
+<li>abstracting objects</li>
+<li>the nesting principle</li>
+<li>vector graphics</li>
+</ul>
+<h3>Week 5</h3>
+<h4>Tools</h4>
+<ul>
+<li>piping and redirection</li>
+</ul>
+<h4>Python</h4>
+<ul>
+<li>file I/O</li>
+<li><code>dict</code></li>
+</ul>
+<h4>Principles</h4>
+<ul>
+<li>sorting</li>
+<li>binary search</li>
+<li>key-value stores</li>
+</ul>
+<h3>Week 6</h3>
+<h4>Tools</h4>
+<ul>
+<li>personal knowledge management</li>
+</ul>
+<h4>Python</h4>
+<ul>
+<li><code>class</code></li>
+<li><code>__init__</code></li>
+</ul>
+<h4>Principles</h4>
+<ul>
+<li>namespaces</li>
+<li>OOP: composition</li>
+</ul>
+<h3>Week 7</h3>
+<h4>Tools</h4>
+<h4>Python</h4>
+<ul>
+<li>comprehensions</li>
+<li>magic methods</li>
+</ul>
+<h4>Principles</h4>
+<ul>
+<li>OOP: overriding</li>
+<li>OOP: protocols</li>
+</ul>
+<h3>Week 8</h3>
+<h4>Tools</h4>
+<ul>
+<li>grep</li>
+</ul>
+<h4>Python</h4>
+<ul>
+<li>string manipulation: <code>join</code>, <code>split</code>, slicing, etc.</li>
+</ul>
+<h4>Principles</h4>
+<ul>
+<li>compression</li>
+<li>encryption</li>
+<li>information theory</li>
+</ul>
+<h3>Week 9</h3>
+<h4>Tools</h4>
+<ul>
+<li>curl</li>
+<li>html</li>
+</ul>
+<h4>Python</h4>
+<ul>
+<li>trees</li>
+</ul>
+<h4>Principles</h4>
+<ul>
+<li>architecture of the web</li>
+<li>networks</li>
+<li>servers</li>
+<li>HTTP and other protocols</li>
+</ul>
+<h3>Week 10</h3>
+<h4>Tools</h4>
+<ul>
+<li>png and gif</li>
+</ul>
+<h4>Python</h4>
+<ul>
+<li>The Python Imaging Library</li>
+</ul>
+<h4>Principles</h4>
+<ul>
+<li>indexing grids</li>
+<li>raster graphics</li>
+</ul>
+<h3>Week 11</h3>
+<p>Final Projects and Project Portfolios</p>
+<h3>Week 12</h3>
+<p>Final Project Presentations</p>
+
+</body>
+</html>

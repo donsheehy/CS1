@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>faq</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="/hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <h2>Frequently Asked Questions</h2>
+<ol>
+<li>Will a university level course be too difficult for my student?</li>
+</ol>
+<blockquote>
+<p>Probably not. We don't assume any special preparation?</p>
+</blockquote>
+<ol start="2">
+<li>If it's an introductory course, will it be too easy for my student?</li>
+</ol>
+<blockquote>
+<p>The course is designed to adapt to your level.  There are lots of opportunities to excel.</p>
+</blockquote>
+<ol start="3">
+<li>Will my student receive college credit for this course?</li>
+</ol>
+<blockquote>
+<p>Individual colleges decide which courses can be used for transfer credits.  Usually, there is a process whereby the syllabus of the course is examined and compared to the comparable course offered at the college.  This class will meet and likely exceed the level of an introductory course offered at most colleges. I will happily write a letter of explanation to accompany the syllabus if you submit it for transfer credit.</p>
+</blockquote>
+<ol start="4">
+<li>Will my student be expected to share their video during the online classes?</li>
+</ol>
+<blockquote>
+<p><strong>Yes.</strong>. Human interaction is a fundamental part of the course.</p>
+</blockquote>
+<ol start="5">
+<li>Will my student be expected to interact with other students in the course?</li>
+</ol>
+<blockquote>
+<p><strong>Yes.</strong>.</p>
+</blockquote>
+<ol start="6">
+<li>You didn't answer my question.  How do I contact you?</li>
+</ol>
+<blockquote>
+<p>Send me an email at <code>don.r.sheehy@gmail.com</code></p>
+</blockquote>
+
+</body>
+</html>
