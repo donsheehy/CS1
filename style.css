@@ -83,6 +83,14 @@ pre {
   overflow-x: auto;
 }
 
+blockquote {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 0.5em 0.75em;
+    margin: 0.5em 0;
+  }
+
+
 details {
     border: 1px solid #ccc;
     border-radius: 6px;
