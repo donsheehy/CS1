@@ -214,17 +214,27 @@ attributes, because class scopes aren't part of the enclosing-function chain.</p
 
 <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;This works: &#x27;values&#x27; is the outermost iterable&quot;</span>)
 </code></pre>
+<pre class="code-chunk-output">This works: 'values' is the outermost iterable
+</pre>
 <pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span>:
     values = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
     pairs = [v * n <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> values <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> values]  <span class="hljs-comment"># NameError: the *second*</span>
     <span class="hljs-comment">#     &#x27;values&#x27; is not the outermost iterable, so it runs in the comprehension&#x27;s</span>
     <span class="hljs-comment">#     own scope and can&#x27;t see the class attribute</span>
 </code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;&lt;stdin&gt;&quot;, line 3, in C
+NameError: name 'values' is not defined</pre>
 <pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span>:
     values = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
     factor = <span class="hljs-number">10</span>
     scaled = [v * factor <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> values]  <span class="hljs-comment"># NameError: &#x27;factor&#x27; is a class attribute</span>
 </code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;&lt;stdin&gt;&quot;, line 4, in C
+NameError: name 'factor' is not defined</pre>
 <p>Only the outermost iterable gets the special treatment of being evaluated in the
 enclosing (here, class) scope. Every other name in the comprehension — including a
 second <code>for</code>'s iterable — is resolved inside the comprehension's own scope.</p>

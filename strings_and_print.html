@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Strings and Print</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Strings and Print</h1>
+<h2>Hello, World!</h2>
+<p>Here is the first program that anyone ever writes.
+It is called <strong>Hello World</strong>.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello, World!&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello, World!
+</pre>
+<p>Easy, right?</p>
+<p>The program has two parts.
+First, there is the <code>print</code> function.
+The one line of code is <strong>calling</strong> the <code>print</code> function with the input <code>&quot;Hello, World!&quot;</code>.
+This input is called a <strong>string</strong>.
+It's a sequence of individual symbols.
+Each symbol is called a <strong>character</strong>.
+The string is wrapped in quotation marks.
+You can also use apostrophes:</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Hello, World!&#x27;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello, World!
+</pre>
+<p>Symbols like parentheses, brackets, braces, quotation marks, backticks, etc. that serve to define a chunk of text are called <strong>delimiters</strong>.
+Different delimiters have different meaning in Python.
+See what happens when we leave them out.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(Hello, World!)
+</code></pre>
+<pre class="code-chunk-output">File &quot;&lt;stdin&gt;&quot;, line 1
+    print(Hello, World!)
+                      ^
+SyntaxError: invalid syntax</pre>
+<p>A program crashes if it gets to a point where it cannot continue.
+Usually, a crashed program gives an <strong>error</strong>.
+In this case, we get a <code>SyntaxError</code>.
+<strong>Syntax</strong> is the set of rules for how a program can be written.
+In this case, it cannot recognize the code as a well-formed Python program.
+If you look carefully, you will see an arrow pointing at the exclamation point.
+The exclamation point does have a special meaning in Python, maybe that's the only problem.
+Let's get rid of the exclamation point and see what happens.
+It will be less exclamatory, but maybe it will &quot;fix&quot; the error.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(Hello, World)
+</code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+NameError: name 'Hello' is not defined</pre>
+<p>The error changed.
+Now, we got a <code>NameError</code>.
+Specifically, it says <code>name 'Hello' is not defined</code>.
+It seems to think that <code>Hello</code> is the name of something.
+This is how Python reads programs.
+Every piece of text is supposed to mean something.
+If some text is in quotes, it is treated as a string.
+Other text will be interpreted as <strong>names</strong> or <strong>keywords</strong> (words with special meaning in Python).</p>
+<p>We can use the <code>=</code> sign to <strong>assign</strong> a string to the name <code>Hello</code>.
+While we're at it, let's assign a string to <code>World</code>, too.</p>
+<pre><code class="hljs language-python">Hello = <span class="hljs-string">&quot;What&#x27;s up,&quot;</span>
+World = <span class="hljs-string">&quot;Bruh.&quot;</span>
+
+<span class="hljs-built_in">print</span>(Hello, World)
+</code></pre>
+<pre class="code-chunk-output">What's up, Bruh.
+</pre>
+<p>In the example above, <code>Hello</code> and <code>World</code> are called <strong>variables</strong>.
+We would say that <code>Hello</code> is a string in the same way that we would say <code>&quot;What's up,&quot;</code> is a string.
+We do this even though <code>Hello</code> is really only <em>referring</em> to a string.
+If some function expects a string, we can use these interchangeably.
+When a string is written out and delimited by quotes (or apostrophes), it is called a string <strong>literal</strong>.
+It literally tells you what the string is.</p>
+<p>It is good to think of variables in Python as names.
+Names refer to things.
+There is a string <code>&quot;Bruh.&quot;</code> and a variable, <code>World</code>, that refers to it.</p>
+<p>Variables are <strong>case-sensitiive</strong>.
+consider the following tiny change that breaks our program.</p>
+<pre><code class="hljs language-python">Hello = <span class="hljs-string">&quot;What&#x27;s up,&quot;</span>
+World = <span class="hljs-string">&quot;Bruh.&quot;</span>
+
+<span class="hljs-built_in">print</span>(Hello, world)
+</code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 4, in &lt;module&gt;
+NameError: name 'world' is not defined. Did you mean: 'World'?</pre>
+<p>This error message is more helpful.
+It is guessing our mistake.
+In this case, it is right.
+It won't always be right.</p>
+<h2>Escaping characters.</h2>
+<p>Suppose we want to give output that is on two different lines.
+We might try the following.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello, 
+World!&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">File &quot;&lt;stdin&gt;&quot;, line 1
+    print(&quot;Hello, 
+          ^
+SyntaxError: unterminated string literal (detected at line 1)</pre>
+<p>It says that we started a string literal with <code>&quot;Hello,</code> but we never &quot;terminated&quot; it.
+It didn't keep looking until it found the end of the string.</p>
+<p>To solve this problem, we could employ a little hack such as the following.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello,&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;World!&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello,
+World!
+</pre>
+<p>Each call to <code>print</code> starts its output on a new line.
+Two print statements gives two lines.
+Great!</p>
+<p>So, why did I call this a hack?
+If our intention was to have the line break as part of the string, we didn't achieve our goal.
+We only faked it.</p>
+<p>The first step is to realize that not all characters that appear in a string are letters or numbers or punctuation marks.
+There is a special kind of character called a <strong>newline</strong>.
+When it gets printed, the newline character will act like you hit return and start a new line.
+It might seem like our first attempt to split the output across two lines should have had a newline in the string.
+But, that newline was in conflict with Python's syntax.
+It happens that there is a cute way to <em>type</em> a newline.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello, \nWorld!&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello, 
+World!
+</pre>
+<p>The string <code>\n</code> gets turned into a newline.
+It is called an <strong>escape sequence</strong>.
+There are other escape sequences.
+One important one is the following.
+Do you see it?</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello, \\n, my escape sequence friend.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello, \n, my escape sequence friend.
+</pre>
+<p>In this one, <code>\\</code> is used to write a single backslash and not treat it as part of an escape sequence.
+Here are a couple more.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\&quot;quotes\&quot; and&quot;</span>, <span class="hljs-string">&#x27;\&#x27;apostrophes\&#x27;&#x27;</span>)
+</code></pre>
+<pre class="code-chunk-output">&quot;quotes&quot; and 'apostrophes'
+</pre>
+<p>You can see it would be hard to have a string literal that contains quotation marks and apostrophes because typing them would end the string.</p>
+<h2>A closer look at <code>print</code></h2>
+<p>The <code>print</code> function has a bit of magic to it.
+You'll notice that I said the input was a string, but in our later examples, we gave it two strings.
+It turns out we can give it any number of strings.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello,&quot;</span>, <span class="hljs-string">&quot;sweet&quot;</span>, <span class="hljs-string">&quot;world!&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello, sweet world!
+</pre>
+<p>It puts a space between each when printing.
+If we added the spaces to the strings, we would get extra spaces in the result.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello, &quot;</span>, <span class="hljs-string">&quot; sweet &quot;</span>, <span class="hljs-string">&quot; world!&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello,   sweet   world!
+</pre>
+<p>When giving an input to a function, we say that we are <strong>passing</strong> the input to the function.
+Here, we are passing three strings.
+The inputs are also called arguments to the function.
+It was very important that we separated the arguments with commas.
+Here is a version without the commas.</p>
+<pre><code class="hljs language-python">a = <span class="hljs-string">&quot;Hello&quot;</span>
+b = <span class="hljs-string">&quot;sweet&quot;</span>
+c = <span class="hljs-string">&quot;world&quot;</span>
+<span class="hljs-built_in">print</span>(a b c)
+</code></pre>
+<pre class="code-chunk-output">File &quot;&lt;stdin&gt;&quot;, line 4
+    print(a b c)
+          ^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?</pre>
+<p>Every function has an input and an output.
+What is the output of <code>print</code>?
+You might think it's the string that got printed, but that's not right.
+The text getting printed is a <strong>side effect</strong> of the print function.
+It actually returns nothing...or a very specific kind of nothing called <code>None</code>.
+I'll prove it.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello, World!&quot;</span>))
+</code></pre>
+<pre class="code-chunk-output">Hello, World!
+None
+</pre>
+<p>The inner <code>print</code> function is called with <code>&quot;Hello, World!&quot;</code>.
+When it finishes, it <strong>returns</strong> its output.
+That output is then passed to the outer <code>print</code> function.
+The <code>print</code> function returns a special value called <code>None</code>.
+That's why it prints <code>None</code>.</p>
+<p>I have found that this drives students a little crazy at first.
+If it drives you a little crazy, that's good.
+Examine that feeling and repeat after me: &quot;Printing is not returning.&quot;</p>
+<h2>Summary</h2>
+<ul>
+<li>string</li>
+<li>character</li>
+<li>the <code>print</code> function</li>
+<li>calling a function</li>
+<li>delimiters</li>
+<li>error messages</li>
+<li>syntax</li>
+<li>using variables</li>
+<li>literals</li>
+<li>variable assignment</li>
+<li>case-sensitivity</li>
+<li>newline</li>
+<li>escape sequence</li>
+<li>passing arguments</li>
+<li>side effects</li>
+<li>return value</li>
+<li>printing is not returning</li>
+</ul>
+
+</body>
+</html>

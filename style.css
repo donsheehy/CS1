@@ -82,7 +82,6 @@ a.wikilink { font-style: italic; }
 
 pre {
   border-radius: 6px;
-  padding: 1em;
   overflow-x: auto;
 }
 
@@ -109,4 +108,11 @@ details {
 .bio img {
   float: left;
   margin: 0 1.5em 1em 0;
+}
+
+/* Output of an executed code chunk, distinct from the code above it */
+.code-chunk-output {
+  background: #f4f4f4;
+  border-left: 3px solid #999;
+  padding: 1em;
 }
