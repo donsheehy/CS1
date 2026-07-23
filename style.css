@@ -6,6 +6,9 @@ body {
   padding: 0 20px;
   line-height: 1.7;
   color: #222;
+  text-align: justify;
+  text-align-last: left;
+  hyphens: auto;
 }
 
 h1, h2, h3 {
@@ -103,8 +106,7 @@ details {
     color: #06c;
   }
 
-.headshot {
+.bio img {
   float: left;
-  max-width: 200px;
   margin: 0 1.5em 1em 0;
 }
