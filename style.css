@@ -102,3 +102,9 @@ details {
     font-weight: bold;
     color: #06c;
   }
+
+.headshot {
+  float: left;
+  max-width: 200px;
+  margin: 0 1.5em 1em 0;
+}
