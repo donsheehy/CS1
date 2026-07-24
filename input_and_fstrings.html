@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Input and f-Strings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Input and f-Strings</h1>
+<p>It's nice to be able to write a program that we can interact with.</p>
+<h2>Getting Input from the User</h2>
+<p>So far, every program has been a one-way conversation.
+The program talks, using <code>print</code>, and you just read along.
+The <code>input</code> function flips this around.
+It lets the program ask a question and wait for you to answer.</p>
+<pre><code class="hljs language-python">name = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;What is your name? &quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello, &quot;</span>, name)
+</code></pre>
+<p>These notes usually add the output automatically.
+In this case, because it needs input from you, I can't do that.
+Instead, try it yourself.
+Type it into VSCode and run it (see <a href="/CS1/python_in_vscode.html" class="wikilink">python_in_vscode</a>).
+If you type <code>Boogerface</code> and press enter, you'll see <code>Hello, Boogerface</code> printed out.</p>
+<p>Here's what happened, step by step.
+First, <code>input</code> printed its <strong>prompt</strong>, the string <code>&quot;What is your name? &quot;</code>, without starting a new line.
+Then it paused and waited for you to type something and press enter.
+Whatever you typed became the <strong>return value</strong> of <code>input</code>, and that value got assigned to <code>name</code>.</p>
+<h2>Input Is Always a String</h2>
+<p>Try asking for a number instead of a name.</p>
+<pre><code class="hljs language-python">age = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;How old are you? &quot;</span>)
+<span class="hljs-built_in">print</span>(age + <span class="hljs-number">1</span>)
+</code></pre>
+<p>You might expect that typing <code>20</code> gives you <code>21</code>.
+It doesn't.
+Run it yourself and you'll get a crash.
+It would be like running:</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;20&quot;</span> + <span class="hljs-number">1</span>)
+</code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: can only concatenate str (not &quot;int&quot;) to str</pre>
+<p>Python is treating <code>age</code> as a string, even though you typed digits.
+The word <em>concatenate</em> appears in the error message.
+The definition is below.</p>
+<p>Here's the mystery, unpacked: <code>input</code> <strong>always</strong> returns a string, no matter what the user types.
+It has no way of knowing whether you're answering &quot;what's your name&quot; or &quot;how old are you.&quot;
+Every keystroke just becomes characters, and characters are strings.</p>
+<p>If we want to do arithmetic with the answer, we have to cast it ourselves (see <a href="/CS1/arithmetic_and_evaluation.html" class="wikilink">Casting</a>).</p>
+<pre><code class="hljs language-python">age = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;How old are you? &quot;</span>)
+age = <span class="hljs-built_in">int</span>(age)
+<span class="hljs-built_in">print</span>(age + <span class="hljs-number">1</span>)
+</code></pre>
+<p>Now typing <code>20</code> gives you <code>21</code>, as expected.</p>
+<blockquote>
+<p><strong>Key Idea: <code>input</code> always returns a string. If you need a number, you must cast it yourself.</strong></p>
+</blockquote>
+<h2>Putting Strings Together</h2>
+<p>Now that you can read a string from the user, you'll often want to weave it into a bigger message.
+Python lets you join strings end to end using <code>+</code>.</p>
+<pre><code class="hljs language-python">name = <span class="hljs-string">&quot;Ada&quot;</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello, &quot;</span> + name + <span class="hljs-string">&quot;!&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello, Ada!
+</pre>
+<p>This is called <strong>concatenation</strong>.
+Notice the space after the comma inside <code>&quot;Hello, &quot;</code> and the <code>&quot;!&quot;</code> tacked onto the end.
+Python doesn't add spaces or punctuation on its own, so you have to build them into the pieces you're joining.</p>
+<p>Combine this with <code>input</code>, and you get a personalized message.</p>
+<pre><code class="hljs language-python">name = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;What is your name? &quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Nice to meet you, &quot;</span> + name + <span class="hljs-string">&quot;!&quot;</span>)
+</code></pre>
+<p>Type <code>Don</code>, and out comes <code>Nice to meet you, Don!</code>.</p>
+<p>This works, but it's fussy.
+Every bit of punctuation has to live in exactly the right piece, and every <code>+</code> has to sit in exactly the right spot.
+Forget one, and you get a <code>SyntaxError</code>, or a message that reads like <code>Nice to meet you,Don!</code>.
+There's a nicer way, coming up next.</p>
+<h2>Building Nicer Output with f-strings</h2>
+<p>An <strong>f-string</strong> is a string literal with the letter <code>f</code> written right before the opening quote.
+Anywhere you put curly braces <code>{}</code> inside it, Python evaluates whatever is inside and drops the result into the string.</p>
+<pre><code class="hljs language-python">name = <span class="hljs-string">&quot;Ada&quot;</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Hello, <span class="hljs-subst">{name}</span>!&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello, Ada!
+</pre>
+<p>Compare that to building the same string with concatenation.</p>
+<pre><code class="hljs language-python">name = <span class="hljs-string">&quot;Ada&quot;</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello, &quot;</span> + name + <span class="hljs-string">&quot;!&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello, Ada!
+</pre>
+<p>Both lines print the same thing, but the f-string version doesn't force you to think about where the spaces and punctuation live relative to the quotes.</p>
+<p>The curly braces aren't limited to a plain variable.
+Anything that's an expression works, including arithmetic.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">7</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x}</span> times 2 is <span class="hljs-subst">{x * <span class="hljs-number">2</span>}</span>.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">7 times 2 is 14.
+</pre>
+<p>Combine this with <code>input</code>, and you can read something from the user and immediately drop it into a nicely formatted message.</p>
+<pre><code class="hljs language-python">name = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;What is your name? &quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Nice to meet you, <span class="hljs-subst">{name}</span>!&quot;</span>)
+</code></pre>
+<p>Type <code>Don</code>, and out comes <code>Nice to meet you, Don!</code>.</p>
+<h2>Summary</h2>
+<ul>
+<li><code>input</code></li>
+<li>prompt</li>
+<li>return value</li>
+<li>concatenation</li>
+<li>f-strings</li>
+</ul>
+
+</body>
+</html>

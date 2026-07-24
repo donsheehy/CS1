@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Attention</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Attention</h1>
+<p>If we're going to learn, we will need to exercise our attention.
+There is, I believe, some misconception about what that should <em>feel</em> like.
+Simone Weil articulated this nicely:</p>
+<blockquote>
+<p>Will power, the kind that, if need be, makes us set our teeth and endure suffering, is the principal weapon of the apprentice engaged in manual work.  But, contrary to the usual belief, it has practically no place in study.  The intelligence can only be led by desire.  For there to be desire, there must be pleasure and joy in the work.  The intelligence only grows and bears fruit in joy.  The joy of learning is as indispensable in study as breathing is in running.  Where it is lacking there are not real students, but only poor caricatures of apprentices who, at the end their apprenticeship, will not even have a trade.<br>
+-- Simone Weil</p>
+</blockquote>
+<p>If you accept this perspective, then the task of the student becomes, paradoxically, both easier and harder.
+It is easier because the work is driven by joy.
+It is harder, because one must cultivate that joy.</p>
+
+</body>
+</html>

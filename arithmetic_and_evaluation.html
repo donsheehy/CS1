@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Arithmetic and Evaluation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Arithmetic and Evaluation</h1>
+<h2>Basic Arithmetic</h2>
+<p>One of the simplest ways to use Python is as a calculator.
+It has all kinds of arithmetic built in.
+We can add, subtract, multiply, and divide.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-number">1234</span> + <span class="hljs-number">4321</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-number">10000</span> - <span class="hljs-number">1</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-number">8</span> * <span class="hljs-number">7</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-number">10</span> / <span class="hljs-number">3</span>)
+</code></pre>
+<pre class="code-chunk-output">5555
+9999
+56
+3.3333333333333335
+</pre>
+<p>We use <code>*</code> to multiply and <code>/</code> to divide.</p>
+<p>Wait a minute... Is that last answer correct?
+How did it round the number to get a 5 at then end?
+We won't get into the explanation now, but instead, we're going recognize that there is something that the computer is doing that is not the way we might do it.
+The result is surprising.</p>
+<p>Being surprised by the computer is the completely normal.
+You will write code and expect it to work, but it does something else.
+Surprise!
+This will be most of the time.
+It's not a bad thing.</p>
+<p>The first task of the learner is to respond well to this kind of surprise.
+The best response is <strong>curiosity</strong>.
+Have confidence that there is a reason for the behavior that you're seeing.
+You don't have a problem.  You have a mystery.
+Follow the clues.
+Try to ask good questions.</p>
+<h2>Exponents and Roots</h2>
+<p>Raising a number to a power is also a built-in operation in Python.
+We use <code>**</code> to indicate the exponent.
+Below, we use an f-string (see <a href="/CS1/input_and_fstrings.html" class="wikilink">input_and_fstrings</a>) to drop the result right into the printed text.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">11</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x}</span> squared is <span class="hljs-subst">{x ** <span class="hljs-number">2</span>}</span>.&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x}</span> cubed is <span class="hljs-subst">{x ** <span class="hljs-number">3</span>}</span>.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">11 squared is 121.
+11 cubed is 1331.
+</pre>
+<p>This can be used to find square roots using the fact that
+\[\sqrt{x} = x ^{\frac{1}{2}}.\]
+</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">2</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;The square root of <span class="hljs-subst">{x}</span> is <span class="hljs-subst">{x ** <span class="hljs-number">0.5</span>}</span>.&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;The golden ratio is <span class="hljs-subst">{(<span class="hljs-number">1</span> + <span class="hljs-number">5</span> ** <span class="hljs-number">0.5</span>) / <span class="hljs-number">2</span>}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;This is pretty close to <span class="hljs-subst">{<span class="hljs-number">89</span>/<span class="hljs-number">55</span>}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">The square root of 2 is 1.4142135623730951.
+The golden ratio is 1.618033988749895
+This is pretty close to 1.6181818181818182
+</pre>
+<h2>Composing Operations</h2>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-number">1</span> + <span class="hljs-number">2</span> * <span class="hljs-number">3</span>)
+</code></pre>
+<pre class="code-chunk-output">7
+</pre>
+<p>Some people will expect to get <code>9</code> instead of <code>7</code>.
+The reason is that they first add <code>1</code> and <code>2</code> to get <code>3</code>.
+Then they multiply by <code>3</code> to get <code>9</code>.
+The mistake is that they have violated the order of operations.
+Python uses the standard order of operations.
+Just as in your math class, you will need parentheses to change the order that the operations are performed.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>((<span class="hljs-number">1</span> + <span class="hljs-number">2</span>) * <span class="hljs-number">3</span>)
+</code></pre>
+<pre class="code-chunk-output">9
+</pre>
+<p>When you see two operations, like in the example above, it really will need to do two operations.
+In this case, there is an addition operation and a multiplication operations.
+The parentheses dictate that the addition happens first.
+The result is then used in the multiplication.
+Probably, you have seen this a million times.
+The key for us is to notice that these operations are functions.
+Each takes two numbers as its arguments and returns a new number.
+This means that we will be able to use our understanding of arithmetic to also help us with more exotic functions, including ones that we write ourselve0s.</p>
+<h2>Expressions and Evaluation</h2>
+<p>In your math studies, you have probably come across the word expression.
+An <strong>expression</strong> is a sequence of symbols that can be <strong>evaluated</strong>.
+That means, it can be reduced to a single value.
+In mathematical expressions, this reduces to a number.
+An example of an expression is the following.</p>
+<p>\[(10 + 3) - (2 + 4)\]
+</p>
+<p>This expression evaluates to $7$.
+There are other expressions that have the same value such as</p>
+<p>\[6+1\]
+
+or
+\[\sqrt{49}.\]
+
+Even this one:
+\[7.\]
+</p>
+<p>These are <strong>different expressions with the same value</strong>.
+They are different because they have different symbols.
+They are <strong>equivalent</strong> (not <strong>equal</strong>), because they give the same value.</p>
+<blockquote>
+<p><strong>Key Idea: An expression is a sequence of symbols that can be evaluated to produce a value.</strong></p>
+</blockquote>
+<h2>Substitution</h2>
+<p>In code, most expressions also include variables.
+In the simplest case, the variable itself is an expression.
+The value in that case is just the value of the variable.
+More generally, we <strong>substitute</strong> the variable with its value in order to evaluate.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">42</span>
+
+<span class="hljs-built_in">print</span>(x + <span class="hljs-number">2</span>)
+</code></pre>
+<pre class="code-chunk-output">44
+</pre>
+<p>When assigning a value to a variable, the right hand side is an expression.
+The variable is assigned the value that we get when we evaluate the right side.
+For example, in the expression</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">10</span> ** <span class="hljs-number">2</span>
+y = x + <span class="hljs-number">1</span>
+</code></pre>
+<p>It works like this.
+The expression <code>10 ** 2</code> is evaluated to produce <code>100</code>.
+Then, that value is assigned to the variable <code>x</code>.
+In the next line, we have another assignment.
+Again, we evaluate the right side.
+The first step is to substitute the value for <code>x</code>, so the expression becomes <code>100 + 1</code>.
+This is evaluated to give a value <code>101</code> that is assigned to <code>y</code>.</p>
+<p>The idea of substitution is very important.
+Any time we are trying to give a value, we can substitute an expression that produces that value.
+We have been doing this throughout.
+Every time I called print with something other than a string literal, we understood that this substitution is happening.
+From one perspective, substitution of this type is the key to all computing.</p>
+<h2>Updating Variables</h2>
+<p>Using the equals sign for variable assignment can be a little confusing.
+The most important thing to remember about assignment is this:</p>
+<ol>
+<li><strong>The right side of the assignment is evaluated first.</strong></li>
+<li><strong>The actual assignment is the last thing that happens.</strong></li>
+</ol>
+<p>This is why we can write code like the following.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">5</span>
+x = x + <span class="hljs-number">1</span>
+<span class="hljs-built_in">print</span>(x)
+</code></pre>
+<pre class="code-chunk-output">6
+</pre>
+<p>The assignment looks like an equation, but it is not.
+If it were, it would be saying something false.
+It can never be true that $x$ is equal to $x+1$.
+When we write code like this, we are <strong>updating</strong> the value associated to the variable <code>x</code>.
+After the first line, the value of <code>x</code> is <code>5</code>.
+After the second line, the value of <code>x</code> is <code>6</code>.</p>
+<h2>Types</h2>
+<p>When we discussed the <code>print</code> function, we said that the arguments should be strings.
+Above, we called <code>print</code> but the arguments were numbers.
+Numbers and strings are different.
+All of the <em>things</em> you can store in a Python program are called <strong>objects</strong>.
+Every object has a <strong>type</strong>.
+Roughly speaking, the type tells you what kind of thing it is.
+It also tells you what you can do with it.
+For example, you can print a string.</p>
+<p>Let's examine some types by using the <code>type</code> function.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(<span class="hljs-number">7</span>))
+</code></pre>
+<pre class="code-chunk-output">&lt;class 'int'&gt;
+</pre>
+<p>For all normal usage, the words <strong>class</strong> and <strong>type</strong> mean the same thing in Python.
+Okay.  <code>7</code> is of class <code>int</code>.
+That's short for <strong>integer</strong>.
+Integers can be positive or negative (or zero).</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(<span class="hljs-string">&quot;7&quot;</span>))
+</code></pre>
+<pre class="code-chunk-output">&lt;class 'str'&gt;
+</pre>
+<p>In this case, we put it in quotes, so it's of class <code>str</code>, short for string.</p>
+<p>What about fractions?</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(<span class="hljs-number">7</span>/<span class="hljs-number">3</span>))
+</code></pre>
+<pre class="code-chunk-output">&lt;class 'float'&gt;
+</pre>
+<p>The class <code>float</code> refers to <strong>floating point</strong> numbers.
+The <em>point</em> refers to the decimal point and the <em>floating</em> refers to the way it can appear in different places, unlike an integer.</p>
+<p>Everything has a type.
+Let's test this out:</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(<span class="hljs-built_in">print</span>))
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(<span class="hljs-built_in">int</span>))
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(<span class="hljs-built_in">type</span>(<span class="hljs-built_in">int</span>)))
+</code></pre>
+<pre class="code-chunk-output">&lt;class 'builtin_function_or_method'&gt;
+&lt;class 'type'&gt;
+&lt;class 'type'&gt;
+</pre>
+<h2>Casting</h2>
+<p>It is possible to turn a number into a string and vice versa.
+Converting an object of one type into an object of another type is called <strong>casting</strong>.
+Often information is lost in the process.</p>
+<p>There is a function <code>str</code> that can turn numbers into strings.
+(It can do much more than this, but this is enough for now.)</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">4321</span>
+y = <span class="hljs-built_in">str</span>(x)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;The type of x is <span class="hljs-subst">{<span class="hljs-built_in">type</span>(x)}</span>,\nand the type of y is <span class="hljs-subst">{<span class="hljs-built_in">type</span>(y)}</span>.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">The type of x is &lt;class 'int'&gt;,
+and the type of y is &lt;class 'str'&gt;.
+</pre>
+<p>Now we have a hint about how the print function works with numbers.
+Whatever argument gets passed to print, it first converts it to a string by calling <code>str</code>.
+Then, it has a string to print.</p>
+<p>What if it is already a string?
+No problem.  See:</p>
+<pre><code class="hljs language-python">s = <span class="hljs-string">&quot;abcd&quot;</span>
+t = <span class="hljs-built_in">str</span>(s)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{t=}</span> is of type <span class="hljs-subst">{<span class="hljs-built_in">type</span>(t)}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">t='abcd' is of type &lt;class 'str'&gt;
+</pre>
+<p>Turning a string into an integer uses the <code>int</code> function.
+You see the pattern, I'm sure, where these functions have the same name as the class they are converting into.
+That is the standard convention.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-string">&quot;-13&quot;</span>
+y = <span class="hljs-built_in">int</span>(x)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;The type of x is <span class="hljs-subst">{<span class="hljs-built_in">type</span>(x)}</span>,\nand the type of y is <span class="hljs-subst">{<span class="hljs-built_in">type</span>(y)}</span>.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">The type of x is &lt;class 'str'&gt;,
+and the type of y is &lt;class 'int'&gt;.
+</pre>
+<p>Notice that we can use the negative sign.
+Let's try to do some impossible stuff.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-string">&quot;1.2&quot;</span>
+y = <span class="hljs-built_in">int</span>(x)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;The type of x is <span class="hljs-subst">{<span class="hljs-built_in">type</span>(x)}</span>,\nand the type of y is <span class="hljs-subst">{<span class="hljs-built_in">type</span>(y)}</span>.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+ValueError: invalid literal for int() with base 10: '1.2'</pre>
+<pre><code class="hljs language-python">x = <span class="hljs-number">1.2</span>
+y = <span class="hljs-built_in">int</span>(x)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;The type of x is <span class="hljs-subst">{<span class="hljs-built_in">type</span>(x)}</span>,\nand the type of y is <span class="hljs-subst">{<span class="hljs-built_in">type</span>(y)}</span>.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">The type of x is &lt;class 'float'&gt;,
+and the type of y is &lt;class 'int'&gt;.
+</pre>
+<p>Surprise!  That worked?  How does it turn <code>1.2</code> into an integer?
+Mystery time.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">1.2</span>
+y = <span class="hljs-built_in">int</span>(x)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x=}</span> and <span class="hljs-subst">{y=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">x=1.2 and y=1
+</pre>
+<p>It rounded.  Does it always round to the nearest integer?</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">1.9</span>
+y = <span class="hljs-built_in">int</span>(x)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x=}</span> and <span class="hljs-subst">{y=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">x=1.9 and y=1
+</pre>
+<p>Nope, it rounds down.
+What about negative numbers?</p>
+<pre><code class="hljs language-python">x = -<span class="hljs-number">1.2</span>
+y = <span class="hljs-built_in">int</span>(x)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x=}</span> and <span class="hljs-subst">{y=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">x=-1.2 and y=-1
+</pre>
+<p>It rounded the negative numbers up.
+How should we think about this so that it makes sense?
+It is really just throwing out everything after the decimal point.</p>
+<p>You can turn an integer or a string into a float using, you guessed it <code>float</code>:</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">100</span> 
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;x has type <span class="hljs-subst">{<span class="hljs-built_in">type</span>(x)}</span> and float(x) has type <span class="hljs-subst">{<span class="hljs-built_in">type</span>(<span class="hljs-built_in">float</span>(x))}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">x has type &lt;class 'int'&gt; and float(x) has type &lt;class 'float'&gt;
+</pre>
+<p>Here is the string to float conversion.</p>
+<pre><code class="hljs language-python">s = <span class="hljs-string">&quot;100&quot;</span> 
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;s has type <span class="hljs-subst">{<span class="hljs-built_in">type</span>(s)}</span> and float(s) has type <span class="hljs-subst">{<span class="hljs-built_in">type</span>(<span class="hljs-built_in">float</span>(s))}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">s has type &lt;class 'str'&gt; and float(s) has type &lt;class 'float'&gt;
+</pre>
+<p>Here is one more, because it's awesome.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-built_in">float</span>(<span class="hljs-string">&quot;inf&quot;</span>) + <span class="hljs-number">1</span>)
+</code></pre>
+<pre class="code-chunk-output">inf
+</pre>
+<p>That's right.  I just printed infinity plus one.</p>
+<h2>Integer Division and Modular Arithmetic</h2>
+<p>When you first learned division, you likely did not know about decimals.
+Do you remember how you did division with only integers?</p>
+<p>You get the quotient and the remainder.
+You might think you've grown out of these operations, but in many cases, these are more useful than regular division.</p>
+<p>Two operations are <strong>integer division</strong> and <strong>mod</strong>.
+The first uses the double slash notation <code>//</code> and gives the quotient.
+The mod operation uses the percent sign <code>%</code> and gives the remainder.
+Here's an example.</p>
+<pre><code class="hljs language-python">a = <span class="hljs-number">10</span>
+b = <span class="hljs-number">3</span>
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{a}</span> divided by <span class="hljs-subst">{b}</span> is <span class="hljs-subst">{a // b}</span> with remainder <span class="hljs-subst">{a % b}</span>.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">10 divided by 3 is 3 with remainder 1.
+</pre>
+<p>The word <em>mod</em> is a reference to <em>modular arithmetic</em>.</p>
+<h2>Formatting Numbers</h2>
+<p>You can modify the way a number gets formatted in an f-string.
+See below.</p>
+<pre><code class="hljs language-python">sqrt_of_2 = <span class="hljs-number">2</span> ** <span class="hljs-number">0.5</span>
+giga = <span class="hljs-number">2</span> ** <span class="hljs-number">32</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;The square root of 2 is <span class="hljs-subst">{sqrt_of_2}</span>.&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;The square root of 2 is <span class="hljs-subst">{sqrt_of_2:<span class="hljs-number">.3</span>g}</span>.&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;2 to the 32nd power is <span class="hljs-subst">{giga}</span>.&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;2 to the 32nd power is <span class="hljs-subst">{giga:<span class="hljs-number">.2</span>e}</span>.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">The square root of 2 is 1.4142135623730951.
+The square root of 2 is 1.41.
+2 to the 32nd power is 4294967296.
+2 to the 32nd power is 4.29e+09.
+</pre>
+<p>The second line adds <code>:.3g</code> to indicate that we only want 3 significant figures.
+The fourth line adds <code>:.2e</code> to give scientific notation with two digits after the decimal point.</p>
+<h2>Summary</h2>
+<ul>
+<li>Operations <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>**</code>, <code>//</code>, and <code>%</code></li>
+<li>Get Curious</li>
+<li>Order of Operations</li>
+<li>Expressions</li>
+<li>Evaluation</li>
+<li>Substitution</li>
+<li>Assignment and Updating</li>
+<li>Type (Class)</li>
+<li>basic types <code>int</code>, <code>float</code>, <code>str</code></li>
+<li>Object</li>
+<li>Casting</li>
+<li>Formatting Numbers</li>
+</ul>
+
+</body>
+</html>

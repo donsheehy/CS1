@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Booleans and the Assert Statement</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Booleans and the Assert Statement</h1>
+<h2>Comparing Values</h2>
+<p>Python can compare two values and tell you whether the comparison is true.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-number">3</span> &lt; <span class="hljs-number">5</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-number">3</span> &gt; <span class="hljs-number">5</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-number">3</span> == <span class="hljs-number">5</span>)
+</code></pre>
+<pre class="code-chunk-output">True
+False
+False
+</pre>
+<p>The symbols <code>&lt;</code> and <code>&gt;</code> mean what you think they mean.
+The symbol <code>==</code> checks whether two values are equal.
+Notice that it's two equals signs, not one.
+A single <code>=</code> is for assignment (see <a href="/CS1/arithmetic_and_evaluation.html" class="wikilink">Arithmetic and Evaluation</a>).
+A double <code>==</code> is for comparison.
+Mixing these up is one of the most common mistakes a new programmer makes.</p>
+<p>There are a few more comparison operators.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-number">3</span> &lt;= <span class="hljs-number">3</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-number">3</span> &gt;= <span class="hljs-number">5</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-number">3</span> != <span class="hljs-number">5</span>)
+</code></pre>
+<pre class="code-chunk-output">True
+False
+True
+</pre>
+<p>The operator <code>&lt;=</code> means <em>less than or equal to</em>, and <code>&gt;=</code> means <em>greater than or equal to</em>.
+The operator <code>!=</code> means <em>not equal to</em>.</p>
+<h2>Identity: <code>is</code> and <code>is not</code></h2>
+<p>There is another way to compare two things, and it asks a different question.</p>
+<pre><code class="hljs language-python">n = <span class="hljs-number">500</span>
+a = n * <span class="hljs-number">2</span>
+b = <span class="hljs-number">1000</span>
+<span class="hljs-built_in">print</span>(a == b)
+<span class="hljs-built_in">print</span>(a <span class="hljs-keyword">is</span> b)
+</code></pre>
+<pre class="code-chunk-output">True
+False
+</pre>
+<p>Both <code>a</code> and <code>b</code> hold the value <code>1000</code>, so <code>a == b</code> is <code>True</code>.
+But <code>a is b</code> is <code>False</code>.
+The values are equal, but they are not the same object.</p>
+<p><code>==</code> asks, &quot;do these have the same value?&quot;
+<code>is</code> asks a stricter question: &quot;are these literally the same object, stored in the same place?&quot;
+Python computed <code>a</code> fresh from <code>n * 2</code>, and it built a brand new <code>1000</code> to hold the result.
+The <code>b = 1000</code> on the next line made a separate <code>1000</code>, a different object that happens to hold an equal value.</p>
+<pre><code class="hljs language-python">a = <span class="hljs-number">1000</span>
+c = a
+<span class="hljs-built_in">print</span>(a <span class="hljs-keyword">is</span> c)
+</code></pre>
+<pre class="code-chunk-output">True
+</pre>
+<p>Now <code>a is c</code> is <code>True</code>, because <code>c</code> doesn't hold a copy.
+It refers to the exact same object that <code>a</code> refers to.</p>
+<p><code>is</code> has an opposite, <code>is not</code>, which works the way you'd guess.</p>
+<pre><code class="hljs language-python">n = <span class="hljs-number">500</span> 
+a = <span class="hljs-number">1000</span>
+b = n * <span class="hljs-number">2</span>
+c = a
+<span class="hljs-built_in">print</span>(a <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> b)
+<span class="hljs-built_in">print</span>(a <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> c)
+</code></pre>
+<pre class="code-chunk-output">True
+False
+</pre>
+<blockquote>
+<p><strong>Key Idea: <code>==</code> compares values. <code>is</code> compares identity, whether two names point to the exact same object in memory.</strong></p>
+</blockquote>
+<p>In practice, <code>is</code> shows up most often with a special value called <code>None</code>, which represents &quot;no value at all.&quot;</p>
+<pre><code class="hljs language-python">x = <span class="hljs-literal">None</span>
+<span class="hljs-built_in">print</span>(x <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>)
+<span class="hljs-built_in">print</span>(x <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>)
+</code></pre>
+<pre class="code-chunk-output">True
+False
+</pre>
+<p>The convention in Python is to check for <code>None</code> with <code>is</code>, not <code>==</code>.
+You'll see <code>is None</code> and <code>is not None</code> constantly once you start writing real programs.</p>
+<h2>The Boolean Type</h2>
+<p>Each of those comparisons produced a value, either <code>True</code> or <code>False</code>.
+Let's look at the type of that value.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">3</span> &lt; <span class="hljs-number">5</span>
+<span class="hljs-built_in">print</span>(x)
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(x))
+</code></pre>
+<pre class="code-chunk-output">True
+&lt;class 'bool'&gt;
+</pre>
+<p>The class is called <code>bool</code>, short for <strong>Boolean</strong>, named after the mathematician George Boole.
+A <strong>Boolean</strong> is a value that can only be <code>True</code> or <code>False</code>.
+There is no third option.
+Notice the capitalization: <code>True</code> and <code>False</code>, not <code>true</code> and <code>false</code>.
+Python is picky about this.</p>
+<blockquote>
+<p><strong>Key Idea: A Boolean is a value, just like a number or a string. It can be stored in a variable, printed, and passed around like anything else.</strong></p>
+</blockquote>
+<h2>Arithmetic with Booleans</h2>
+<p>Here's something strange.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-literal">True</span> + <span class="hljs-literal">True</span>)
+</code></pre>
+<pre class="code-chunk-output">2
+</pre>
+<p>Some people expect an error here.
+Instead, we get <code>2</code>.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-literal">True</span> + <span class="hljs-literal">True</span> == <span class="hljs-number">2</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">int</span>(<span class="hljs-literal">True</span>))
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">int</span>(<span class="hljs-literal">False</span>))
+</code></pre>
+<pre class="code-chunk-output">True
+1
+0
+</pre>
+<p>Under the hood, <code>True</code> behaves like <code>1</code> and <code>False</code> behaves like <code>0</code>.
+This is because <code>bool</code> is secretly a subclass of <code>int</code> in Python.
+Every Boolean is also, in some sense, a number.
+This is a good example of a mystery worth chasing rather than a mistake to fear.</p>
+<h2>Combining Conditions: <code>and</code>, <code>or</code>, <code>not</code></h2>
+<p>You can combine Boolean values using the keywords <code>and</code>, <code>or</code>, and <code>not</code>.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-literal">True</span> <span class="hljs-keyword">and</span> <span class="hljs-literal">False</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-literal">True</span> <span class="hljs-keyword">or</span> <span class="hljs-literal">False</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-keyword">not</span> <span class="hljs-literal">True</span>)
+</code></pre>
+<pre class="code-chunk-output">False
+True
+False
+</pre>
+<p>The word <code>and</code> gives <code>True</code> only when both sides are <code>True</code>.
+The word <code>or</code> gives <code>True</code> when at least one side is <code>True</code>.
+The word <code>not</code> flips a Boolean to its opposite.</p>
+<p>These combine naturally with comparisons.</p>
+<pre><code class="hljs language-python">age = <span class="hljs-number">15</span>
+<span class="hljs-built_in">print</span>(age &gt;= <span class="hljs-number">13</span> <span class="hljs-keyword">and</span> age &lt;= <span class="hljs-number">19</span>)
+</code></pre>
+<pre class="code-chunk-output">True
+</pre>
+<p>This expression checks whether <code>age</code> is a teenager's age.
+Each side of <code>and</code> is its own Boolean expression, evaluated first, then combined.
+This is just substitution again (see <a href="/CS1/arithmetic_and_evaluation.html" class="wikilink">Arithmetic and Evaluation</a>), the same idea you've already seen with arithmetic.</p>
+<h2>The <code>assert</code> Statement</h2>
+<p>Once you can write an expression that evaluates to <code>True</code> or <code>False</code>, you can use it to make Python check your work.
+The <code>assert</code> statement takes a Boolean expression.
+If the expression is <code>True</code>, nothing happens.
+If it's <code>False</code>, the program crashes.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">2</span> + <span class="hljs-number">2</span>
+<span class="hljs-keyword">assert</span> x == <span class="hljs-number">4</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Made it past the assertion.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Made it past the assertion.
+</pre>
+<p>Nothing dramatic happened, because the assertion was <code>True</code>.
+Let's break it on purpose.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">2</span> + <span class="hljs-number">2</span>
+<span class="hljs-keyword">assert</span> x == <span class="hljs-number">5</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Made it past the assertion.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+AssertionError</pre>
+<p>The program stopped with an <code>AssertionError</code>, and the <code>print</code> line never ran.
+This is the point of <code>assert</code>.
+You are telling Python, &quot;I believe this is true, and if it isn't, stop everything immediately.&quot;</p>
+<p>This is also your first tool for <strong>testing</strong> code.
+Testing means checking that the code you wrote actually produces the output you expected.
+Suppose you write some arithmetic to compute the area of a rectangle, and you already know what the answer should be.</p>
+<pre><code class="hljs language-python">width = <span class="hljs-number">4</span>
+height = <span class="hljs-number">5</span>
+area = width * height
+<span class="hljs-keyword">assert</span> area == <span class="hljs-number">20</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;The area calculation passed its test.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">The area calculation passed its test.
+</pre>
+<p>You didn't just compute <code>area</code> and hope it was right.
+You wrote down your expectation, <code>20</code>, and had Python check the real output against it.
+If a typo or a wrong formula ever changed <code>area</code>, the <code>assert</code> would catch it immediately instead of letting a wrong answer quietly slip through.
+This habit, computing something and then asserting that it matches what you expected, is the same basic idea behind every testing tool you'll ever use, no matter how fancy.</p>
+<blockquote>
+<p><strong>Key Idea: An assertion is a claim about your program that you are willing to bet on. If the bet is wrong, you want to know right away, not many lines later when the mistake has already caused more damage.</strong></p>
+</blockquote>
+<h2>Assert with a Message</h2>
+<p>You can add a second part to an <code>assert</code> statement, separated by a comma, to explain what went wrong.</p>
+<pre><code class="hljs language-python">x = -<span class="hljs-number">5</span>
+<span class="hljs-keyword">assert</span> x &gt;= <span class="hljs-number">0</span>, <span class="hljs-string">&quot;x should never be negative&quot;</span>
+</code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+AssertionError: x should never be negative</pre>
+<p>The message shows up alongside the <code>AssertionError</code>, which is much friendlier than a bare crash.
+When you write your own code later on, you'll find that a well-placed <code>assert</code> with a good message saves you a lot of guessing when something goes wrong.</p>
+<h2>Summary</h2>
+<ul>
+<li>comparison operators <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>==</code>, <code>!=</code></li>
+<li><code>=</code> for assignment vs. <code>==</code> for comparison</li>
+<li><code>is</code> and <code>is not</code></li>
+<li>identity vs. equality</li>
+<li><code>None</code></li>
+<li>Boolean</li>
+<li><code>bool</code> type</li>
+<li><code>True</code> and <code>False</code></li>
+<li><code>bool</code> as a subclass of <code>int</code></li>
+<li><code>and</code>, <code>or</code>, <code>not</code></li>
+<li>combining Boolean expressions</li>
+<li><code>assert</code> statement</li>
+<li>testing code</li>
+<li><code>AssertionError</code></li>
+<li>assertion messages</li>
+</ul>
+
+</body>
+</html>
