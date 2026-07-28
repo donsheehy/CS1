@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Navigating the File System from the Command Line</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Navigating the File System from the Command Line</h1>
+<h2>The File System Is a Collection of Places</h2>
+<p>Think about where a physical piece of paper might live. It's in a folder, and that folder is in a drawer, and that drawer is in a filing cabinet, and the cabinet is in a room. To find the paper again, you'd describe all of that: cabinet, drawer, folder. Each place is nested inside a bigger place.</p>
+<p>Your computer's file system works the same way. It's a giant collection of <strong>places</strong>, and every place (except one) sits inside exactly one other place. A place that holds other places is called a <strong>directory</strong> (also called a <strong>folder</strong>). Nothing floats around loose. Every file and every directory has a parent, one specific place that contains it, and that parent has its own parent, and so on.</p>
+<p>This idea, a thing containing smaller things of the same kind, is called <strong>nesting</strong> (see <a href="/CS1/nesting.html" class="wikilink">Nesting</a> for other places it shows up). When you draw out a nested structure like this, with places branching into smaller places, you get a shape called a <strong>tree</strong>.</p>
+<p>At the very top of the tree is one place that isn't inside anything else, the <strong>root</strong>. On Mac and Linux (and in Git Bash on Windows), the root is written as a single slash: <code>/</code>. Every other place, no matter how deeply nested, can be reached by starting at root and stepping down into directory after directory.</p>
+<p>A <strong>file</strong> is a place with no places inside it, a document, a program, a picture, anything with actual content in it. A <strong>directory</strong> is the opposite: it doesn't hold content itself, it holds other files and directories.</p>
+<p>You have your own corner of this tree called your <strong>home directory</strong>. It's written as <code>~</code> (a tilde), and it's where you land whenever you open a fresh terminal. Everything you create for this class will live somewhere under <code>~</code>.</p>
+<p>Because every place has exactly one parent, there is exactly one route from root down to any given file or directory. Writing down that route, step by step, gives you the place's <strong>path</strong>.</p>
+<blockquote>
+<p><strong>Key Idea: The file system is one giant tree, a collection of nested places, and every file's location can be written as a path from the root.</strong></p>
+</blockquote>
+<p>The command line is how you walk around that tree without a mouse.</p>
+<h2>Where Am I: <code>pwd</code></h2>
+<p>The shell always remembers where you're currently standing in the tree.
+To ask it, use <code>pwd</code>, short for <strong>print working directory</strong>.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">pwd</span>
+</code></pre>
+<pre><code class="hljs"><span class="hljs-regexp">/Users/</span>ada/cs1
+</code></pre>
+<p>That output is a <strong>path</strong>. Read it left to right: start at root <code>/</code>, go into <code>Users</code>, then <code>ada</code>, then <code>cs1</code>.
+That's four stops on the tree, and you're standing at the last one.</p>
+<h2>Look Around: <code>ls</code></h2>
+<p>Now that you know where you are, you probably want to know what's there.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">ls</span>
+</code></pre>
+<pre><code class="hljs">notes.<span class="hljs-built_in">md</span>   photos   scripts
+</code></pre>
+<p>This lists everything sitting in your current directory.
+Some of those are files (<code>notes.md</code>), and some are directories (<code>photos</code>, <code>scripts</code>), but plain <code>ls</code> doesn't tell you which is which.</p>
+<p>Try it in a brand new, empty directory.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">ls</span>
+</code></pre>
+<p>Nothing prints. An empty directory isn't an error, it's just empty, so there's nothing to list.</p>
+<p>Every directory secretly contains two entries you didn't put there, <code>.</code> and <code>..</code>. Plain <code>ls</code> hides them. To see everything, including hidden files (whose names start with a dot), add the <code>-a</code> flag.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">ls</span> -a
+</code></pre>
+<pre><code class="hljs"><span class="hljs-bullet">.   </span>..   notes.md   photos   scripts
+</code></pre>
+<p>What are <code>.</code> and <code>..</code>? They're not files you made. They're built-in shortcuts every directory has, and they're the key to moving around.</p>
+<h2>Move Around: <code>cd</code></h2>
+<p>To walk to a different spot in the tree, use <code>cd</code>, short for <strong>change directory</strong>.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cd</span> scripts
+<span class="hljs-built_in">pwd</span>
+</code></pre>
+<pre><code class="hljs"><span class="hljs-regexp">/Users/</span>ada<span class="hljs-regexp">/cs1/</span>scripts
+</code></pre>
+<p>One command, and your working directory moved one stop deeper into the tree.</p>
+<p>Remember that mysterious <code>..</code> from <code>ls -a</code>? It means &quot;the directory one level up.&quot; So to go back where you came from:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cd</span> ..
+<span class="hljs-built_in">pwd</span>
+</code></pre>
+<pre><code class="hljs"><span class="hljs-regexp">/Users/</span>ada/cs1
+</code></pre>
+<p><code>..</code> is a relative shortcut.
+It always means &quot;my parent,&quot; no matter where you are in the tree.
+<code>.</code> means &quot;here, this exact directory I'm already in.&quot;
+You won't use <code>cd .</code> much, but you'll see <code>.</code> again once you start running scripts and copying files.</p>
+<p>No matter how lost you get, you can always teleport home:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cd</span> ~
+<span class="hljs-built_in">pwd</span>
+</code></pre>
+<pre><code class="hljs"><span class="hljs-regexp">/Users/</span>ada
+</code></pre>
+<h2>Absolute and Relative Paths</h2>
+<p>You've actually already used both kinds of paths without naming them.</p>
+<p>A <strong>relative path</strong> is directions from where you're currently standing, like <code>cd scripts</code> or <code>cd ..</code>. It only makes sense relative to your current position in the tree.</p>
+<p>An <strong>absolute path</strong> is the full address starting from root, like <code>/Users/ada/cs1/scripts</code>. It means the same thing no matter where you were standing when you typed it.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cd</span> /Users/ada/cs1/scripts
+<span class="hljs-built_in">pwd</span>
+</code></pre>
+<pre><code class="hljs"><span class="hljs-regexp">/Users/</span>ada<span class="hljs-regexp">/cs1/</span>scripts
+</code></pre>
+<p>That command would have worked identically whether you started at home, inside <code>photos</code>, or anywhere else. That's the whole point of an absolute path: it doesn't care where you started.</p>
+<blockquote>
+<p><strong>Key Idea: A relative path is directions from here. An absolute path is directions from root, and root never moves.</strong></p>
+</blockquote>
+<h2>Making a New Folder: <code>mkdir</code></h2>
+<p>To add a new branch to the tree, use <code>mkdir</code>, short for <strong>make directory</strong>.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">mkdir</span> homework
+<span class="hljs-built_in">ls</span>
+</code></pre>
+<pre><code class="hljs">homework   notes.<span class="hljs-built_in">md</span>   photos   scripts
+</code></pre>
+<p>A new, empty directory just appeared, right where you were standing. You can <code>cd</code> into it immediately.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cd</span> homework
+<span class="hljs-built_in">pwd</span>
+</code></pre>
+<pre><code class="hljs"><span class="hljs-regexp">/Users/</span>ada<span class="hljs-regexp">/cs1/</span>homework
+</code></pre>
+<p>That's the whole loop you'll repeat constantly this semester: <code>pwd</code> to see where you are, <code>ls</code> to see what's around you, <code>cd</code> to move, <code>mkdir</code> to build new places to move to.</p>
+<p>(If you're on Windows and haven't set up a Unix-style shell yet, see <a href="/CS1/git_bash_getting_started.html" class="wikilink">Getting Started with Git Bash</a> before trying these commands.)</p>
+<h2>Summary</h2>
+<ul>
+<li>the file system as a tree</li>
+<li>root (<code>/</code>)</li>
+<li>directory (folder)</li>
+<li>file</li>
+<li>home directory (<code>~</code>)</li>
+<li>path</li>
+<li><code>pwd</code></li>
+<li><code>ls</code> and <code>ls -a</code></li>
+<li>hidden files</li>
+<li><code>cd</code></li>
+<li>relative shortcuts <code>.</code> and <code>..</code></li>
+<li>relative path</li>
+<li>absolute path</li>
+<li><code>mkdir</code></li>
+</ul>
+
+</body>
+</html>
