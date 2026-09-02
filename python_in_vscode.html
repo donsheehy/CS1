@@ -30,14 +30,116 @@
   <a href="index.html">Home</a>
   <hr/>
   <h1>Running Python in VSCode</h1>
-<p>For a first-time setup, the simplest path is:</p>
-<p><strong>1. Install Python</strong> from python.org. On Windows, check &quot;Add Python to PATH&quot; during install. This is the one step people skip and then nothing works.</p>
-<p><strong>2. Install the Microsoft Python extension</strong> in VSCode (Extensions sidebar → search &quot;Python&quot; → install the one by Microsoft).</p>
-<p><strong>3. Open a folder</strong>, not just a loose file (File → Open Folder). VSCode behaves better when it has a folder to work in.</p>
-<p><strong>4. Run the code</strong> by opening a <code>.py</code> file and clicking the ▶ Run button in the top-right corner. That's it — output appears in the integrated terminal.</p>
-<p>The Run button is the key thing for beginners. It handles selecting the interpreter and running the file so they don't have to touch the command line or learn <code>python filename.py</code> yet.</p>
-<p>Two things worth flagging to avoid early frustration: if the Run button doesn't appear or errors, they may need to pick an interpreter (bottom bar, or Ctrl+Shift+P → &quot;Python: Select Interpreter&quot;). And students who install from the Microsoft Store version of Python sometimes hit permission oddities — the python.org installer is more predictable for a class.</p>
-<p>Want me to write this up as a one-page handout (Word or PDF) for your CS1 students?</p>
+<p>VSCode is a text editor.
+Python is a program that runs your code.
+They are two separate things, and this whole setup is just about getting them into the same window so you can write a program and run it without switching applications.</p>
+<p>There is more than one way to run Python from VSCode.
+This note covers the simplest one, where you type the command yourself.</p>
+<h2>Install Python</h2>
+<p>Go to <a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a> and run the installer for the latest version.</p>
+<p>On Windows, the first screen of the installer has a checkbox that says <strong>Add python.exe to PATH</strong>.
+Check it.
+This is the one step people skip, and if you skip it, the terminal will not be able to find Python later.
+Everything else can stay at its default.</p>
+<p>On a Mac there is no such checkbox and you do not need one.</p>
+<h2>Install VSCode</h2>
+<p>Go to <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a> and install it.
+The defaults are fine.</p>
+<p>You do not need any extensions yet.
+Microsoft publishes a Python extension that adds a Run button, and it is genuinely useful, but it is not required and it hides some of what is going on.
+Wait on it.</p>
+<h2>Open a Folder, Not a File</h2>
+<p>Make a folder somewhere for this class.
+Call it <code>cs1</code>.
+Then in VSCode, choose <strong>File → Open Folder</strong> and pick it.</p>
+<p>The folder now shows up in the Explorer sidebar on the left, empty for the moment.
+VSCode is built around folders rather than loose files, and, more importantly for us, the terminal you are about to open will start inside whatever folder you opened.</p>
+<blockquote>
+<p><strong>Key Idea: Open the folder at the start of every session, not the file. Everything else stays in the right place because of it.</strong></p>
+</blockquote>
+<h2>Make a File</h2>
+<p>In the Explorer sidebar, hover over your folder name and click the new file icon.
+Name it <code>hello.py</code>.
+The <code>.py</code> at the end is what marks it as Python.</p>
+<p>Type this in:</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello, World!&quot;</span>)
+</code></pre>
+<p>Now save it with <code>Ctrl-S</code>, or <code>Cmd-S</code> on a Mac.
+VSCode does not save on its own.
+If the tab shows a dot instead of an x, the file has unsaved changes and running it will run the old version.
+This will happen to you at least once.</p>
+<h2>Open the Terminal</h2>
+<p>Choose <strong>Terminal → New Terminal</strong> from the menu.</p>
+<p>A panel opens at the bottom of the window with a prompt in it.
+That prompt is a <strong>shell</strong>, the same kind of shell described in <a href="/CS1/navigating_the_file_system.html" class="wikilink">Navigating the File System</a>.
+It is not part of Python and it is not part of VSCode.
+It is the program your operating system already uses to run other programs, borrowed and stuck into the bottom of your editor so you don't have to leave.</p>
+<p>Check where it thinks it is:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">pwd</span>
+<span class="hljs-built_in">ls</span>
+</code></pre>
+<p>You should see the path to your <code>cs1</code> folder, and <code>hello.py</code> in the listing.
+If you do, the folder you opened and the folder the shell is standing in are the same, and the next step will work.</p>
+<h2>Run the Program</h2>
+<pre><code class="hljs language-bash">python hello.py
+</code></pre>
+<p>The output appears on the next line:</p>
+<pre><code class="hljs"><span class="hljs-title class_">Hello</span>, <span class="hljs-title class_">World</span>!
+</code></pre>
+<p>That is the entire cycle.
+Edit, save, run.
+You will do it a few thousand times this term.</p>
+<p>Notice what the command is made of.
+The word <code>python</code> is the name of a program, the one you installed in the first step.
+<code>hello.py</code> is an <strong>argument</strong>, a piece of information handed to that program when it starts, in this case the name of the file you want it to read.
+The shell finds the program, hands it the argument, and gets out of the way.
+There is nothing special about <code>hello.py</code> here, it is just text you typed.</p>
+<p>On a Mac, <code>python</code> by itself may say <code>command not found</code>.
+Use <code>python3</code> instead.
+On Windows, if typing <code>python</code> opens the Microsoft Store, try <code>py</code> instead.
+Whichever one works for you, use that one from now on.</p>
+<p>One more thing that will save you a lot of typing.
+Press the up arrow in the terminal and the previous command comes back.
+So after the first run, the cycle is: edit the file, <code>Ctrl-S</code>, click the terminal, up arrow, <code>Enter</code>.</p>
+<h2>When It Doesn't Work</h2>
+<p><strong><code>command not found</code> or <code>is not recognized</code>.</strong>
+The shell cannot find Python.
+On Windows this almost always means the PATH checkbox was missed, so reinstall and check it.
+Otherwise, try <code>python3</code> or <code>py</code>.</p>
+<p><strong><code>can't open file 'hello.py'</code> or <code>No such file or directory</code>.</strong>
+Python started fine, but the shell is standing in a different folder than your file.
+Run <code>ls</code> to see where you are, and <code>cd</code> your way over.</p>
+<p><strong>The prompt turned into <code>&gt;&gt;&gt;</code>.</strong>
+You ran <code>python</code> with no file name, so you are inside Python itself, typing code one line at a time.
+This is the <strong>interactive interpreter</strong>, and it is useful, but it is not what we want right now.
+Type <code>exit()</code> and press <code>Enter</code> to get back to the shell.</p>
+<p><strong>Nothing printed, or you see old output.</strong>
+The file was not saved.
+<code>Ctrl-S</code>, then run it again.</p>
+<p><strong>A <code>SyntaxError</code> pointing at a quotation mark that looks fine.</strong>
+You pasted the code from a word processor or a web page, and the quotes came along as curly typographic quotes rather than the straight ones Python expects.
+Retype the line in VSCode.</p>
+<h2>What's Next</h2>
+<p>Once this is routine, two things are worth adding.
+The Microsoft Python extension gives you a Run button in the top right corner that does exactly what you just typed, plus autocomplete and error underlining as you write.
+And you can start putting real code in the file, beginning with <a href="/CS1/strings_and_print.html" class="wikilink">Strings and Print</a>.</p>
+<h2>Summary</h2>
+<ul>
+<li>VSCode as an editor, Python as a separate program that runs files</li>
+<li>the <code>.py</code> file extension</li>
+<li>adding Python to the PATH</li>
+<li>opening a folder rather than a file</li>
+<li>the Explorer sidebar</li>
+<li>saving before running</li>
+<li>the integrated terminal</li>
+<li>the shell, and where it is standing</li>
+<li>running a file with <code>python filename.py</code></li>
+<li>arguments to a command</li>
+<li><code>python</code> vs <code>python3</code> vs <code>py</code></li>
+<li>the interactive interpreter and the <code>&gt;&gt;&gt;</code> prompt</li>
+<li>recalling a command with the up arrow</li>
+<li>reading error messages from the shell</li>
+</ul>
 
 </body>
 </html>
