@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Setting Up Homebrew on a Mac</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Setting Up Homebrew on a Mac</h1>
+<p>If you are on a Mac, the easiest way to install the tools we use in this course
+is a program called <strong>Homebrew</strong>. Homebrew is a <strong>package manager</strong>, which means
+it downloads, installs, and updates software for you from the command line. One
+command gets you Python. One more gets you Git. When a new version comes out,
+one more command updates everything.</p>
+<p>Your Mac already comes with a version of Python and a version of Git, but they
+are old and Apple controls them. We want our own copies that we can update
+freely. That is what Homebrew gives us.</p>
+<p>This note walks through the whole setup, start to finish. Read it once, then do
+it step by step. Nothing here can break your computer.</p>
+<blockquote>
+<p><strong>Key Idea: Homebrew is how you install and update developer tools on a Mac.
+Learn it once and you will use it for years.</strong></p>
+</blockquote>
+<h2>1. Open the Terminal</h2>
+<p>Everything happens in the Terminal, which is the app that lets you type commands
+to your computer.</p>
+<ol>
+<li>Press <code>Command + Space</code> to open Spotlight.</li>
+<li>Type <code>Terminal</code> and press <strong>Return</strong>.</li>
+<li>A window opens with a prompt that ends in <code>%</code> or <code>$</code>. That is the shell,
+waiting for you to type.</li>
+</ol>
+<p>If you have never used the Terminal, read <a href="/CS1/navigating_the_file_system.html" class="wikilink">navigating_the_file_system</a> first.
+It covers <code>pwd</code>, <code>ls</code>, and <code>cd</code>, which are the three commands you need to move
+around.</p>
+<h2>2. Install Apple's Command Line Tools</h2>
+<p>Homebrew needs a small set of Apple developer tools that are not installed by
+default. Get them first. Type this and press <strong>Return</strong>:</p>
+<pre><code class="hljs language-bash">xcode-select --install
+</code></pre>
+<p>A dialog box pops up asking if you want to install the tools. Click
+<strong>Install</strong>, agree to the license, and wait. The download is large and can take
+ten or twenty minutes depending on your connection.</p>
+<p>If instead you see a message saying the tools are already installed, that is
+good news. Move on.</p>
+<blockquote>
+<p>You do not need the full Xcode app from the App Store. That is a many
+gigabyte download you will not use. The command line tools are enough.</p>
+</blockquote>
+<h2>3. Install Homebrew</h2>
+<p>Now install Homebrew itself. Copy this entire line, paste it into the Terminal,
+and press <strong>Return</strong>:</p>
+<pre><code class="hljs language-bash">/bin/bash -c <span class="hljs-string">&quot;<span class="hljs-subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)</span>&quot;</span>
+</code></pre>
+<p>It is one long line. Paste it all at once.</p>
+<p>Here is what happens next:</p>
+<ol>
+<li>The script prints a list of what it is about to do and pauses. Press
+<strong>Return</strong> to continue.</li>
+<li>It asks for your Mac password. <strong>Type it and press Return.</strong> Nothing appears
+on the screen while you type, not even dots. That is normal and intentional.
+The password is going in.</li>
+<li>It downloads and installs. This takes a few minutes.</li>
+</ol>
+<p>When it finishes you will see a line that says
+<code>==&gt; Installation successful!</code> followed by a section titled
+<strong>Next steps</strong>. Do not close the window. Those next steps matter, and they are
+the part people skip.</p>
+<h2>4. Finish the setup so your Mac can find <code>brew</code></h2>
+<p>This is the step that goes wrong most often, so go slowly.</p>
+<p>Installing a program is not the same as telling your shell where to find it.
+Your shell looks for commands in a list of folders called the <strong>PATH</strong>. Homebrew
+installs itself into a folder that is not on that list yet, so if you stop here,
+typing <code>brew</code> gives you <code>command not found</code>.</p>
+<p><strong>The commands you need are already on your screen.</strong> The installer printed them
+under a heading that says <strong>Next steps</strong>. Scroll up in the Terminal if they have
+scrolled past. They are two or three lines starting with <code>echo</code> and <code>eval</code>.
+Select those lines, copy them, paste them at the prompt, and press <strong>Return</strong>.
+Then skip ahead to step 5.</p>
+<p>Those lines are written for your specific Mac, so copying them is always the
+right move. Read on only if you cannot find them.</p>
+<p><strong>If you cannot find them,</strong> you need to know where Homebrew put itself, which
+depends on which kind of Mac you have. You do not have to know that. Run this
+command and let your Mac answer:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">ls</span> /opt/homebrew/bin/brew
+</code></pre>
+<ul>
+<li>If it prints <code>/opt/homebrew/bin/brew</code>, use <strong>Block A</strong> below.</li>
+<li>If it says <code>No such file or directory</code>, use <strong>Block B</strong> below.</li>
+</ul>
+<p><strong>Block A</strong>, for Macs with an Apple chip, which is most Macs sold since late
+2020:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">echo</span> &gt;&gt; ~/.zprofile
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;eval &quot;$(/opt/homebrew/bin/brew shellenv)&quot;&#x27;</span> &gt;&gt; ~/.zprofile
+<span class="hljs-built_in">eval</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(/opt/homebrew/bin/brew shellenv)</span>&quot;</span>
+</code></pre>
+<p><strong>Block B</strong>, for older Macs with an Intel chip:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">echo</span> &gt;&gt; ~/.zprofile
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&#x27;eval &quot;$(/usr/local/bin/brew shellenv)&quot;&#x27;</span> &gt;&gt; ~/.zprofile
+<span class="hljs-built_in">eval</span> <span class="hljs-string">&quot;<span class="hljs-subst">$(/usr/local/bin/brew shellenv)</span>&quot;</span>
+</code></pre>
+<p>Copy all three lines of your block, paste them at the prompt, and press
+<strong>Return</strong>. The only difference between the blocks is the folder name, so if you
+pick wrong, nothing breaks. You will find out in step 5 and can come back and
+run the other one.</p>
+<p>What those commands do, in plain terms: the first two append a line to
+<code>~/.zprofile</code>, a small settings file your shell reads every time it starts. The
+third runs that same line right now so you do not have to wait. From now on,
+every new Terminal window will know where Homebrew lives.</p>
+<p>Now <strong>quit the Terminal completely</strong> with <code>Command + Q</code> and open it again. This
+guarantees the settings file gets read.</p>
+<h2>5. Check that it worked</h2>
+<pre><code class="hljs language-bash">brew --version
+</code></pre>
+<p>You should see something like <code>Homebrew 4.x.x</code>. If you do, you are past the hard
+part.</p>
+<p>While you are here, run:</p>
+<pre><code class="hljs language-bash">brew doctor
+</code></pre>
+<p>This checks your setup for problems. <code>Your system is ready to brew.</code> means
+everything is fine. Warnings are usually harmless, but if you get one you do not
+understand, bring the exact text to class.</p>
+<h2>6. Install Python</h2>
+<pre><code class="hljs language-bash">brew install python
+</code></pre>
+<p>Homebrew downloads Python and everything it depends on. Give it a minute.</p>
+<p>Check it:</p>
+<pre><code class="hljs language-bash">python3 --version
+</code></pre>
+<p>You should see a version number like <code>Python 3.13.0</code>.</p>
+<p><strong>Notice that the command is <code>python3</code>, not <code>python</code>.</strong> On a Mac, plain <code>python</code>
+either does not exist or points at Apple's old copy. Get in the habit of typing
+<code>python3</code> and you will avoid a whole category of confusing errors.</p>
+<p>To run a program you have written, use:</p>
+<pre><code class="hljs language-bash">python3 myscript.py
+</code></pre>
+<p>To start the interactive prompt where you can type Python one line at a time,
+type <code>python3</code> by itself. Press <code>Control + D</code> to leave it.</p>
+<p>Homebrew also installed <strong>pip</strong>, the tool that installs Python libraries. Same
+rule applies, use <code>pip3</code>:</p>
+<pre><code class="hljs language-bash">pip3 --version
+</code></pre>
+<h2>7. Install Git</h2>
+<pre><code class="hljs language-bash">brew install git
+</code></pre>
+<p>Check it:</p>
+<pre><code class="hljs language-bash">git --version
+</code></pre>
+<p>You should see a version number like <code>git version 2.51.0</code>.</p>
+<p>If the version looks suspiciously old, your shell is still finding Apple's copy
+instead of Homebrew's. Quit the Terminal with <code>Command + Q</code>, reopen, and try
+again. If it is still old, go back to step 4.</p>
+<h2>8. Tell Git who you are</h2>
+<p>Git records a name and email with every change you save. Set them once, now, and
+never think about it again. Use your real name and the email address you use for
+this course:</p>
+<pre><code class="hljs language-bash">git config --global user.name <span class="hljs-string">&quot;Ada Lovelace&quot;</span>
+git config --global user.email <span class="hljs-string">&quot;ada@example.com&quot;</span>
+</code></pre>
+<p>Keep the quotes. Check your work:</p>
+<pre><code class="hljs language-bash">git config --global --list
+</code></pre>
+<p>Once this is done, you are ready to set up <a href="/CS1/ssh_keys.html" class="wikilink">ssh_keys</a> and start using Git for
+real.</p>
+<h2>Using Homebrew from now on</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>brew install X</code></td>
+<td>Install the program <code>X</code></td>
+</tr>
+<tr>
+<td><code>brew uninstall X</code></td>
+<td>Remove <code>X</code></td>
+</tr>
+<tr>
+<td><code>brew list</code></td>
+<td>List everything you have installed</td>
+</tr>
+<tr>
+<td><code>brew update</code></td>
+<td>Get the latest catalog of available software</td>
+</tr>
+<tr>
+<td><code>brew upgrade</code></td>
+<td>Update everything you have installed</td>
+</tr>
+<tr>
+<td><code>brew doctor</code></td>
+<td>Check your setup for problems</td>
+</tr>
+<tr>
+<td><code>brew search X</code></td>
+<td>Look for a package named something like <code>X</code></td>
+</tr>
+</tbody>
+</table>
+<p>A good habit is to run <code>brew update &amp;&amp; brew upgrade</code> every few weeks.</p>
+<h2>When something goes wrong</h2>
+<p><strong><code>brew: command not found</code></strong>
+Step 4 did not take effect. Quit the Terminal with <code>Command + Q</code> and reopen it.
+If that does not fix it, go back to step 4 and run the <code>ls /opt/homebrew/bin/brew</code>
+test, then paste the block it points you to.</p>
+<p><strong><code>python3: command not found</code></strong>
+Same cause, same fix. <code>brew</code> and <code>python3</code> both live in the folder that step 4
+adds to your PATH.</p>
+<p><strong>The install seems frozen</strong>
+Downloads are quiet. If the cursor is sitting there with no prompt, it is
+probably still working. Give it several minutes before you worry. Never close
+the Terminal in the middle of an install.</p>
+<p><strong>It is asking for a password and nothing appears when I type</strong>
+That is on purpose. The Terminal hides passwords completely. Type it and press
+<strong>Return</strong>.</p>
+<p><strong>Anything else</strong>
+Copy the exact command you typed and the exact error message, and bring both to
+class or office hours. &quot;It didn't work&quot; is very hard to help with. The error
+text is almost always enough to solve it in under a minute.</p>
+<h2>Summary</h2>
+<ul>
+<li><strong>Homebrew</strong>, a package manager for macOS</li>
+<li><strong>package manager</strong>, a program that installs and updates other programs</li>
+<li><strong>Terminal</strong>, the app for typing commands to your Mac</li>
+<li><strong>Command Line Tools</strong>, Apple's developer tools that Homebrew requires</li>
+<li><strong>PATH</strong>, the list of folders your shell searches for commands</li>
+<li><code>~/.zprofile</code>, the settings file your shell reads when it starts</li>
+<li><code>brew install</code>, <code>brew update</code>, <code>brew upgrade</code>, <code>brew doctor</code></li>
+<li><code>python3</code> and <code>pip3</code>, the Mac names for Python and its library installer</li>
+<li><code>git config --global user.name</code> and <code>user.email</code></li>
+</ul>
+
+</body>
+</html>
