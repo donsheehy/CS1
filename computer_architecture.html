@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Processor, Memory, Storage, and I/O</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Processor, Memory, Storage, and I/O</h1>
+<h2>Four Parts</h2>
+<p>Almost every computer you will ever meet, from the phone in your pocket to a room full of servers, is built out of four kinds of parts.</p>
+<ul>
+<li>The <strong>processor</strong> does the work.</li>
+<li>The <strong>memory</strong> holds what is being worked on right now.</li>
+<li>The <strong>storage</strong> keeps things around after the power goes off.</li>
+<li>The <strong>input/output devices</strong>, usually shortened to <strong>I/O</strong>, connect the machine to the world.</li>
+</ul>
+<p>That is the whole picture.
+Everything else is a detail, an optimization, or a special case.</p>
+<p>Here is a tiny program with all four in it.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">17</span>
+y = x * x
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x=}</span> and <span class="hljs-subst">{y=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">x=17 and y=289
+</pre>
+<p>The multiplication happened in the processor.
+The values of <code>x</code> and <code>y</code> were sitting in memory.
+The text of the program itself was read off of storage before anything ran.
+The line you are reading now came out through an output device.</p>
+<h2>The Processor</h2>
+<p>The processor, also called the <strong>CPU</strong> (central processing unit), is the part that actually computes.
+Its job description is short and boring.
+Fetch an instruction.
+Do it.
+Repeat.
+This is called the <strong>fetch-execute cycle</strong>, and a modern processor runs through it a few billion times per second.</p>
+<p>The instructions are far smaller than the lines of Python you write.
+They are things like &quot;add these two numbers&quot;, &quot;copy this value over there&quot;, and &quot;if that number is zero, jump to a different instruction&quot;.
+A single line of your Python code turns into many of them.</p>
+<p>The processor also has a very small amount of storage of its own, called <strong>registers</strong>.
+A register holds one number that the processor is working with at this instant.
+There are only a few dozen of them.</p>
+<blockquote>
+<p><strong>Key Idea: The processor is unbelievably fast and unbelievably stupid.</strong> It does exactly what it is told, one small step at a time, and it has no idea what any of it means.</p>
+</blockquote>
+<h2>Memory</h2>
+<p><strong>Memory</strong>, usually called <strong>RAM</strong>, is where a running program keeps everything it is currently using.
+Every variable you assign lives in memory.
+So does the program itself while it runs.</p>
+<p>RAM stands for <strong>random access memory</strong>.
+The <em>random access</em> part means the processor can jump straight to any location it wants, at the same speed, without reading through everything in front of it.
+Memory is one gigantic numbered list of slots, and the number of a slot is called its <strong>address</strong>.</p>
+<p>The important word for memory is <strong>volatile</strong>.
+When the power goes out, memory forgets.
+When your program ends, its memory is handed back to the operating system and the values are gone.
+This is why closing a program without saving loses your work.</p>
+<h2>Storage</h2>
+<p><strong>Storage</strong> is the part that remembers.
+Hard drives, solid state drives (<strong>SSD</strong>s), USB sticks, and SD cards are all storage.
+The word for this is <strong>non-volatile</strong>, which just means it survives losing power.</p>
+<p>Storage is organized into <strong>files</strong> and <strong>directories</strong>, which is the world you learned to walk around in <a href="/CS1/navigating_the_file_system.html" class="wikilink">from the terminal</a>.
+Saving means copying from memory into storage.
+Opening means copying from storage into memory.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">import</span> tempfile, os
+
+path = os.path.join(tempfile.gettempdir(), <span class="hljs-string">&quot;architecture_demo.txt&quot;</span>)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(path, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:
+    f.write(<span class="hljs-string">&quot;This sentence is now on a disk.&quot;</span>)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(path) <span class="hljs-keyword">as</span> f:
+    <span class="hljs-built_in">print</span>(f.read())
+</code></pre>
+<pre class="code-chunk-output">This sentence is now on a disk.
+</pre>
+<p>You do not need to understand that code yet.
+We will come back to reading and writing files later.
+For now, notice what it shows.
+The sentence went out to storage and came back.
+Unlike a variable, it will still be there tomorrow.</p>
+<h2>Input and Output</h2>
+<p><strong>I/O</strong> is everything that connects the computer to something outside itself.
+The keyboard, mouse, microphone, and camera are inputs.
+The screen, speakers, and printer are outputs.
+The network card is both.</p>
+<p>You have already used both sides.
+The <code>print</code> function is output, see <a href="/CS1/strings_and_print.html" class="wikilink">strings_and_print</a>.
+The <code>input</code> function is, unsurprisingly, input, see <a href="/CS1/input_and_fstrings.html" class="wikilink">input_and_fstrings</a>.</p>
+<p>Storage counts as I/O too, which is why the four parts overlap a little.
+The processor talks to a disk in much the same way it talks to a keyboard.
+It is all data coming in and going out.</p>
+<h2>Why We Keep Them Separate</h2>
+<p>You might reasonably ask why we bother with both memory and storage.
+Why not keep everything in the one that remembers?</p>
+<p>The answer is speed.
+Each step away from the processor is enormously slower than the one before it.
+The numbers are so lopsided that they are hard to feel, so let's stretch them out.
+Suppose grabbing a number from a register took one full second.</p>
+<pre><code class="hljs language-python">memory = <span class="hljs-number">100</span>            <span class="hljs-comment"># nanoseconds, roughly</span>
+ssd = <span class="hljs-number">100000</span>
+hard_disk = <span class="hljs-number">10000000</span>
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;If reading a register took 1 second, then...&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;reading from memory would take about <span class="hljs-subst">{memory}</span> seconds.&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;reading from an SSD would take about <span class="hljs-subst">{ssd / <span class="hljs-number">3600</span>:<span class="hljs-number">.0</span>f}</span> hours.&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;reading from a spinning hard disk would take about <span class="hljs-subst">{hard_disk / <span class="hljs-number">86400</span>:<span class="hljs-number">.0</span>f}</span> days.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">If reading a register took 1 second, then...
+reading from memory would take about 100 seconds.
+reading from an SSD would take about 28 hours.
+reading from a spinning hard disk would take about 116 days.
+</pre>
+<p>That is the trade-off.
+Fast things are small, expensive, and forgetful.
+Slow things are big, cheap, and permanent.
+A computer is an arrangement for keeping the data you need soonest in the fastest place you can afford.</p>
+<p>This pattern repeats inside the machine.
+Between the registers and the memory there are two or three levels of <strong>cache</strong>, which are small pools of very fast memory holding recent values, just in case you want them again.</p>
+<h2>Running a Program</h2>
+<p>Now we can say what actually happens when you run <code>python hello.py</code>.</p>
+<ol>
+<li>The operating system finds <code>hello.py</code> in <strong>storage</strong>.</li>
+<li>It copies the contents into <strong>memory</strong>.</li>
+<li>The <strong>processor</strong> starts fetching and executing instructions out of memory.</li>
+<li>Those instructions move values between registers and memory, and hand text to an <strong>output</strong> device.</li>
+<li>The program ends, and its memory is released.</li>
+</ol>
+<p>Notice step 3 carefully.
+The instructions being executed are themselves just numbers sitting in memory, right alongside the data.</p>
+<blockquote>
+<p><strong>Key Idea: A program is data.</strong> The machine does not distinguish between the recipe and the ingredients. Both are numbers in memory.</p>
+</blockquote>
+<p>That last idea is the one that makes general-purpose computers possible.
+It is also very old.
+When <a href="/CS1/analytical_engine.html" class="wikilink">Babbage designed the Analytical Engine</a> in the 1830s, he called his memory the <em>Store</em> and his processor the <em>Mill</em>, and he fed both instructions and numbers in on punched cards.
+The names changed.
+The design did not.</p>
+<h2>A Word About Words</h2>
+<p>People use these words loosely, and it causes real confusion.</p>
+<p>When a phone says it is &quot;out of memory&quot;, it usually means storage.
+When a website says &quot;in the cloud&quot;, it means storage and processors in somebody else's building.
+A &quot;64 GB&quot; phone is describing storage, while &quot;8 GB of RAM&quot; is describing memory.</p>
+<p>When you are reading about computers, it is worth pausing to ask which one is meant.</p>
+<h2>Exercises</h2>
+<p><strong>Exercise 1.</strong> For each of the following, say which of the four parts is mainly responsible: sorting a list of a million numbers, saving a photo, showing a photo, holding a photo while you crop it.</p>
+<details><summary>Click to reveal.</summary>
+<p>Sorting is the processor.
+Saving is storage.
+Showing is output.
+Holding it while you crop is memory.</p>
+</details>
+<p><strong>Exercise 2.</strong> You write an essay for two hours without saving, and the power goes out. Explain exactly what was lost and why.</p>
+<details><summary>Click to reveal.</summary>
+<p>The essay existed only in memory, which is volatile.
+Nothing had been copied into storage yet, so nothing survived the power loss.</p>
+</details>
+<p><strong>Exercise 3.</strong> Your friend says a computer would be simpler if it just had one kind of place to put things, instead of both memory and storage. Give the strongest argument you can for their side, then say why we do it the other way anyway.</p>
+<details><summary>Click to reveal.</summary>
+<p>The argument for one kind of place is a good one.
+You would never lose unsaved work, there would be no saving and loading, and there would be one set of rules instead of two.
+We do it the other way because the storage that remembers is thousands of times slower than the memory that forgets.
+A processor fed only by storage would spend nearly all of its time waiting.</p>
+</details>
+<h2>Summary</h2>
+<ul>
+<li>processor (CPU)</li>
+<li>fetch-execute cycle</li>
+<li>registers</li>
+<li>memory (RAM)</li>
+<li>random access</li>
+<li>address</li>
+<li>volatile and non-volatile</li>
+<li>storage</li>
+<li>files and directories</li>
+<li>input/output (I/O)</li>
+<li>cache</li>
+<li>the speed/size/permanence trade-off</li>
+<li>a program is data in memory</li>
+</ul>
+
+</body>
+</html>
