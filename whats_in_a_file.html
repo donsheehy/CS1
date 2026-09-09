@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>What&#x27;s in a file?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>What's in a file?</h1>
+<p>Most people are comfortable with the idea that data is stored as binary.
+They imagine the computer full of zeros and ones, but when we open a file or run a program that's stored in a file, these zeros and ones have to be interpreted to mean something.
+That means we have to come up with a convention to interpret the binary.
+This will be different for different types of files, but we'll focus on the two that are most important to us: <strong>text files</strong> and <strong>programs</strong>.
+But first we'll talk about names.</p>
+<h2>File Names</h2>
+<p>A file name is a string.
+It is also how you refer to the file from the command line, so names show up constantly when you are <a href="/CS1/navigating_the_file_system.html" class="wikilink">navigating the file system</a>.
+Many file names have a period followed by a sequence of characters called the <strong>extension</strong>.
+We have seen this already in examples like <code>hello.py</code>.
+In this case, the <code>.py</code> is the extension.
+It's important to note that the extension is just a hint about what kind of file you are looking at.
+It might not be the type of file you think it is.
+I could write a text file and give it a <code>.pdf</code> extension but that doesn't make if a PDF.
+If you try to open that file, your computer might try to open it with Acrobat Reader or some similar program and it will fail.</p>
+<blockquote>
+<p>Filenames are case sensitive.  <code>file.txt</code> and <code>filE.txt</code> are <strong>not</strong> the same.</p>
+</blockquote>
+<blockquote>
+<p>Never use spaces in file names.  It is allowed, but it is a <strong>bad idea</strong>.</p>
+</blockquote>
+<h2>Text Files</h2>
+<p>A text file contains just text.
+There's no fonts, there's no bold, italic, or other formatting, no pictures; it's just a sequence of letters.
+The text file is just a string that has been saved to disk.
+We use text files for lots of different things. For example, a Python program is just a text file.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;I am text.&#x27;</span>)
+</code></pre>
+<pre class="code-chunk-output">I am text.
+</pre>
+<p>The code that generates this website and also probably your text editor will change the colors of the font to make it easier to read based on its knowledge of the Python programming language.
+But the file that contains this program will just be a sequence of characters for characters.</p>
+<p>Here is a script that will make this text file for us.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">printf</span> <span class="hljs-string">&#x27;%s\n&#x27;</span> <span class="hljs-string">&quot;print(&#x27;I am text.!&#x27;)&quot;</span> &gt; im_text.py
+</code></pre>
+<pre class="code-chunk-output"></pre>
+<p>Now, we can use python to open the file.
+We can print the data one byte at a time.
+A <strong>byte</strong> is 8 bits.
+For each byte of data, we give the letter and the binary.
+The <code>chr(byte)</code> turns a number into a letter.
+The formatting <code>byte:08b</code> formats that numebr using eight bits.</p>
+<pre><code class="hljs language-python"><span class="hljs-comment"># Open the file and read the data.</span>
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;im_text.py&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:
+    data = f.read()
+
+<span class="hljs-comment"># Loop over the bytes</span>
+<span class="hljs-keyword">for</span> byte <span class="hljs-keyword">in</span> data:
+    <span class="hljs-comment"># print the byte as a letter and in binary.</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{<span class="hljs-built_in">chr</span>(byte)}</span>: <span class="hljs-subst">{byte:08b}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">p: 01110000
+r: 01110010
+i: 01101001
+n: 01101110
+t: 01110100
+(: 00101000
+': 00100111
+I: 01001001
+ : 00100000
+a: 01100001
+m: 01101101
+ : 00100000
+t: 01110100
+e: 01100101
+x: 01111000
+t: 01110100
+.: 00101110
+!: 00100001
+': 00100111
+): 00101001
+
+: 00001010
+</pre>
+<p>You can see that the same letter will give the same binary number.
+Also, there is a byte even for the spaces.
+At the end, you'll notice that the formatting looks off.
+Can you tell what happened there?</p>
+<h2>Programs</h2>
+<p>You might think that the file containing the Python code is a program. In some sense, that is true, but it's not the program from the perspective of the computer. For the computer, a program will be a series of instructions to execute.
+The program that we run to execute our code is the Python program. That's why from the terminal we write <code>python</code> or <code>python3</code> followed by the name of the file with our code.
+To get a sense of what these commands look like, I've written a Hello World program in a different programming language called C.
+You have seen a pile of Python versions of that same program in <a href="/CS1/hello_world_variations.html" class="wikilink">hello_world_variations</a>.</p>
+<pre><code class="hljs language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>{
+    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Hello, World!&quot;</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+} 
+</code></pre>
+<p>You'll notice that it's a little more complicated than Python.
+I won't tell you what all the lines do, but I'll point out that this program just prints <code>Hello, World!</code> exactly as you might hope.</p>
+<p>There is a program called a <strong>compiler</strong> that takes this code and turns it into an executable program.
+That is, it converts it into individual instructions that can be executed by the processor.</p>
+<p>It wouldn't help us too much to look at the binary, but we can look at a version of this program that is closer to the computer instructions.
+This doesn't show the data section of the program that includes the string literal &quot;Hello, World!&quot; but it does reference it.</p>
+<pre><code class="hljs"><span class="hljs-attribute">Disassembly</span> of section __TEXT,__text:
+
+<span class="hljs-attribute">0000000100003f60</span> _main:
+<span class="hljs-attribute">100003f60</span>: <span class="hljs-number">55</span>                          	pushq	%rbp
+<span class="hljs-attribute">100003f61</span>: <span class="hljs-number">48</span> <span class="hljs-number">89</span> e5                    	movq	%rsp, %rbp
+<span class="hljs-attribute">100003f64</span>: <span class="hljs-number">48</span> <span class="hljs-number">83</span> ec <span class="hljs-number">10</span>                 	subq	$<span class="hljs-number">16</span>, %rsp
+<span class="hljs-attribute">100003f68</span>: c7 <span class="hljs-number">45</span> fc <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>        	movl	$<span class="hljs-number">0</span>, -<span class="hljs-number">4</span>(%rbp)
+<span class="hljs-attribute">100003f6f</span>: <span class="hljs-number">48</span> <span class="hljs-number">8</span>d <span class="hljs-number">3</span>d <span class="hljs-number">34</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>        	leaq	<span class="hljs-number">52</span>(%rip), %rdi
+<span class="hljs-attribute">100003f76</span>: e8 <span class="hljs-number">0</span>d <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>              	callq	<span class="hljs-number">13</span> &lt;dyld_stub_binder+<span class="hljs-number">0</span>x100003f88&gt;
+<span class="hljs-attribute">100003f7b</span>: <span class="hljs-number">31</span> c9                       	xorl	%ecx, %ecx
+<span class="hljs-attribute">100003f7d</span>: <span class="hljs-number">89</span> <span class="hljs-number">45</span> f8                    	movl	%eax, -<span class="hljs-number">8</span>(%rbp)
+<span class="hljs-attribute">100003f80</span>: <span class="hljs-number">89</span> c8                       	movl	%ecx, %eax
+<span class="hljs-attribute">100003f82</span>: <span class="hljs-number">48</span> <span class="hljs-number">83</span> c4 <span class="hljs-number">10</span>                 	addq	$<span class="hljs-number">16</span>, %rsp
+<span class="hljs-attribute">100003f86</span>: <span class="hljs-number">5</span>d                          	popq	%rbp
+<span class="hljs-attribute">100003f87</span>: c3                          	retq
+
+<span class="hljs-attribute">Disassembly</span> of section __TEXT,__stubs:
+
+<span class="hljs-attribute">0000000100003f88</span> __stubs:
+<span class="hljs-attribute">100003f88</span>: ff <span class="hljs-number">25</span> <span class="hljs-number">72</span> <span class="hljs-number">40</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>           	jmpq	*<span class="hljs-number">16498</span>(%rip)
+
+<span class="hljs-attribute">Disassembly</span> of section __TEXT,__stub_helper:
+
+<span class="hljs-attribute">0000000100003f90</span> __stub_helper:
+<span class="hljs-attribute">100003f90</span>: <span class="hljs-number">4</span>c <span class="hljs-number">8</span>d <span class="hljs-number">1</span>d <span class="hljs-number">71</span> <span class="hljs-number">40</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>        	leaq	<span class="hljs-number">16497</span>(%rip), %r11
+<span class="hljs-attribute">100003f97</span>: <span class="hljs-number">41</span> <span class="hljs-number">53</span>                       	pushq	%r11
+<span class="hljs-attribute">100003f99</span>: ff <span class="hljs-number">25</span> <span class="hljs-number">61</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>           	jmpq	*<span class="hljs-number">97</span>(%rip)
+<span class="hljs-attribute">100003f9f</span>: <span class="hljs-number">90</span>                          	nop
+<span class="hljs-attribute">100003fa0</span>: <span class="hljs-number">68</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>              	pushq	$<span class="hljs-number">0</span>
+<span class="hljs-attribute">100003fa5</span>: e9 e6 ff ff ff              	jmp	-<span class="hljs-number">26</span> &lt;__stub_helper&gt;
+</code></pre>
+<p>When you look at this version of the program, I think you can be happy that we don't have to write our programs this way!</p>
+<h2>Summary</h2>
+<ul>
+<li>binary</li>
+<li>file name</li>
+<li>extension</li>
+<li>case-sensitivity in file names</li>
+<li>spaces in file names</li>
+<li>text file</li>
+<li>byte</li>
+<li>the <code>chr</code> function</li>
+<li>binary formatting with <code>:08b</code></li>
+<li>reading a file in binary mode</li>
+<li>program</li>
+<li>instruction</li>
+<li>compiler</li>
+<li>executable</li>
+<li>disassembly</li>
+</ul>
+
+</body>
+</html>

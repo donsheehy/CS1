@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Killing a Runaway Program</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Killing a Runaway Program</h1>
+<p>Sooner or later, you will start a program that does not stop.
+Maybe it has a loop with no way out.
+Maybe it is waiting for input that will never come.
+The terminal just sits there ignoring you, and it starts to feel like the computer has been taken hostage.
+It hasn't.
+Here are your options, from polite to brutal.</p>
+<p>Here is a program that will not stop on its own.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+    name = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;Who&#x27;s there? &quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Hi, <span class="hljs-subst">{name}</span>.&quot;</span>)
+</code></pre>
+<p>There is no <code>break</code> in that loop, so nothing inside the program will ever end it.
+It has to be stopped from the outside.</p>
+<h2>Interrupt with Ctrl-C</h2>
+<p>Hold down the Control key and press <code>c</code>.
+On a Mac, that is Control, not Command.</p>
+<p>This sends an <strong>interrupt</strong> to the running program.
+Python turns that interrupt into an error called <code>KeyboardInterrupt</code>.
+If nothing catches it, the program stops and you get a traceback that ends like this.</p>
+<pre><code class="hljs">Traceback <span class="hljs-punctuation">(</span>most recent call last<span class="hljs-punctuation">)</span>:
+  File <span class="hljs-string">&quot;greet.py&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-type">in</span> &lt;module&gt;
+    name = input<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Who&#x27;s there? &quot;</span><span class="hljs-punctuation">)</span>
+KeyboardInterrupt
+</code></pre>
+<p>That traceback is not a bug.
+It's a receipt.</p>
+<h2>When Ctrl-C Does Not Work</h2>
+<pre><code class="hljs language-python"><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+    <span class="hljs-keyword">try</span>:
+        age = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;Age? &quot;</span>))
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;You are <span class="hljs-subst">{age}</span>.&quot;</span>)
+    <span class="hljs-keyword">except</span>:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;That&#x27;s not a number.  Try again.&quot;</span>)
+</code></pre>
+<p>Press Ctrl-C on that program and it prints <code>That's not a number.  Try again.</code> and keeps going.
+The <code>KeyboardInterrupt</code> was raised inside the <code>try</code> block, and the bare <code>except:</code> catches <em>everything</em>, including your attempt to quit.
+The fix is to name the error you actually expected.</p>
+<pre><code class="hljs language-python">    <span class="hljs-keyword">except</span> ValueError:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;That&#x27;s not a number.  Try again.&quot;</span>)
+</code></pre>
+<p>I have found that a bare <code>except:</code> causes more trouble than it saves.
+Say what you mean to catch.</p>
+<h2>End the Input with Ctrl-D</h2>
+<p>Press Ctrl-D at the prompt.
+That signals <strong>end of file</strong>, which is the terminal's way of saying there is no more input coming, ever.
+The <code>input</code> function (see <a href="/CS1/input_and_fstrings.html" class="wikilink">input_and_fstrings</a>) responds by raising <code>EOFError</code>.
+That is a different error from <code>KeyboardInterrupt</code>, so it often slips past a handler that was swallowing your Ctrl-C.</p>
+<p>In Git Bash on Windows, Ctrl-D usually works too (see <a href="/CS1/git_bash_getting_started.html" class="wikilink">git_bash_getting_started</a>).
+In the plain Windows Command Prompt, end of file is Ctrl-Z followed by enter, which is unfortunate, because Ctrl-Z means something completely different on a Mac.
+That's the next section.</p>
+<h2>The Bigger Hammers</h2>
+<p>Ctrl-<code>\</code> (Control and backslash) sends a <strong>quit</strong> signal.
+Python does not hand this one to your code as a catchable error, so the program dies where it stands.
+You may see a message about a core dump.
+That's fine.</p>
+<p>Ctrl-Z <strong>suspends</strong> the program and gives you your shell back.
+Be careful with this one.
+The program is not dead, it is parked, still holding everything it had.
+Follow it with <code>kill %1</code> unless you plan to go back to it with <code>fg</code>.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">jobs</span>
+<span class="hljs-built_in">kill</span> %1
+<span class="hljs-built_in">fg</span>
+</code></pre>
+<p><code>jobs</code> lists the programs you have parked, <code>kill %1</code> finishes off the first one, and <code>fg</code> brings it back to the foreground.</p>
+<blockquote>
+<p><strong>Key Idea: Ctrl-C asks your program to stop, and a program is allowed to refuse. Ctrl-<code>\</code> and <code>kill -9</code> do not ask.</strong></p>
+</blockquote>
+<h2>Kill It from Another Terminal</h2>
+<p>Every running program has a <strong>process id</strong>, a number the operating system uses to keep track of it.
+Open a second terminal (see <a href="/CS1/navigating_the_file_system.html" class="wikilink">navigating_the_file_system</a>) and look for your program.</p>
+<pre><code class="hljs language-bash">ps
+</code></pre>
+<p>You'll get a short table, and one of the rows will be your Python program.
+The number in the <code>PID</code> column is the one you want.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">kill</span> 51342
+</code></pre>
+<p>Plain <code>kill</code> is a request, much like Ctrl-C.
+If the program ignores it, stop asking.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">kill</span> -9 51342
+</code></pre>
+<p>The <code>-9</code> cannot be caught, blocked, or ignored by the program.
+It is the end.</p>
+<p>If you know the file name and don't feel like reading a table, this does the search and the kill in one step.</p>
+<pre><code class="hljs language-bash">pkill -f greet.py
+</code></pre>
+<p>Closing the terminal window kills whatever is running inside it, so that works too.
+It's just the blunt instrument, and I'd rather you knew the others first.</p>
+<h2>Summary</h2>
+<ul>
+<li>runaway program</li>
+<li>interrupt</li>
+<li><code>Ctrl-C</code></li>
+<li><code>KeyboardInterrupt</code></li>
+<li>bare <code>except:</code> catches too much</li>
+<li>end of file</li>
+<li><code>Ctrl-D</code></li>
+<li><code>EOFError</code></li>
+<li>quit signal</li>
+<li>Ctrl-<code>\</code></li>
+<li>suspend</li>
+<li><code>Ctrl-Z</code></li>
+<li><code>jobs</code>, <code>fg</code>, <code>kill %1</code></li>
+<li>process id</li>
+<li><code>ps</code></li>
+<li><code>kill</code> and <code>kill -9</code></li>
+<li><code>pkill</code></li>
+</ul>
+
+</body>
+</html>
