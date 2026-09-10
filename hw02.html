@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Homework from Week 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Homework from Week 2</h1>
+<p>For all of the program in this homework, save them to your folder for this class (on your computer).  We will share our solutions in class.
+Some of the problems are just practice and don't require you to write anything.</p>
+<h2>1 Arithmetic, Variables, and Assignment</h2>
+<h3>1.1 Code Reading Exercises</h3>
+<p>For each of the following programs, try to figure out what the result will be.
+If you get surprised, copy it into a file in VSCode.
+There you can modify the programs and see what happens differently.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">3</span>
+y = <span class="hljs-number">4</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x}</span> + <span class="hljs-subst">{y}</span> = <span class="hljs-subst">{x + y}</span>&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">3 + 4 = 7
+</pre>
+</details>
+<pre><code class="hljs language-python">x = <span class="hljs-number">3</span>
+y = x + <span class="hljs-number">1</span>
+x = <span class="hljs-number">0</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x}</span> + <span class="hljs-subst">{y}</span> = <span class="hljs-subst">{x + y}</span>&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">0 + 4 = 4
+</pre>
+</details>
+<pre><code class="hljs language-python">x = <span class="hljs-number">9</span>
+<span class="hljs-keyword">if</span> x // <span class="hljs-number">2</span> &lt; <span class="hljs-number">4.5</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Yay&quot;</span>)
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Boo&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">Yay
+</pre>
+</details>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-number">2</span> ** <span class="hljs-number">2</span> ** <span class="hljs-number">3</span> + <span class="hljs-number">1</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">257
+</pre>
+</details>
+<p>Do you remember the meaning of the <code>%</code> sign?
+It does a division and gives the remainder.</p>
+<pre><code class="hljs language-python">y = <span class="hljs-number">12</span>
+<span class="hljs-keyword">if</span> y % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Yay&quot;</span>)
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Boo&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">Boo
+</pre>
+</details>
+<h3>1.2 Remembering stuff</h3>
+<p>Here is a classic problem.
+Say we have two variables <code>a</code> and <code>b</code>.
+We want to swap the values of these variables.
+So for example, if <code>a=2</code> and <code>b=3</code>, then after the swap, we should have <code>a=3</code> and <code>b=2</code>.</p>
+<p>Here is a first attempt.</p>
+<pre><code class="hljs language-python">a = <span class="hljs-number">1</span>
+b = <span class="hljs-number">5</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;a = <span class="hljs-subst">{a}</span> and b = <span class="hljs-subst">{b}</span> before the swap.&quot;</span>)
+
+a = b
+b = a
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;a = <span class="hljs-subst">{a}</span> and b = <span class="hljs-subst">{b}</span> after the swap.&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">a = 1 and b = 5 before the swap.
+a = 5 and b = 5 after the swap.
+</pre>
+</details>
+<p>It didn't work.
+Can you fix this program so it works as expected?
+<em>Hint: you might need another variable.</em></p>
+<h2>2 Using <code>if</code> statements</h2>
+<h3>2.1 Absolute value</h3>
+<p>The absolute value of a number is</p>
+<p>Write a program called <code>absolute.py</code> that asks the user for a number and then prints teh absolute value of that number.
+Use an <code>if</code> statement to print the same number if it is positive or zero and make it positive if the number was negative.</p>
+<pre><code class="hljs"><span class="hljs-params">Example:</span>  
+<span class="hljs-params">input:</span> <span class="hljs-number">5</span>, <span class="hljs-params">output:</span> <span class="hljs-number">5</span>
+<span class="hljs-params">input:</span> <span class="hljs-operator">-</span><span class="hljs-number">4</span>, <span class="hljs-params">output:</span> <span class="hljs-number">4</span>
+</code></pre>
+<h3>2.2 Steve....</h3>
+<p>We want to write a hello, world program that asks a person their name and then says hello to them... unless it's Steve.</p>
+<p>When you run the program, it should ask the user for their name so it looks like this:</p>
+<pre><code class="hljs"><span class="hljs-title class_">What</span> <span class="hljs-keyword">is</span> your name?
+</code></pre>
+<p>Then, after they enter their name, it should say hello to them.
+For example, if they type <code>Don</code>, then it will say</p>
+<pre><code class="hljs"><span class="hljs-title class_">Hello</span>, <span class="hljs-title class_">Don</span>.
+</code></pre>
+<p>Use f-strings to format the output.</p>
+<p>However, if their name is &quot;Steve&quot;, the program should print</p>
+<pre><code class="hljs"><span class="hljs-title class_">Go</span> away, <span class="hljs-title class_">Steve</span>.
+</code></pre>
+<p>This program is kind of a jerk, but so is Steve.
+Use the <code>==</code> operator to test if two strings are equal.
+If you only use <code>=</code>, Python will think you are trying to do assignment and it will give you an error.</p>
+<p>Call your program <code>steve.py</code></p>
+<h2>3 Loops</h2>
+<p>Write a program that asks for a number $n$ and outputs the sum of the first $n$ odd numbers.
+First, do this with a loop.
+If you are very clever, you can do this without a loop.</p>
+<p>A simple pattern to loop a fixed number of times is the following.</p>
+<pre><code class="hljs language-python">n = <span class="hljs-number">4</span>
+counter = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">while</span> counter &lt; n:
+    <span class="hljs-built_in">print</span>(counter)
+    counter += <span class="hljs-number">1</span>
+</code></pre>
+<pre class="code-chunk-output">0
+1
+2
+3
+</pre>
+<p>You can use a similar pattern.</p>
+<h2>4 A Hard Challenge</h2>
+<h3>4.1 The Guesser</h3>
+<p>In class, we made a basic guessing game.
+Here was the code.  In this assignment, we will add some features.
+Start by copying this code into a new program.</p>
+<pre><code class="hljs language-python">secret = <span class="hljs-number">8</span>
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Guess a number from 1 to 10.&quot;</span>)
+
+guess = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>())
+
+<span class="hljs-keyword">while</span> guess != secret:
+    <span class="hljs-keyword">if</span> guess &lt; secret:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Too Low. Guess again.&quot;</span>)
+
+    <span class="hljs-keyword">if</span> guess &gt; secret:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Too High. Guess again.&quot;</span>)
+
+    guess = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>())
+
+<span class="hljs-keyword">if</span> guess == secret:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;You guessed right!&quot;</span>)
+</code></pre>
+<h2>Let's make the number of guesses into a variable</h2>
+<p>Instead of just choosing from 1 to 10, let's let the secret be any number from 1 to $n$, where $n$ is some other number.
+Make a variable, called <code>max_secret</code> that stores the largest possible value for the secret.
+At first, you can set this value to 10 or whatever you like.</p>
+<h2>Let's put a limit on the number of guesses</h2>
+<p>First, let's decide on a good limit.
+If the numbers are chosen from 1 to 10, what is the smallest number $m$ such that $m$ guesses is always enough to get the right answer?</p>
+<p>Add a variable to called <code>max_guesses</code> to determine the number of guesses you will allow.</p>
+<h2>Make the guess more random</h2>
+<p>The biggest problem with this game is that if you can see the code, you know what the secret is.
+There is a way to pick a random number in python, but instead, let's just obfuscate the number.</p>
+<p>We will take the secret, multiply it by 1103515245 and then add 12345.
+You will end up with a big number, call it <code>x</code>.
+Take <code>x % max_secret + 1</code> and the result will be a number from 1 to max_secret.</p>
+<h2>An advanced version</h2>
+<p>Can you figure out how to automatically set the number of guesses based on the <code>max-secret</code> value?
+You should make it so that it is always possible to win, but it requires careful play to win.</p>
+
+</body>
+</html>

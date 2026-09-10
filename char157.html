@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>The Character 157 Mystery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('/macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>The Character 157 Mystery</h1>
+<p>In class, we wrote a short Python program as follows:</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{i}</span> = <span class="hljs-subst">{<span class="hljs-built_in">chr</span>(i)}</span>&quot;</span>)
+</code></pre>
+<p>The program did not work as expected.
+It did something quite strange in that it crashed but didn't give an error message.
+Almost always when a Python program crashes, you get an error.
+In this case, it just stopped.</p>
+<p><strong>I love when stuff like this happens.</strong></p>
+<p>It's completely normal, and expected that we will write programs that don't work as expected.
+The important thing is to cultivate the right attitude.</p>
+<p><strong>What we got is not a problem, it's a mystery, and mysteries are fun.</strong></p>
+<p>In this case, a little internet search revealed the answer, but it is interesting to see how we could have discovered the answer ourselves.
+One idea would be to look up what character 157 or 158 really is.
+We would find that it is a non-printable character.
+However, there is no problem with storing such a character to a file.
+We can do this and then look at the file in VSCode.
+It is interesting to see the result.</p>
+<p>Here is a wonderful trick.
+We will save the program as <code>all_the_characters.py</code>.
+The usual way we would run this program is to type the following command in the terminal.</p>
+<pre><code class="hljs language-bash">python3 all_the_characters.py
+</code></pre>
+<p>This is the version that stops printing around 157.
+Instead, we will run the command as follows.</p>
+<pre><code class="hljs language-bash">python3 all_the_characters.py &gt; characters.txt
+</code></pre>
+<p>The difference is that the greater-than symbol directs all the output to a file instead of printing it to the screen.
+When we open the file, we might first see a warning that it's a binary file.
+That's okay, we can open it.
+We see all the characters are there.
+There is a blank for some of the characters and maybe some strange placeholders for some of the other characters, but for the most part, everything is there that is supposed to be there.</p>
+<p><strong>So, what crashed our program?</strong></p>
+<p>We know that the python code is valid and can run and send it's output to a file, but it couldn't print it in the terminal.
+This is the hint.
+The terminal killed our program.
+No error message.
+No warning.
+It saw a program attempting to print non-printing characters to the screen and it immediately killed the program.</p>
+<p>This answer is strange.
+Other programs can print these characters to the terminal, or they manage to suppress them.
+For example, we can print the contents of <code>characters.txt</code> in the terminal by running the following command.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cat</span> characters.txt
+</code></pre>
+<p>The <code>cat</code> command prints the contents of a file.
+No, there isn't a <code>dog</code> command, but there is a <code>man</code> command.
+You can run <code>man cat</code> and see the <strong>man</strong>ual for the <code>cat</code> command.
+If you run <code>cat man</code>, you will get an error.</p>
+<p>One note on vacabulary: when I say that the terminal <strong>killed</strong> our program, this is actually the technical term for stopping a program from the outside.  You can run <code>man kill</code> if you are interested, but you will likely get a weird error if you run <code>kill man</code>.</p>
+
+</body>
+</html>
