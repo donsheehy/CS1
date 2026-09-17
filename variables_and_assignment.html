@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Variables and Assignment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const response = await fetch('macros.json');
+      const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Variables and Assignment</h1>
+<h2>Names and Values</h2>
+<pre><code class="hljs language-python">course = <span class="hljs-string">&quot;CS1&quot;</span>
+students = <span class="hljs-number">30</span>
+<span class="hljs-built_in">print</span>(course, students)
+</code></pre>
+<pre class="code-chunk-output">CS1 30
+</pre>
+<p>The <code>=</code> sign is the <strong>assignment operator</strong>.
+It gives the name on the left to the value on the right.
+A <strong>variable</strong> is a name that refers to a value.
+Here, <code>course</code> refers to the string <code>&quot;CS1&quot;</code> and <code>students</code> refers to the integer <code>30</code>.</p>
+<p>We first met variables in <a href="/CS1/strings_and_print.html" class="wikilink">strings_and_print</a>.
+Think of a variable as a label stuck on a value, not a box that holds it.</p>
+<h2>The Right Side Comes First</h2>
+<pre><code class="hljs language-python">x = <span class="hljs-number">3</span> * <span class="hljs-number">4</span>
+x = x + <span class="hljs-number">1</span>
+<span class="hljs-built_in">print</span>(x)
+</code></pre>
+<pre class="code-chunk-output">13
+</pre>
+<p>Python evaluates the whole right side first.
+Only then does it assign the result to the name on the left.
+So <code>x = x + 1</code> takes the current value of <code>x</code>, adds one, and makes <code>x</code> refer to the result.
+This is called <strong>updating</strong> a variable.
+For more on how expressions get evaluated, see <a href="/CS1/arithmetic_and_evaluation.html" class="wikilink">arithmetic_and_evaluation</a>.</p>
+<blockquote>
+<p><strong>Key Idea: <code>=</code> is not an equation. Evaluate the right side, then assign.</strong></p>
+</blockquote>
+<h2>Shortcuts for Updating</h2>
+<pre><code class="hljs language-python">score = <span class="hljs-number">10</span>
+score += <span class="hljs-number">5</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{score=}</span>&quot;</span>)
+score *= <span class="hljs-number">2</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{score=}</span>&quot;</span>)
+score -= <span class="hljs-number">1</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{score=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">score=15
+score=30
+score=29
+</pre>
+<p>The line <code>score += 5</code> means <code>score = score + 5</code>.
+These are the <strong>augmented assignment</strong> operators.
+Every arithmetic operator has one: <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>//=</code>, <code>%=</code>, and <code>**=</code>.</p>
+<h2>Assigning One Variable to Another</h2>
+<pre><code class="hljs language-python">a = <span class="hljs-number">7</span>
+b = a
+a = <span class="hljs-number">100</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{a=}</span> <span class="hljs-subst">{b=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">a=100 b=7
+</pre>
+<p>The line <code>b = a</code> makes <code>b</code> refer to whatever <code>a</code> refers to right now, which is <code>7</code>.
+It does not tie <code>b</code> to <code>a</code> forever.
+When <code>a</code> gets a new value, <code>b</code> keeps the old one.</p>
+<h2>Using a Name Before Assigning It</h2>
+<pre><code class="hljs language-python">total = subtotal + <span class="hljs-number">5</span>
+</code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+NameError: name 'subtotal' is not defined</pre>
+<p>The result is a <code>NameError</code>.
+Python runs your program top to bottom, and <code>subtotal</code> has not been assigned yet.
+A variable only exists after the line that assigns it has run.</p>
+<h2>Values Have Types, Names Don't</h2>
+<pre><code class="hljs language-python">x = <span class="hljs-number">42</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x=}</span> <span class="hljs-subst">{<span class="hljs-built_in">type</span>(x)=}</span>&quot;</span>)
+x = <span class="hljs-string">&quot;forty-two&quot;</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x=}</span> <span class="hljs-subst">{<span class="hljs-built_in">type</span>(x)=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">x=42 type(x)=&lt;class 'int'&gt;
+x='forty-two' type(x)=&lt;class 'str'&gt;
+</pre>
+<p>The type belongs to the value, not the variable.
+The same name can refer to an <code>int</code> and later to a <code>str</code>.
+Python allows it, but I have found it usually makes code harder to follow.</p>
+<h2>Naming Rules</h2>
+<pre><code class="hljs language-python">2nd_place = <span class="hljs-string">&quot;silver&quot;</span>
+</code></pre>
+<pre class="code-chunk-output">File &quot;&lt;stdin&gt;&quot;, line 1
+    2nd_place = &quot;silver&quot;
+    ^
+SyntaxError: invalid decimal literal</pre>
+<p>That name breaks a rule, so you get a <code>SyntaxError</code>.
+Here are the rules.</p>
+<ul>
+<li>Use only letters, digits, and underscores.</li>
+<li>Don't start with a digit.</li>
+<li>Names are case-sensitive, so <code>total</code> and <code>Total</code> are different variables.</li>
+<li>Don't use a <strong>keyword</strong>, like <code>if</code>, <code>while</code>, or <code>True</code>, as a name.</li>
+</ul>
+<p>By convention, Python programmers write names in <strong>snake_case</strong>, lowercase words joined by underscores, like <code>max_guesses</code>.
+Pick names that say what the value means.
+<code>max_guesses</code> beats <code>mg</code>.</p>
+<h2>Summary</h2>
+<ul>
+<li>variable</li>
+<li>assignment operator <code>=</code></li>
+<li>evaluate the right side first</li>
+<li>updating a variable</li>
+<li>augmented assignment</li>
+<li>reassigning one name does not change another</li>
+<li><code>NameError</code></li>
+<li>values have types, names don't</li>
+<li>naming rules</li>
+<li>keywords</li>
+<li>snake_case</li>
+</ul>
+
+</body>
+</html>

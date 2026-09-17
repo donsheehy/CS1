@@ -13,7 +13,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
   <script>
     async function renderMath() {
-      const response = await fetch('/macros.json');
+      const response = await fetch('macros.json');
       const macros = await response.json();
       renderMathInElement(document.body, {
         macros,
@@ -49,9 +49,9 @@ On a Mac, that is Control, not Command.</p>
 <p>This sends an <strong>interrupt</strong> to the running program.
 Python turns that interrupt into an error called <code>KeyboardInterrupt</code>.
 If nothing catches it, the program stops and you get a traceback that ends like this.</p>
-<pre><code class="hljs">Traceback <span class="hljs-punctuation">(</span>most recent call last<span class="hljs-punctuation">)</span>:
-  File <span class="hljs-string">&quot;greet.py&quot;</span>, line <span class="hljs-number">2</span>, <span class="hljs-type">in</span> &lt;module&gt;
-    name = input<span class="hljs-punctuation">(</span><span class="hljs-string">&quot;Who&#x27;s there? &quot;</span><span class="hljs-punctuation">)</span>
+<pre><code class="hljs">Traceback (most recent call last):
+  File &quot;greet.py&quot;, line 2, in &lt;module&gt;
+    name = input(&quot;Who&#x27;s there? &quot;)
 KeyboardInterrupt
 </code></pre>
 <p>That traceback is not a bug.

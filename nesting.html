@@ -13,7 +13,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
   <script>
     async function renderMath() {
-      const response = await fetch('/macros.json');
+      const response = await fetch('macros.json');
       const macros = await response.json();
       renderMathInElement(document.body, {
         macros,
@@ -47,29 +47,29 @@
 <p>The <code>&lt;strong&gt;</code> sits inside the <code>&lt;p&gt;</code>, which sits inside the <code>&lt;div&gt;</code>. The nesting <em>is</em> the structure of the page.</p>
 <h2>4. Nested loops</h2>
 <p>A loop can run inside another loop. For each step of the outer loop, the inner loop runs all the way through:</p>
-<pre><code class="hljs"><span class="hljs-keyword">for</span> <span class="hljs-keyword">each</span> <span class="hljs-type">row</span>:
-    <span class="hljs-keyword">for</span> <span class="hljs-keyword">each</span> <span class="hljs-keyword">column</span>:
+<pre><code class="hljs">for each row:
+    for each column:
         print the cell
 </code></pre>
 <p>If the outer loop runs n times and the inner runs n times, you do n × n steps — so nesting also shows you where work piles up.</p>
 <h2>5. Nested conditionals</h2>
 <p>An <code>if</code> can live inside another <code>if</code>. You ask one question, and <em>depending on the answer</em> you ask another:</p>
-<pre><code class="hljs"><span class="hljs-attribute">if logged_in</span><span class="hljs-punctuation">:</span>
-    <span class="hljs-attribute">if is_admin</span><span class="hljs-punctuation">:</span>
+<pre><code class="hljs">if logged_in:
+    if is_admin:
         show admin panel
 </code></pre>
 <p>Each decision opens up a smaller set of further decisions.</p>
 <h2>6. Nested data</h2>
 <p>Data holds data. A list can contain lists; a dictionary can contain dictionaries:</p>
 <pre><code class="hljs">classroom = [
-    {<span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;grades&quot;</span>: [<span class="hljs-number">90</span>, <span class="hljs-number">85</span>]},
-    {<span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;grades&quot;</span>: [<span class="hljs-number">88</span>, <span class="hljs-number">92</span>]},
+    {&quot;name&quot;: &quot;Ada&quot;, &quot;grades&quot;: [90, 85]},
+    {&quot;name&quot;: &quot;Alan&quot;, &quot;grades&quot;: [88, 92]},
 ]
 </code></pre>
 <p>Here a list contains dictionaries, and each dictionary contains a list. Real-world data almost always nests like this.</p>
 <h2>7. Parenthesized expressions</h2>
 <p>Parentheses nest, and so does the math inside them:</p>
-<pre><code class="hljs"><span class="hljs-symbol">2 </span>* (<span class="hljs-number">3</span> + (<span class="hljs-number">4</span> - <span class="hljs-number">1</span>))
+<pre><code class="hljs">2 * (3 + (4 - 1))
 </code></pre>
 <p>Every expression is either a plain value or an operation on smaller expressions. To evaluate the whole thing, you work from the innermost parentheses outward.</p>
 <h2>8. Variable scopes</h2>

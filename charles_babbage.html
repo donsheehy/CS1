@@ -13,7 +13,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
   <script>
     async function renderMath() {
-      const response = await fetch('/macros.json');
+      const response = await fetch('macros.json');
       const macros = await response.json();
       renderMathInElement(document.body, {
         macros,

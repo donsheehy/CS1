@@ -13,7 +13,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
   <script>
     async function renderMath() {
-      const response = await fetch('/macros.json');
+      const response = await fetch('macros.json');
       const macros = await response.json();
       renderMathInElement(document.body, {
         macros,
@@ -127,36 +127,36 @@ I won't tell you what all the lines do, but I'll point out that this program jus
 That is, it converts it into individual instructions that can be executed by the processor.</p>
 <p>It wouldn't help us too much to look at the binary, but we can look at a version of this program that is closer to the computer instructions.
 This doesn't show the data section of the program that includes the string literal &quot;Hello, World!&quot; but it does reference it.</p>
-<pre><code class="hljs"><span class="hljs-attribute">Disassembly</span> of section __TEXT,__text:
+<pre><code class="hljs">Disassembly of section __TEXT,__text:
 
-<span class="hljs-attribute">0000000100003f60</span> _main:
-<span class="hljs-attribute">100003f60</span>: <span class="hljs-number">55</span>                          	pushq	%rbp
-<span class="hljs-attribute">100003f61</span>: <span class="hljs-number">48</span> <span class="hljs-number">89</span> e5                    	movq	%rsp, %rbp
-<span class="hljs-attribute">100003f64</span>: <span class="hljs-number">48</span> <span class="hljs-number">83</span> ec <span class="hljs-number">10</span>                 	subq	$<span class="hljs-number">16</span>, %rsp
-<span class="hljs-attribute">100003f68</span>: c7 <span class="hljs-number">45</span> fc <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>        	movl	$<span class="hljs-number">0</span>, -<span class="hljs-number">4</span>(%rbp)
-<span class="hljs-attribute">100003f6f</span>: <span class="hljs-number">48</span> <span class="hljs-number">8</span>d <span class="hljs-number">3</span>d <span class="hljs-number">34</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>        	leaq	<span class="hljs-number">52</span>(%rip), %rdi
-<span class="hljs-attribute">100003f76</span>: e8 <span class="hljs-number">0</span>d <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>              	callq	<span class="hljs-number">13</span> &lt;dyld_stub_binder+<span class="hljs-number">0</span>x100003f88&gt;
-<span class="hljs-attribute">100003f7b</span>: <span class="hljs-number">31</span> c9                       	xorl	%ecx, %ecx
-<span class="hljs-attribute">100003f7d</span>: <span class="hljs-number">89</span> <span class="hljs-number">45</span> f8                    	movl	%eax, -<span class="hljs-number">8</span>(%rbp)
-<span class="hljs-attribute">100003f80</span>: <span class="hljs-number">89</span> c8                       	movl	%ecx, %eax
-<span class="hljs-attribute">100003f82</span>: <span class="hljs-number">48</span> <span class="hljs-number">83</span> c4 <span class="hljs-number">10</span>                 	addq	$<span class="hljs-number">16</span>, %rsp
-<span class="hljs-attribute">100003f86</span>: <span class="hljs-number">5</span>d                          	popq	%rbp
-<span class="hljs-attribute">100003f87</span>: c3                          	retq
+0000000100003f60 _main:
+100003f60: 55                          	pushq	%rbp
+100003f61: 48 89 e5                    	movq	%rsp, %rbp
+100003f64: 48 83 ec 10                 	subq	$16, %rsp
+100003f68: c7 45 fc 00 00 00 00        	movl	$0, -4(%rbp)
+100003f6f: 48 8d 3d 34 00 00 00        	leaq	52(%rip), %rdi
+100003f76: e8 0d 00 00 00              	callq	13 &lt;dyld_stub_binder+0x100003f88&gt;
+100003f7b: 31 c9                       	xorl	%ecx, %ecx
+100003f7d: 89 45 f8                    	movl	%eax, -8(%rbp)
+100003f80: 89 c8                       	movl	%ecx, %eax
+100003f82: 48 83 c4 10                 	addq	$16, %rsp
+100003f86: 5d                          	popq	%rbp
+100003f87: c3                          	retq
 
-<span class="hljs-attribute">Disassembly</span> of section __TEXT,__stubs:
+Disassembly of section __TEXT,__stubs:
 
-<span class="hljs-attribute">0000000100003f88</span> __stubs:
-<span class="hljs-attribute">100003f88</span>: ff <span class="hljs-number">25</span> <span class="hljs-number">72</span> <span class="hljs-number">40</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>           	jmpq	*<span class="hljs-number">16498</span>(%rip)
+0000000100003f88 __stubs:
+100003f88: ff 25 72 40 00 00           	jmpq	*16498(%rip)
 
-<span class="hljs-attribute">Disassembly</span> of section __TEXT,__stub_helper:
+Disassembly of section __TEXT,__stub_helper:
 
-<span class="hljs-attribute">0000000100003f90</span> __stub_helper:
-<span class="hljs-attribute">100003f90</span>: <span class="hljs-number">4</span>c <span class="hljs-number">8</span>d <span class="hljs-number">1</span>d <span class="hljs-number">71</span> <span class="hljs-number">40</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>        	leaq	<span class="hljs-number">16497</span>(%rip), %r11
-<span class="hljs-attribute">100003f97</span>: <span class="hljs-number">41</span> <span class="hljs-number">53</span>                       	pushq	%r11
-<span class="hljs-attribute">100003f99</span>: ff <span class="hljs-number">25</span> <span class="hljs-number">61</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>           	jmpq	*<span class="hljs-number">97</span>(%rip)
-<span class="hljs-attribute">100003f9f</span>: <span class="hljs-number">90</span>                          	nop
-<span class="hljs-attribute">100003fa0</span>: <span class="hljs-number">68</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span> <span class="hljs-number">00</span>              	pushq	$<span class="hljs-number">0</span>
-<span class="hljs-attribute">100003fa5</span>: e9 e6 ff ff ff              	jmp	-<span class="hljs-number">26</span> &lt;__stub_helper&gt;
+0000000100003f90 __stub_helper:
+100003f90: 4c 8d 1d 71 40 00 00        	leaq	16497(%rip), %r11
+100003f97: 41 53                       	pushq	%r11
+100003f99: ff 25 61 00 00 00           	jmpq	*97(%rip)
+100003f9f: 90                          	nop
+100003fa0: 68 00 00 00 00              	pushq	$0
+100003fa5: e9 e6 ff ff ff              	jmp	-26 &lt;__stub_helper&gt;
 </code></pre>
 <p>When you look at this version of the program, I think you can be happy that we don't have to write our programs this way!</p>
 <h2>Summary</h2>

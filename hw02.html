@@ -13,7 +13,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
   <script>
     async function renderMath() {
-      const response = await fetch('/macros.json');
+      const response = await fetch('macros.json');
       const macros = await response.json();
       renderMathInElement(document.body, {
         macros,
@@ -113,24 +113,24 @@ Can you fix this program so it works as expected?
 <h2>2 Using <code>if</code> statements</h2>
 <h3>2.1 Absolute value</h3>
 <p>The absolute value of a number is</p>
-<p>Write a program called <code>absolute.py</code> that asks the user for a number and then prints teh absolute value of that number.
+<p>Write a program called <code>absolute.py</code> that asks the user for a number and then prints the absolute value of that number.
 Use an <code>if</code> statement to print the same number if it is positive or zero and make it positive if the number was negative.</p>
-<pre><code class="hljs"><span class="hljs-params">Example:</span>  
-<span class="hljs-params">input:</span> <span class="hljs-number">5</span>, <span class="hljs-params">output:</span> <span class="hljs-number">5</span>
-<span class="hljs-params">input:</span> <span class="hljs-operator">-</span><span class="hljs-number">4</span>, <span class="hljs-params">output:</span> <span class="hljs-number">4</span>
+<pre><code class="hljs">Example:  
+input: 5, output: 5
+input: -4, output: 4
 </code></pre>
 <h3>2.2 Steve....</h3>
 <p>We want to write a hello, world program that asks a person their name and then says hello to them... unless it's Steve.</p>
 <p>When you run the program, it should ask the user for their name so it looks like this:</p>
-<pre><code class="hljs"><span class="hljs-title class_">What</span> <span class="hljs-keyword">is</span> your name?
+<pre><code class="hljs">What is your name?
 </code></pre>
 <p>Then, after they enter their name, it should say hello to them.
 For example, if they type <code>Don</code>, then it will say</p>
-<pre><code class="hljs"><span class="hljs-title class_">Hello</span>, <span class="hljs-title class_">Don</span>.
+<pre><code class="hljs">Hello, Don.
 </code></pre>
 <p>Use f-strings to format the output.</p>
 <p>However, if their name is &quot;Steve&quot;, the program should print</p>
-<pre><code class="hljs"><span class="hljs-title class_">Go</span> away, <span class="hljs-title class_">Steve</span>.
+<pre><code class="hljs">Go away, Steve.
 </code></pre>
 <p>This program is kind of a jerk, but so is Steve.
 Use the <code>==</code> operator to test if two strings are equal.

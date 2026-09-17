@@ -13,7 +13,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
   <script>
     async function renderMath() {
-      const response = await fetch('/macros.json');
+      const response = await fetch('macros.json');
       const macros = await response.json();
       renderMathInElement(document.body, {
         macros,
@@ -84,7 +84,7 @@ If you do, the folder you opened and the folder the shell is standing in are the
 <pre><code class="hljs language-bash">python hello.py
 </code></pre>
 <p>The output appears on the next line:</p>
-<pre><code class="hljs"><span class="hljs-title class_">Hello</span>, <span class="hljs-title class_">World</span>!
+<pre><code class="hljs">Hello, World!
 </code></pre>
 <p>That is the entire cycle.
 Edit, save, run.
