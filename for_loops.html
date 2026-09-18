@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>For Loops</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>For Loops</h1>
+<h2>Doing Something Five Times</h2>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
+    <span class="hljs-built_in">print</span>(i)
+</code></pre>
+<pre class="code-chunk-output">0
+1
+2
+3
+4
+</pre>
+<p>A <strong>for loop</strong> runs the same code once for each item in a sequence.
+The first line is the <strong>loop header</strong>, and it ends with a colon.
+The indented lines under it are the <strong>body</strong> of the loop.
+Python uses the indentation to tell where the body ends, so the indentation is not just for looks.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):
+<span class="hljs-built_in">print</span>(i)
+</code></pre>
+<pre class="code-chunk-output">File &quot;&lt;stdin&gt;&quot;, line 2
+    print(i)
+    ^^^^^
+IndentationError: expected an indented block after 'for' statement on line 1</pre>
+<p>Leaving out the indentation gives an <code>IndentationError</code>.
+Python expected a body and didn't find one.</p>
+<p>Here, <code>range(5)</code> counts out the numbers <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>.
+It stops just before <code>5</code>.
+That looks off by one until you remember that indexing also starts at zero, from <a href="/CS1/lists.html" class="wikilink">lists</a>.</p>
+<blockquote>
+<p><strong>Key Idea: <code>range(n)</code> starts at 0 and stops just before <code>n</code>, so it gives you exactly <code>n</code> numbers.</strong></p>
+</blockquote>
+<p>The variable in the header is the <strong>loop variable</strong>.
+It gets a new value each time around.
+You can name it whatever you want.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> guess <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{guess=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">guess=0
+guess=1
+guess=2
+</pre>
+<p>You can also tell <code>range</code> where to start.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">6</span>):
+    <span class="hljs-built_in">print</span>(i)
+</code></pre>
+<pre class="code-chunk-output">1
+2
+3
+4
+5
+</pre>
+<p>With two arguments, it starts at the first and stops just before the second.
+I have found that <code>range(1, 6)</code> reads strangely at first.
+Say it out loud as &quot;from 1 up to but not including 6&quot; a few times and it sticks.</p>
+<h2>Looping Over a List</h2>
+<pre><code class="hljs language-python">names = [<span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;Grace&quot;</span>]
+<span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> names:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Hello, <span class="hljs-subst">{name}</span>!&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello, Ada!
+Hello, Alan!
+Hello, Grace!
+</pre>
+<p>A for loop will walk through a list just as happily as it walks through a range.
+Each time around, the loop variable refers to the next item in the list.
+Notice that there are no numbers here at all.
+You never wrote a <code>0</code>, and you never asked how long the list was.</p>
+<p>Here is the same thing done the long way, with indexing.</p>
+<pre><code class="hljs language-python">names = [<span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;Grace&quot;</span>]
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(names)):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Hello, <span class="hljs-subst">{names[i]}</span>!&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Hello, Ada!
+Hello, Alan!
+Hello, Grace!
+</pre>
+<p>It prints the same three lines.
+It is also longer, and it gives you two chances to make an off by one error.</p>
+<blockquote>
+<p><strong>Key Idea: If you want the items, loop over the list. Loop over a range only when you really need the positions.</strong></p>
+</blockquote>
+<h2>Building Up an Answer</h2>
+<pre><code class="hljs language-python">nums = [<span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>, <span class="hljs-number">23</span>]
+total = <span class="hljs-number">0</span>
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> nums:
+    total = total + n
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{total=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">total=66
+</pre>
+<p>A variable that you set before the loop and update inside it is called an <strong>accumulator</strong>.
+The pattern is always the same.
+Start with an answer for the empty case, then let each trip through the loop improve it.
+Here the answer for no numbers at all is <code>0</code>.</p>
+<p>The list version from <a href="/CS1/lists.html" class="wikilink">lists</a> is the same pattern.</p>
+<pre><code class="hljs language-python">squares = []
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
+    squares.append(i * i)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{squares=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">squares=[0, 1, 4, 9, 16]
+</pre>
+<p>The empty list is the answer for the empty case, and each trip appends one more square.</p>
+<p>Be careful to put the accumulator <strong>outside</strong> the loop.</p>
+<pre><code class="hljs language-python">nums = [<span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>, <span class="hljs-number">23</span>]
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> nums:
+    total = <span class="hljs-number">0</span>
+    total = total + n
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{total=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">total=23
+</pre>
+<p>That resets <code>total</code> every time around, so at the end it only holds the last number.
+There is no error message for this one.
+The program runs happily and gives you the wrong answer, which is much worse.</p>
+<h2>Exercises</h2>
+<p>What does this print?</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):
+    for_sure = i * <span class="hljs-number">10</span>
+<span class="hljs-built_in">print</span>(for_sure)
+</code></pre>
+<details><summary>Click to reveal.</summary>
+<pre><code class="hljs">20
+</code></pre>
+<p>The loop variable keeps its last value after the loop ends, and so does anything assigned inside the body.</p>
+</details>
+<p>Print the numbers from 1 to 10, one per line.</p>
+<details><summary>Click to reveal.</summary>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">11</span>):
+    <span class="hljs-built_in">print</span>(i)
+</code></pre>
+</details>
+<p>Given a list of words, print only the ones longer than three characters.</p>
+<details><summary>Click to reveal.</summary>
+<pre><code class="hljs language-python">words = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;cat&quot;</span>, <span class="hljs-string">&quot;sat&quot;</span>, <span class="hljs-string">&quot;there&quot;</span>, <span class="hljs-string">&quot;quietly&quot;</span>]
+<span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> words:
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(word) &gt; <span class="hljs-number">3</span>:
+        <span class="hljs-built_in">print</span>(word)
+</code></pre>
+</details>
+<p>Count how many numbers in a list are negative.</p>
+<details><summary>Click to reveal.</summary>
+<pre><code class="hljs language-python">nums = [<span class="hljs-number">3</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">5</span>, <span class="hljs-number">9</span>]
+count = <span class="hljs-number">0</span>
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> nums:
+    <span class="hljs-keyword">if</span> n &lt; <span class="hljs-number">0</span>:
+        count = count + <span class="hljs-number">1</span>
+<span class="hljs-built_in">print</span>(count)
+</code></pre>
+</details>
+<h2>Summary</h2>
+<ul>
+<li>for loop</li>
+<li>loop header and the colon</li>
+<li>the body and indentation</li>
+<li><code>IndentationError</code></li>
+<li><code>range(n)</code> stops just before <code>n</code></li>
+<li><code>range(start, stop)</code></li>
+<li>loop variable</li>
+<li>looping over a list</li>
+<li>looping over <code>range(len(...))</code> and why to avoid it</li>
+<li>accumulator</li>
+<li>set the accumulator outside the loop</li>
+</ul>
+
+</body>
+</html>
