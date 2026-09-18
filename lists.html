@@ -139,8 +139,8 @@ squares.append(<span class="hljs-number">4</span>)
 <p>The <code>append</code> <strong>method</strong> adds one item to the end of a list.
 A method is a function that belongs to a particular value, and you call it by writing a dot after that value.
 So it's <code>squares.append(4)</code> and not <code>append(squares, 4)</code>.</p>
-<p>Start with the empty list, append once for each thing you want, and you can build a list of any size.
-That is much nicer with a loop.</p>
+<p>The usual pattern is to start with an empty list, append inside a loop, and let the list grow to whatever size you need.
+Loops get their own note, <a href="/CS1/for_loops.html" class="wikilink">for_loops</a>.</p>
 <pre><code class="hljs language-python">squares = []
 <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
     squares.append(i * i)
