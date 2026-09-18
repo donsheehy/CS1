@@ -13,8 +13,9 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
   <script>
     async function renderMath() {
-      const response = await fetch('macros.json');
-      const macros = await response.json();
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
       renderMathInElement(document.body, {
         macros,
         delimiters: [
@@ -84,7 +85,9 @@ a = <span class="hljs-number">100</span>
 </pre>
 <p>The line <code>b = a</code> makes <code>b</code> refer to whatever <code>a</code> refers to right now, which is <code>7</code>.
 It does not tie <code>b</code> to <code>a</code> forever.
-When <code>a</code> gets a new value, <code>b</code> keeps the old one.</p>
+When <code>a</code> gets a new value, <code>b</code> keeps the old one.
+Two names can refer to the same value, which starts to matter a lot once that value is one you can change in place.
+See <a href="/CS1/lists.html" class="wikilink">lists</a>.</p>
 <h2>Using a Name Before Assigning It</h2>
 <pre><code class="hljs language-python">total = subtotal + <span class="hljs-number">5</span>
 </code></pre>

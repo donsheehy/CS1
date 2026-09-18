@@ -13,8 +13,9 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
   <script>
     async function renderMath() {
-      const response = await fetch('macros.json');
-      const macros = await response.json();
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
       renderMathInElement(document.body, {
         macros,
         delimiters: [
@@ -49,9 +50,11 @@
 <li><a href="/CS1/hello_world_variations.html" class="wikilink">hello_world_variations</a></li>
 <li><a href="/CS1/homebrew_on_mac.html" class="wikilink">homebrew_on_mac</a></li>
 <li><a href="/CS1/hw02.html" class="wikilink">hw02</a></li>
+<li><a href="/CS1/hw03.html" class="wikilink">hw03</a></li>
 <li><a href="/CS1/index.html" class="wikilink">index</a></li>
 <li><a href="/CS1/input_and_fstrings.html" class="wikilink">input_and_fstrings</a></li>
 <li><a href="/CS1/killing_a_runaway_program.html" class="wikilink">killing_a_runaway_program</a></li>
+<li><a href="/CS1/lists.html" class="wikilink">lists</a></li>
 <li><a href="/CS1/navigating_the_file_system.html" class="wikilink">navigating_the_file_system</a></li>
 <li><a href="/CS1/nesting.html" class="wikilink">nesting</a></li>
 <li><a href="/CS1/pascaline.html" class="wikilink">pascaline</a></li>

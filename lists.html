@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Lists</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Lists</h1>
+<h2>Making a List</h2>
+<pre><code class="hljs language-python">primes = [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">11</span>]
+<span class="hljs-built_in">print</span>(primes)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{<span class="hljs-built_in">len</span>(primes)=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">[2, 3, 5, 7, 11]
+len(primes)=5
+</pre>
+<p>A <strong>list</strong> is one name for several values, kept in order.
+You write one with square brackets around the items and commas between them.
+That is a list <strong>literal</strong>, the same idea as the string literals in <a href="/CS1/strings_and_print.html" class="wikilink">strings_and_print</a>.
+It literally tells you what the list is.
+The <code>len</code> function reports how many items are in it.</p>
+<p>A list can hold any values you like, including a mix of types.</p>
+<pre><code class="hljs language-python">mixed = [<span class="hljs-number">1</span>, <span class="hljs-string">&quot;two&quot;</span>, <span class="hljs-number">3.0</span>]
+empty = []
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{mixed=}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{empty=}</span> <span class="hljs-subst">{<span class="hljs-built_in">len</span>(empty)=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">mixed=[1, 'two', 3.0]
+empty=[] len(empty)=0
+</pre>
+<p>The list with nothing in it is the <strong>empty list</strong>.
+It looks useless.
+It is where most lists start.</p>
+<h2>Indexing</h2>
+<pre><code class="hljs language-python">names = [<span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;Grace&quot;</span>]
+<span class="hljs-built_in">print</span>(names[<span class="hljs-number">0</span>])
+<span class="hljs-built_in">print</span>(names[<span class="hljs-number">2</span>])
+</code></pre>
+<pre class="code-chunk-output">Ada
+Grace
+</pre>
+<p>Every item has a position in the list, called its <strong>index</strong>.
+Counting starts at zero, so <code>names[0]</code> is the first item and <code>names[2]</code> is the third.
+Putting brackets after the list to get one item out is called <strong>indexing</strong>.</p>
+<blockquote>
+<p><strong>Key Idea: The first item is at index 0, so in a list of length <code>n</code>, the last item is at index <code>n - 1</code>.</strong></p>
+</blockquote>
+<p>You don't have to do that subtraction yourself.
+Negative indices count back from the end.</p>
+<pre><code class="hljs language-python">names = [<span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;Grace&quot;</span>]
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{names[-<span class="hljs-number">1</span>]=}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{names[-<span class="hljs-number">2</span>]=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">names[-1]='Grace'
+names[-2]='Alan'
+</pre>
+<p>Asking for a position that doesn't exist is an error.</p>
+<pre><code class="hljs language-python">names = [<span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;Grace&quot;</span>]
+<span class="hljs-built_in">print</span>(names[<span class="hljs-number">3</span>])
+</code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+IndexError: list index out of range</pre>
+<p>An <code>IndexError</code> means you ran off the end of the list.
+There are three items, so the largest legal index is <code>2</code>.
+When a program crashes this way, the usual cause is an <strong>off by one error</strong>, and the usual culprit is forgetting that the counting starts at zero.</p>
+<h2>Storing Things in a List</h2>
+<pre><code class="hljs language-python">names = [<span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;Grace&quot;</span>]
+names[<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;Alonzo&quot;</span>
+<span class="hljs-built_in">print</span>(names)
+</code></pre>
+<pre class="code-chunk-output">['Ada', 'Alonzo', 'Grace']
+</pre>
+<p>An index can go on the left of an assignment as well as on the right.
+On the right, it reads the item at that position.
+On the left, it replaces it.
+The list stays the same length, and the old value is gone for good.</p>
+<blockquote>
+<p><strong>Key Idea: Reading an item and storing an item look identical. Which one you get depends on which side of the <code>=</code> the brackets are on.</strong></p>
+</blockquote>
+<p>This is the first thing we have seen that you can change in place.
+Such a value is called <strong>mutable</strong>.
+Strings are not mutable.</p>
+<pre><code class="hljs language-python">s = <span class="hljs-string">&quot;hello&quot;</span>
+s[<span class="hljs-number">0</span>] = <span class="hljs-string">&quot;H&quot;</span>
+</code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+TypeError: 'str' object does not support item assignment</pre>
+<p>The <code>TypeError</code> says that a string does not support <strong>item assignment</strong>.
+Once a string exists, its characters are fixed.
+To &quot;change&quot; a string, you have to build a new one and assign that.
+Look back at <a href="/CS1/variables_and_assignment.html" class="wikilink">variables_and_assignment</a> and notice the difference.
+There, we changed which value a name referred to.
+Here, we changed the value itself, and every name referring to that list sees the change.</p>
+<p>You can only store into a position that already exists.</p>
+<pre><code class="hljs language-python">names = [<span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;Grace&quot;</span>]
+names[<span class="hljs-number">3</span>] = <span class="hljs-string">&quot;Barbara&quot;</span>
+</code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+IndexError: list assignment index out of range</pre>
+<p>That is an <code>IndexError</code> again, this time complaining about list assignment.
+Assignment is not a way to make a list longer.
+For that, you need <code>append</code>.</p>
+<h2>Growing a List</h2>
+<pre><code class="hljs language-python">squares = []
+squares.append(<span class="hljs-number">1</span>)
+squares.append(<span class="hljs-number">4</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{squares=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">squares=[1, 4]
+</pre>
+<p>The <code>append</code> <strong>method</strong> adds one item to the end of a list.
+A method is a function that belongs to a particular value, and you call it by writing a dot after that value.
+So it's <code>squares.append(4)</code> and not <code>append(squares, 4)</code>.</p>
+<p>Start with the empty list, append once for each thing you want, and you can build a list of any size.
+That is much nicer with a loop.</p>
+<pre><code class="hljs language-python">squares = []
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
+    squares.append(i * i)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{squares=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">squares=[0, 1, 4, 9, 16]
+</pre>
+<p>Now look carefully at what <code>append</code> gives back.</p>
+<pre><code class="hljs language-python">squares = [<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">9</span>]
+result = squares.append(<span class="hljs-number">16</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{squares=}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{result=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">squares=[1, 4, 9, 16]
+result=None
+</pre>
+<p>The list grew, and <code>result</code> is <code>None</code>.
+That is because <code>append</code> changes the list you called it on and returns nothing.
+So <code>squares.append(16)</code> belongs on a line by itself.
+If you write <code>squares = squares.append(16)</code>, you throw the list away and leave <code>squares</code> referring to <code>None</code>.</p>
+<p>I have found that this one costs students an hour of debugging at least once.
+You already know the slogan from <a href="/CS1/strings_and_print.html" class="wikilink">strings_and_print</a>: printing is not returning.
+Here is the sequel: appending is not returning.</p>
+<h2>Exercises</h2>
+<p>What does this print?</p>
+<pre><code class="hljs language-python">x = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+x[<span class="hljs-number">0</span>] = x[<span class="hljs-number">2</span>]
+x.append(<span class="hljs-built_in">len</span>(x))
+<span class="hljs-built_in">print</span>(x)
+</code></pre>
+<details><summary>Click to reveal.</summary>
+<pre><code class="hljs">[3, 2, 3, 3]
+</code></pre>
+<p>The first line makes <code>x[0]</code> refer to the value <code>3</code>.
+Then <code>len(x)</code> is still <code>3</code>, and that <code>3</code> gets appended.</p>
+</details>
+<p>Write code that builds the list <code>[1, 2, 4, 8, 16, 32]</code> starting from an empty list.</p>
+<details><summary>Click to reveal.</summary>
+<pre><code class="hljs language-python">powers = []
+value = <span class="hljs-number">1</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">6</span>):
+    powers.append(value)
+    value = value * <span class="hljs-number">2</span>
+<span class="hljs-built_in">print</span>(powers)
+</code></pre>
+</details>
+<p>Here is a list of five numbers.
+Without using <code>len</code>, write one line that prints the last one.
+Then write a second line that prints it using <code>len</code>.</p>
+<details><summary>Click to reveal.</summary>
+<pre><code class="hljs language-python">nums = [<span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>, <span class="hljs-number">23</span>]
+<span class="hljs-built_in">print</span>(nums[-<span class="hljs-number">1</span>])
+<span class="hljs-built_in">print</span>(nums[<span class="hljs-built_in">len</span>(nums) - <span class="hljs-number">1</span>])
+</code></pre>
+</details>
+<h2>Summary</h2>
+<ul>
+<li>list</li>
+<li>list literal</li>
+<li>the <code>len</code> function</li>
+<li>empty list</li>
+<li>index</li>
+<li>indexing starts at zero</li>
+<li>negative indices</li>
+<li><code>IndexError</code></li>
+<li>off by one error</li>
+<li>item assignment</li>
+<li>mutable</li>
+<li>strings are not mutable</li>
+<li>methods and the dot</li>
+<li>the <code>append</code> method</li>
+<li>appending is not returning</li>
+</ul>
+
+</body>
+</html>

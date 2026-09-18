@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Homework for Week 3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Homework for Week 3</h1>
+<h2>Functions</h2>
+<p>Last class, we saw how to define our own functions.
+It's really important to use the right words when talking about functions.
+Let's practice with the following function based on one we saw in class.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">yay</span>(<span class="hljs-params">n</span>):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Yay<span class="hljs-subst">{<span class="hljs-string">&#x27;!&#x27;</span> * n}</span>&quot;</span>)
+    <span class="hljs-keyword">if</span> n &gt; <span class="hljs-number">0</span>:
+        morale = <span class="hljs-string">&quot;High&quot;</span>
+    <span class="hljs-keyword">else</span>:
+        morale = <span class="hljs-string">&quot;Low&quot;</span>
+    <span class="hljs-keyword">return</span> morale
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;yay has type <span class="hljs-subst">{<span class="hljs-built_in">type</span>(yay)}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;yay(2) has type <span class="hljs-subst">{<span class="hljs-built_in">type</span>(yay(<span class="hljs-number">2</span>))}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(yay(<span class="hljs-number">2</span>)))
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">yay has type &lt;class 'function'&gt;
+Yay!!
+yay(2) has type &lt;class 'str'&gt;
+Yay!!
+&lt;class 'str'&gt;
+</pre>
+</details>
+<p>The code above is the <strong>definition</strong> of the function.
+The variable <code>n</code> is called the <strong>parameter</strong> of the function.
+The word <code>yay</code> is the <strong>name</strong> of the function.
+You can check the type of <code>yay</code> the same way you can check the type of any other function.
+The word <code>class</code> means <code>type</code>.</p>
+<blockquote>
+<p>Thinking about what type of objects you have is the best way to begin understanding a complex program.</p>
+</blockquote>
+<p>You can think of it as a variable.
+The variable <code>morale</code> is a <strong>local variable</strong>.
+It is not defined outside of the function.
+If we call the function twice, it doesn't remember what it was the last time the function was called.</p>
+<p>The value of <code>morale</code> at the end of the function will be the <strong>return value</strong>.
+The value of <code>yay(2)</code> is <code>&quot;High&quot;</code>.
+It prints something to the screen, but that is not how the function gives us its output.
+The output of the function is the return value.
+This is confusing at first.
+The key is to remember that a function gives its output to the program.
+When it prints, it's giving output to <em>you</em>.
+That's considered a <strong>side effect</strong>.</p>
+<blockquote>
+<p>Repeat this out loud enough times to never forget it: <strong>Printing is not returning</strong>.</p>
+</blockquote>
+<h3>An Algebra Example</h3>
+<p>The general equation for a line in the plane is</p>
+<p>\[ax + by = c\]
+</p>
+<p>A specific example might be</p>
+<p>\[2x + 3y = 0\]
+</p>
+<p>or</p>
+<p>\[5x - 4y = 6\]
+</p>
+<p>The line defined by this last equation is the set of points $(x,y)$ that make the equation true.
+So, for example, the point $(2,1)$ is on this line because</p>
+<p>\[5(2) - 4(1) = 10 - 4 = 6.\]
+</p>
+<p>There are other points on this line as well.
+For example, $(1, -\frac{1}{4})$ is on the line:</p>
+<p>\[5(1) - 4\left(-\frac{1}{4}\right) = 5 - (-1) = 6.\]
+</p>
+<p>There are infinitely many points on the line.
+One way to identify them is to give a value for $x$ and then find the value for $y$ that lands on the line.</p>
+<p><strong>Write a function that takes a parameter <code>x</code> and returns a value <code>y</code> such that <code>x,y</code> is on the line <code>5 * x + 4 * y == 6</code>.</strong>
+<em>Here is a skeleton for your function:</em></p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">y_from_x</span>(<span class="hljs-params">x</span>):
+    y = ????
+    <span class="hljs-keyword">return</span> y
+</code></pre>
+<p>How will we check that our program is correct?
+We can do some examples by hand.
+We can also write a function to check an answer.</p>
+<p><strong>Write a function <code>check_answer</code> that takes <code>x</code> and <code>y</code> as inputs and returns True if the point <code>x,y</code> is on the line.
+Otherwise, return <code>False</code>.</strong></p>
+<p>Finally, you can use your functions together to <strong>test</strong> your code as follows.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> x_test <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100</span>):
+    y_test = y_from_x(x_test)
+    correct = check_answer(x_test, y_test)
+    <span class="hljs-keyword">assert</span>(correct)
+</code></pre>
+<p>Try to explain in words what this code is doing.
+Break it down into pieces if you need help.</p>
+<h3>A Challenge</h3>
+<p>Can you rewrite the functions above so that they will work for any linear equation.
+That is, let them also take parameters <code>a</code>, <code>b</code>, and <code>c</code> and use the general definition of the line.</p>
+<p>How will you check that your code is correct?</p>
+<p>Does your code work for vertical lines?</p>
+<h2>Lists</h2>
+<p>In Python, you can define a list of values.
+The simplest way to do this is as follows.</p>
+<pre><code class="hljs language-python">mylist = [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>]
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;mylist has type <span class="hljs-subst">{<span class="hljs-built_in">type</span>(mylist)}</span>&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">mylist has type &lt;class 'list'&gt;
+</pre>
+</details>
+<p>In this case, we defined a variable named <code>my_list</code> and we assigned its value to be a literal list.
+Recall that a <strong>literal</strong> is when you simply write down the value without having to compute anything on the right hand side.
+In the code above, we checked the type of and saw it is a <code>list</code>.</p>
+<p>See the notes on <a href="/CS1/lists.html" class="wikilink">lists</a> for more details.</p>
+<p>We access the items in a list using an <strong>index</strong>.
+The index is placed in square brackets after the name of the list (with no spaces between).</p>
+<pre><code class="hljs language-python">L = [<span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-string">&quot;c&quot;</span>]
+<span class="hljs-built_in">print</span>(L[<span class="hljs-number">0</span>])
+<span class="hljs-built_in">print</span>(L[<span class="hljs-number">1</span>])
+<span class="hljs-built_in">print</span>(L[<span class="hljs-number">2</span>])
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">a
+b
+c
+</pre>
+</details>
+<p><em>The plural of index is <strong>indices</strong>.</em>
+The indexing starts at <code>0</code>.
+This is confusing at first, but you will grow to love it.
+Hopefully, the example below gives you a sense of the why this <strong>zero-indexing</strong> is a good idea.</p>
+<h3>Chinese Zodiac</h3>
+<p>In the Chinese Zodiac, there is an animal associated with each year.
+It cycles through these animals and then repeats.
+For example , the year 1912 is the year of the rat.
+The year 1913 is the year of the ox.
+There are twleve animals so by the time you get to 1924, it's the year of the rat again.
+Here is a list of the animals in order.</p>
+<pre><code class="hljs language-python">animal = [
+        <span class="hljs-string">&quot;Rat&quot;</span>, 
+        <span class="hljs-string">&quot;Ox&quot;</span>, 
+        <span class="hljs-string">&quot;Tiger&quot;</span>, 
+        <span class="hljs-string">&quot;Rabbit&quot;</span>,
+        <span class="hljs-string">&quot;Dragon&quot;</span>,
+        <span class="hljs-string">&quot;Snake&quot;</span>,
+        <span class="hljs-string">&quot;Horse&quot;</span>,
+        <span class="hljs-string">&quot;Sheep&quot;</span>,
+        <span class="hljs-string">&quot;Monkey&quot;</span>, 
+        <span class="hljs-string">&quot;Rooster&quot;</span>, 
+        <span class="hljs-string">&quot;Dog&quot;</span>, 
+        <span class="hljs-string">&quot;Pig&quot;</span>
+    ]
+</code></pre>
+<pre class="code-chunk-output"></pre>
+<p><em>Note that Python lets you break the list over multiple lines so its easier to read.</em></p>
+<p><strong>Write a function that takes a year (as an integer) and returns a string corresponding to the right animal for that year.</strong></p>
+<p>You should think about how you can turn a year into an index into the list.</p>
+<p>The years are also associated with certain elements.
+Here are the elements.</p>
+<pre><code class="hljs language-python">element = [
+    <span class="hljs-string">&quot;Water&quot;</span>,
+    <span class="hljs-string">&quot;Wood&quot;</span>,
+    <span class="hljs-string">&quot;Fire&quot;</span>,
+    <span class="hljs-string">&quot;Earth&quot;</span>
+    <span class="hljs-string">&quot;Metal&quot;</span>,
+]
+</code></pre>
+<p>The elements work a little differently.
+The elements change only every two years.
+For example, 1912 and 1913 are both &quot;Water&quot; years.
+So 1912 is the year of the &quot;Water Rat&quot; and 1913 is the year of the &quot;Water Ox&quot;.
+Then the next two years (1914 and 1915) are &quot;Wood&quot; years and so on.
+Then, the next two years (1916 and 1917) are &quot;Fire&quot; years.
+This means that 1924 will the year of the &quot;Wood Rat&quot;.</p>
+<p><strong>Modify your zodiac function so that it returns the element and the animal for a given year.</strong></p>
+<p><em>How will you test it? Add some assertions.</em></p>
+<h2><code>for</code> loops</h2>
+<p>In class, we saw <code>for</code> loops that loop over a range of numbers.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> somevariable <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
+    <span class="hljs-built_in">print</span>(somevariable)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">0
+1
+2
+3
+4
+</pre>
+</details>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">5</span>):
+    <span class="hljs-built_in">print</span>(x)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">1
+2
+3
+4
+</pre>
+</details>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">2</span>):
+    <span class="hljs-built_in">print</span>(y)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">10
+12
+14
+16
+18
+</pre>
+</details>
+<p>The <code>for</code> loop is very versatile.
+It can also loop over the elements in a list.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">2</span>):
+    <span class="hljs-built_in">print</span>(y)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">10
+12
+14
+16
+18
+</pre>
+</details>
+<h3>Prime Numbers</h3>
+<p>In class, we checked if a number was prime by seeing if it is divisible by all smaller numbers.
+This was overkill.
+It would have been enough to check if it's divisible by all smaller primes.
+In fact, even that is too many computations, because any number that isn't prime will be divisible by a number that is at most its square root.
+<em>Do you see why that is true?</em></p>
+<p>So, for numbers up to 100, it suffices to check if they are divisible by the primes up to 10.
+We can use this idea in the following program that prints all the 2 digit prime numbers.</p>
+<pre><code class="hljs language-python">primes = [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>]
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>,<span class="hljs-number">100</span>):
+    n_is_prime = <span class="hljs-literal">True</span>
+    <span class="hljs-keyword">for</span> factor <span class="hljs-keyword">in</span> primes:
+        <span class="hljs-keyword">if</span> n % factor == <span class="hljs-number">0</span>:
+            n_is_prime = <span class="hljs-literal">False</span>
+    <span class="hljs-keyword">if</span> n_is_prime:
+        <span class="hljs-built_in">print</span>(n)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">11
+13
+17
+19
+23
+29
+31
+37
+41
+43
+47
+53
+59
+61
+67
+71
+73
+79
+83
+89
+97
+</pre>
+</details>
+<p>Instead of printing the prime numbers, let's add them to our list of primes.
+You can add an item to a list using the <code>append</code> function.</p>
+<pre><code class="hljs language-python">primes = [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>]
+primes.append(<span class="hljs-number">11</span>)
+primes.append(<span class="hljs-number">13</span>)
+<span class="hljs-built_in">print</span>(primes)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">[2, 3, 5, 7, 11, 13]
+</pre>
+</details>
+<p><strong>Write a program that finds all the primes up to 10000.  It should put them in a list and print the list.</strong></p>
+<p>For an extra challenge, write a function that takes a parameter <code>n</code> and returns a list of the primes up to <code>n</code>.</p>
+
+</body>
+</html>

@@ -13,8 +13,9 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
   <script>
     async function renderMath() {
-      const response = await fetch('macros.json');
-      const macros = await response.json();
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
       renderMathInElement(document.body, {
         macros,
         delimiters: [
@@ -92,17 +93,21 @@
 </ul>
 <hr>
 <h2>Week 3</h2>
+<h3>Notes</h3>
+<ul>
+<li><a href="/CS1/lists.html" class="wikilink">lists</a></li>
+<li><a href="/CS1/hw03.html" class="wikilink">hw03</a></li>
+</ul>
 <h3>Tools</h3>
 <ul>
 <li>markdown</li>
 </ul>
 <h3>Python</h3>
 <ul>
-<li>tuples and lists</li>
+<li>lists</li>
 <li>loops: <code>for</code> and <code>while</code></li>
 <li>functions: <code>def</code></li>
 <li>scope rules</li>
-<li>objects and methods</li>
 </ul>
 <h3>Principles</h3>
 <ul>
@@ -125,6 +130,7 @@
 <li>errors: <code>try</code> and <code>except</code></li>
 <li><code>import</code></li>
 <li><code>if __name__ == '__main__':</code></li>
+<li>objects and methods</li>
 </ul>
 <h3>Principles</h3>
 <ul>
