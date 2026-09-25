@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Homework for Week 4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Homework for Week 4</h1>
+<h2>One more time with classes</h2>
+<p>Let's revisit the questions from last time using classes.
+Read the notes on <a href="/CS1/first_look_at_classes.html" class="wikilink">first_look_at_classes</a> to learn the vocabulary.</p>
+<p>Write a class called equation that stores a linear equation in two unknowns.
+That is, it stores $a$, $b$ and $c$ to represent the equation</p>
+<p>\[ax + by = c\]
+</p>
+<p>Then, add methods to check an answer and to rewrite the function to give $x$ in terms of $y$ and vice versa.</p>
+<p>As a challenge, give an error message if the input is impossible.</p>
+<p>As a further challenge, write a function that takes two equations and finds a point (if it exists) that makes both equations true.
+This is called <strong>solving the system of equations</strong>.</p>
+<h2>Interpolation</h2>
+<p>Here is an important idea in animation.
+If you want to move something from one spot to another over a series of frames, you will need to figure out where to put that object</p>
+<p>Write a class called <code>Point</code> and give it an initializer that sets the <code>x</code> and <code>y</code> values.
+Then, write a function called <code>interpolate</code> that takes three parameters, <code>a</code>, <code>b</code>, and <code>n</code> where</p>
+<ul>
+<li><code>a</code> and <code>b</code> are points</li>
+<li><code>n</code> is the number of steps.
+The output should be a list of <code>n</code> equally spaced points on the line from <code>a</code> to <code>b</code>.</li>
+</ul>
+<p>For example, if we had this function the following code would give the following output.</p>
+<pre><code class="hljs language-python">pt1 = Point(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)
+pt2 = Point(<span class="hljs-number">5</span>,<span class="hljs-number">9</span>)
+<span class="hljs-built_in">print</span>(interpolate(pt1, pt2, <span class="hljs-number">5</span>))
+</code></pre>
+<pre><code class="hljs">[(1,1), (2,3), (3,5), (4,7), (5,9)]
+</code></pre>
+<h2>Op Art</h2>
+<p>In class, I showed you how to make an svg from a library, but that is not strictly necessary.
+You can simply print the svg directly.
+You just need to get the format correct and you can add other data in the right places.</p>
+<pre><code class="hljs language-python">x1 = <span class="hljs-number">100</span>
+y1 = <span class="hljs-number">100</span>
+x2 = <span class="hljs-number">200</span>
+y2 = <span class="hljs-number">50</span>
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&lt;svg xmlns=\&quot;http://www.w3.org/2000/svg\&quot;&gt;&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;&lt;circle cx=\&quot;<span class="hljs-subst">{x1}</span>\&quot; cy=\&quot;<span class="hljs-subst">{y1}</span>\&quot; r=\&quot;10\&quot;/&gt;&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;&lt;circle cx=\&quot;<span class="hljs-subst">{x2}</span>\&quot; cy=\&quot;<span class="hljs-subst">{y2}</span>\&quot; r=\&quot;6\&quot;/&gt;&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;&lt;line stroke=\&quot;black\&quot; stroke-width=\&quot;2\&quot; x1=\&quot;<span class="hljs-subst">{x1}</span>\&quot; y1=\&quot;<span class="hljs-subst">{y1}</span>\&quot; x2=\&quot;<span class="hljs-subst">{x2}</span>\&quot; y2=\&quot;<span class="hljs-subst">{y2}</span>\&quot;/&gt;&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&lt;/svg&gt;&quot;</span>)
+</code></pre>
+<svg xmlns="http://www.w3.org/2000/svg">
+<circle cx="100" cy="100" r="10"/>
+<circle cx="200" cy="50" r="6"/>
+<line stroke="black" stroke-width="2" x1="100" y1="100" x2="200" y2="50"/>
+</svg>
+<p>Can you use this pattern and your interpolation function to make an image like the one we saw in classs that takes two lines of points and connects the first point in one line to the first point in the other line.
+Then it connects the second point to the second point and so on.</p>
+
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>A First Look at Classes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>A First Look at Classes</h1>
+<p>Python, we can usually use the word <strong>type</strong> and <strong>class</strong> interchangeably.
+We talk about the class of an object or the type of an object and generally, these are the same.
+In code, we use <code>type</code> to ask for the type and <code>class</code> to define a new type.</p>
+<p>Here is the simplest definition of a class.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Book</span>:
+    <span class="hljs-keyword">pass</span>
+
+b = Book()
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(b))
+</code></pre>
+<pre class="code-chunk-output">&lt;class '__main__.Book'&gt;
+</pre>
+<p>The keyword <code>pass</code> is a funny command that does nothing.
+I had to put it there, because, like functions, a class definition is followed by a block of code.
+If there aren't any indented lines after, it gives a syntax error.</p>
+<p>In the code above, I defined a class called <code>Book</code>.
+I then created an <strong>instance</strong> of <code>Book</code> and assigned it to the variable <code>b</code>.
+When we printed the type of <code>b</code>, the name of its type is <code>__main__.Book</code>.
+That looks weird, but you already know that dot is used to identify a <strong>namespace</strong>.
+The special namespace <code>__main__</code> is just Python's way of naming the main file of code that you are running right now.</p>
+<h2>Attaching Data to Objects</h2>
+<p>In Python, objects (usually) have their own namespace.
+Remember that we create new variable just by assigning values to them.
+When we write a name, we can also indicate the namespace where that name will live.
+So, we can specify an object as the namespace.
+This is like attaching data to the object, like with a sticky note.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Book</span>:
+    <span class="hljs-keyword">pass</span>
+
+b = Book()
+b.title = <span class="hljs-string">&quot;Scaramouche&quot;</span>
+b.author = <span class="hljs-string">&quot;Rafael Sabatini&quot;</span>
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{b.title}</span> was written by <span class="hljs-subst">{b.author}</span>.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Scaramouche was written by Rafael Sabatini.
+</pre>
+<p>You can maybe see why this is very useful.
+If I have a function and I pass it a book (as an argument), I also pass the namespace, and therefore get all the data that comes with it.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Book</span>:
+    <span class="hljs-keyword">pass</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">info</span>(<span class="hljs-params">book</span>):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{book.title}</span> was written by <span class="hljs-subst">{book.author}</span>.&quot;</span>)
+
+b = Book()
+b.title = <span class="hljs-string">&quot;Moby Dick&quot;</span>
+b.author = <span class="hljs-string">&quot;Herman Melville&quot;</span>
+
+info(b)
+</code></pre>
+<pre class="code-chunk-output">Moby Dick was written by Herman Melville.
+</pre>
+<p>Notice that the name of the variable in the function is different from the name of the variable outside the function.
+This is related to <a href="/CS1/variable_scopes_in_python.html" class="wikilink">variable_scopes_in_python</a>.
+Calling the function with argument <code>b</code> then assigns the parameter <code>book</code> to refer to whatever object <code>b</code> refers to.</p>
+<p>If you try to use a variable that doesn't exist, you get an error, as you might expect.
+It might look like this.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Book</span>:
+    <span class="hljs-keyword">pass</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">info</span>(<span class="hljs-params">book</span>):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{book.title}</span> was written by <span class="hljs-subst">{book.author}</span>.&quot;</span>)
+
+b = Book()
+b.title = <span class="hljs-string">&quot;War and Peace&quot;</span>
+
+info(b)
+</code></pre>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 10, in &lt;module&gt;
+  File &quot;&lt;stdin&gt;&quot;, line 5, in info
+AttributeError: 'Book' object has no attribute 'author'</pre>
+<p>The error shows that when we called info, we then called print and tried to access a variable called author.
+The actual error is <code>AttributeError: 'Book' object has no attribute 'author'</code>.
+So, the data that we define on an object is called an <strong>attribute</strong>.</p>
+<h2>Initializing Objects</h2>
+<p>When creating the <code>Book</code> instance, we used parentheses.
+In this way, it looks like a function.
+Behind the scenes, there is a function that Python calls when a new object is created.
+It's called the <strong>initializer</strong>.
+Usually, when you design your own class, you also design an initializer.
+This is nice because it will allow us to make sure that the right attributes are defined.
+The name of the initiallizer function has to be <code>__init__</code>.
+These double underscore names are sometimes called <strong>dunder methods</strong> (&quot;double underscore&quot; has too many syllables.)
+They are also called <strong>magic methods</strong>.
+Usually, you don't call magic methods directly, you let them get called automatically by some standard Python action.
+In our case, the initializer is called when a new object is created.</p>
+<p>Here is our example with an initializer.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Book</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, title, author</span>):
+        <span class="hljs-variable language_">self</span>.title = title
+        <span class="hljs-variable language_">self</span>.author = author
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">info</span>(<span class="hljs-params">book</span>):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{book.title}</span> was written by <span class="hljs-subst">{book.author}</span>.&quot;</span>)
+
+b = Book(<span class="hljs-string">&quot;War and Peace&quot;</span>, <span class="hljs-string">&quot;Leo Tolstoy&quot;</span>)
+
+info(b)
+</code></pre>
+<pre class="code-chunk-output">War and Peace was written by Leo Tolstoy.
+</pre>
+<p>Here is how Python executes this code:</p>
+<ul>
+<li>It first defines a new class called <code>Book</code>.</li>
+<li>It adds an initializer to the class.</li>
+<li>It then defines a function called <code>info</code>.</li>
+<li>A new Book object is created.</li>
+<li>The new Book object is passed to the initializer (as the first parameter, <code>self</code>) along with the other arguments <code>&quot;War and Peace&quot;</code> and <code>&quot;Leo Tolstoy&quot;</code>.</li>
+<li>The title and author parameters are added as attributes to <code>self</code>.  Notice that <code>title</code> is different than <code>self.title</code> because they are in different namespaces.</li>
+<li>The new book object is assigned to the variable <code>b</code>.</li>
+<li>The <code>info</code> function is called on <code>b</code>.</li>
+<li>The <code>title</code> and <code>author</code> of the book are printed to the screen.</li>
+</ul>
+<h2>Let's add a Method</h2>
+<p>Our <code>info</code> function is a natural choice to be rewritten as a method.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Book</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, title, author</span>):
+        <span class="hljs-variable language_">self</span>.title = title
+        <span class="hljs-variable language_">self</span>.author = author
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">info</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{self.title}</span> was written by <span class="hljs-subst">{self.author}</span>.&quot;</span>)
+
+b = Book(<span class="hljs-string">&quot;Hop on Pop&quot;</span>, <span class="hljs-string">&quot;Dr. Seuss&quot;</span>)
+
+b.info()
+</code></pre>
+<pre class="code-chunk-output">Hop on Pop was written by Dr. Seuss.
+</pre>
+<p>Three amin things have changed.</p>
+<ol>
+<li>We indented the function, so now it is inside the class block.</li>
+<li>We changed teh name of the parameter from <code>book</code> to <code>self</code>.  We didn't have to do this, but it is considered completely standard to always use <code>self</code> for the first parameter of a method.</li>
+<li>We changed how we called the function.  Instead of writing <code>info(b)</code>, we call <code>b.info()</code>.</li>
+</ol>
+<p>This last difference seems very small, but it's actually pretty amazing.
+Remember how we passed <code>b</code> to our <code>info</code> function and the data attached to <code>b</code> came with it automatically.
+By having methods, we can pass <code>b</code> to a function and all its methods come with it.
+Usually, this would create problems with names because we would have to make sure that the names of the functions were available inside the function.
+Now, they just come with the object.</p>
+<p>This is main point of defining classes and methods.
+It allows us to package up both data and the functions that operate on that data (i.e. <strong>methods</strong>) together into a single thing (an <strong>object</strong>).</p>
+<h2>Another Example</h2>
+<p>I think the first time you put multiple mathematical things together into a single thing was when you learned about coordinates in the plane.
+A point in the plane can be thought of as a pair of numbers, an <code>x</code> coordinate and a <code>y</code> coordinate.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Point</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, x, y</span>):
+        <span class="hljs-variable language_">self</span>.x = x
+        <span class="hljs-variable language_">self</span>.y = y
+    
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">to_the_left_of</span>(<span class="hljs-params">self, other</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.x &lt;= other.x
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">higher_than</span>(<span class="hljs-params">self, other</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.y &gt;= other.y
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__str__</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;(<span class="hljs-subst">{self.x}</span>, <span class="hljs-subst">{self.y}</span>)&quot;</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">self, other</span>):
+        <span class="hljs-keyword">return</span> Point(<span class="hljs-variable language_">self</span>.x + other.x, <span class="hljs-variable language_">self</span>.y + other.y)
+
+a = Point(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
+b = Point(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>)
+c = a.add(b)
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;a = <span class="hljs-subst">{<span class="hljs-built_in">str</span>(a)}</span>, b = <span class="hljs-subst">{<span class="hljs-built_in">str</span>(b)}</span>, c = <span class="hljs-subst">{<span class="hljs-built_in">str</span>(c)}</span>&quot;</span>)
+<span class="hljs-keyword">assert</span>(a.higher_than(b))
+<span class="hljs-keyword">assert</span>(a.to_the_left_of(b))
+</code></pre>
+<pre class="code-chunk-output">a = (2, 3), b = (3, 2), c = (5, 5)
+</pre>
+<p>Here we used another magic method: <code>__str__</code>.
+This is the method that you define to tell Python how to write the object as a string.
+Python calls this method when you try to turn something into a string with expressions like <code>str(a)</code>.</p>
+
+</body>
+</html>

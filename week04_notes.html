@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Week 4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Week 4</h1>
+<h2>Lists, Objects, and Methods</h2>
+<h3>What is an object?</h3>
+<p>Pretty much everything that you might call a &quot;thing&quot; in Python is an <strong>object</strong>.
+Anything that you store in memory and can assign a name to is an object.
+The number <code>5</code> is an object of <strong>type</strong> <code>int</code> for integer.
+All numbers are objects.
+Strings are objects.
+Even functions and types are objects.</p>
+<pre><code class="hljs language-python"><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(<span class="hljs-built_in">str</span>))
+</code></pre>
+<pre class="code-chunk-output">&lt;class 'type'&gt;
+</pre>
+<p>Every object has three parts.</p>
+<ol>
+<li>
+<p>It has an <strong>identity</strong>. This is a way to distinguish this object from any other object.  In practical terms, this is usually a number that indicates where in the memory the object is stored.</p>
+</li>
+<li>
+<p>It has a <strong>type</strong>.</p>
+</li>
+<li>
+<p>It has a <strong>value</strong>.  This is the actual data that is stored in memory.</p>
+</li>
+</ol>
+<h4>The difference between the value and the identity.</h4>
+<p>Two objects can have the same value, but different identities.</p>
+<pre><code class="hljs language-python">X = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
+Y = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{X <span class="hljs-keyword">is</span> Y = }</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{X == Y = }</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">X is Y = False
+X == Y = True
+</pre>
+<h3>What is a method?</h3>
+<p>Here is a program that is <em>only</em> for demonstration purposes.
+If you wrote this in a job, you would get fired.</p>
+<pre><code class="hljs language-python">L = [<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>]
+<span class="hljs-built_in">list</span>.append(L, <span class="hljs-number">9</span>)
+<span class="hljs-built_in">print</span>(L)
+</code></pre>
+<pre class="code-chunk-output">[1, 3, 5, 7, 9]
+</pre>
+<p>The reason you would get fired is that you should have instead written the following code.</p>
+<pre><code class="hljs language-python">L = [<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>]
+L.append(<span class="hljs-number">9</span>)
+<span class="hljs-built_in">print</span>(L)
+</code></pre>
+<pre class="code-chunk-output">[1, 3, 5, 7, 9]
+</pre>
+<p>It looks basically the same.
+It does the same thing.
+It (arguably) makes less sense.
+It might even be infinitesimally slower.
+So why is it better?</p>
+<p>Let's instead start with how it is different.</p>
+<p><code>list.append</code> is the name of the function that appends an object to a list.
+It has a dot in the name to indicate the <strong>namespace</strong> <code>list</code>.
+A namespace is just a set of names.
+We use namespaces so that we can distinguish between different objects with the same name.
+For example, you might have some other type of object that also has an <code>append</code> function.
+Here, we know exactly which one we mean.</p>
+<p><code>L.append</code> is also a function, but it's a special kind of function called a <strong>method</strong>.
+When we write <code>L.append(9)</code>, python looks in the namespace <code>L</code> for an <code>append</code> function.
+It doesn't find one.
+Then it looks in the namespace of the type of <code>L</code>.
+In this case, the type is <code>list</code>.
+It does find the <code>list.append</code> function.
+It then passes <code>L</code> as the first argument to that function.
+So, in this case, <code>L.append(9)</code> <strong>resolves</strong> to a function call <code>list.append(9)</code>.
+So, <em>why write it this weird way?</em></p>
+<p>The key is that we are allowing the list <code>L</code> to decide how appending works.
+If it is of type <code>list</code>, then maybe it will <strong>delegate</strong> appending to that function.
+But maybe, it's a different kind of object with a different way to append.
+In this case, we want to trust it to do the right thing for whatever kind of object it is.</p>
+<p><strong>Methods</strong> are functions that operate on objects.
+There are all kinds of methods on objects that you have already seen.
+For example, even <code>int</code> has some special methods.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-number">5</span>
+num_bits = x.bit_length()
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;It takes <span class="hljs-subst">{num_bits}</span> bits to represent <span class="hljs-subst">{x}</span>.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">It takes 3 bits to represent 5.
+</pre>
+<p>In this case, there are no arguments (inputs) needed for the bit length, so the parentheses are empty.
+It is a method on <code>x</code>, so <code>x</code> is an implicit argument.
+When we write our own methods, these implicit arguments will be made explicit.</p>
+<p>If you have an object and the type of that object has a method.
+You can call that method <strong>on</strong> that object.
+So, the following code works, but maybe isn't recommended. (I had to add parentheses so Python wouldn't think I was using the period as a decimal point).</p>
+<pre><code class="hljs language-python">num_bits = (<span class="hljs-number">12</span>).bit_length()
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;It takes <span class="hljs-subst">{num_bits}</span> bits to represent 12.&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">It takes 4 bits to represent 12.
+</pre>
+<h2>Taking Notes</h2>
+<h3>Markdown</h3>
+<p>I write my notes in VSCode.
+I write them as plain text files with a <code>.md</code> extension.
+This stands for <strong>markdown</strong>.</p>
+<p>Markdown was invented to be easy to read, but also easy to translate into <strong>html</strong>, the language of web pages.</p>
+<p>The idea is is simple.  We use special characters to indicate certain kinds of formatting.
+So, if I put asterisks around some text, that's how I indicate that it should be <em>italic</em>.
+If I put double asterisks around text it will be <strong>bold</strong>.
+If I start a line with a pound sign (i.e. a hash symbol), it will be a header.
+The level of the header is indicated by the number of hashes.</p>
+<p>There are several other standard shortcuts you can look up a cheat sheet on how to write Markdown.
+There are many of these available on the internet.</p>
+<h3>Code Blocks</h3>
+<p>Markdown lets you indicate a code block using triple backticks.
+That's the key in the upper left corner of your keyboard next to the <code>1</code>.
+You can also include what programming language you're using. And that will help some programs to figure out how to change the colors for the syntax of your language.
+Here's an example in Python.</p>
+<p>&lt;pre&gt;</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Hello, World!)
+</span></code></pre>
+<p>&lt;/pre&gt;</p>
+<h3>Previewing</h3>
+<p>In VSCode, you can open the built in markdown previewer to see the rendered version of your file.
+It is really a web browser showing the markdown as html.</p>
+<p>In some of the examples in this note, I am using a more powerful previewer called <strong>Markdown Preview Enhanced</strong>.
+This allows me to run the code blocks in the notes and see the output in the preview.</p>
+<hr>
+<h2>SVGs</h2>
+<p>One of the standard types of images that you will find on the web is called an SVG.
+This stands for <strong>Scalable Vector Graphics</strong>.
+It is human-readable.
+It uses a tag-based markup system similar to html.</p>
+<h3>Writing SVGs in Python</h3>
+<p>To make these figures, I am using a Python package called <code>svg.py</code>.
+A <strong>package</strong> is some code (usually, code written by someone else) that you can download and use.
+A common way to install other packages is using a tool called <code>pip</code>.
+To install teh svg package, you would use the following command in a terminal.</p>
+<pre><code class="hljs language-bash">pip3 install svg.py
+</code></pre>
+<p>Here is a simple example of using the code.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> svg <span class="hljs-keyword">import</span> SVG, Circle
+
+a_dot = Circle(cx=<span class="hljs-number">100</span>, cy=<span class="hljs-number">100</span>, r=<span class="hljs-number">10</span>)
+another_dot = Circle(cx= <span class="hljs-number">200</span>, cy = <span class="hljs-number">50</span>, r=<span class="hljs-number">10</span>)
+
+my_image = SVG(elements=[a_dot, another_dot]) 
+
+<span class="hljs-built_in">print</span>(my_image)
+</code></pre>
+<svg xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="10"/><circle cx="200" cy="50" r="10"/></svg>
+<p>Here is an image as a text file.
+It's the same as above, except I added some newlines so that it wraps nicely.</p>
+<pre><code class="hljs">&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+    &lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=&quot;10&quot;/&gt;
+    &lt;circle cx=&quot;200&quot; cy=&quot;50&quot; r=&quot;10&quot;/&gt;
+&lt;/svg&gt;
+</code></pre>
+
+</body>
+</html>
