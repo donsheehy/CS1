@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Week 5</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Week 5</h1>
+<h2>Python Overview</h2>
+<h3>Variables and Assignment</h3>
+<p>It is common to say things like, <em>I can store data in a variable</em>.
+This kinds of talk makes you think of the variable as a container that can hold stuff.
+That's maybe not the best picture to keep in your head.
+Really, the container is the computer's memory and the variable is just a name that is associated to an object stored in memory.</p>
+<pre><code class="hljs language-python">x = <span class="hljs-string">&quot;Hello&quot;</span>
+y = x + <span class="hljs-string">&quot;, World!&quot;</span>
+
+<span class="hljs-built_in">print</span>(y)
+</code></pre>
+<pre class="code-chunk-output">Hello, World!
+</pre>
+<p>In this case, the string literal &quot;Hello&quot; is stored in memory and the variable <code>x</code> refers to it.
+Then, the variable <code>x</code> is used in an expression.
+The result of that expression is stored in memory.
+The variable <code>y</code> is <em>assigned</em> to the that result.
+When we print <code>y</code>, it</p>
+<pre><code class="hljs language-python">x = <span class="hljs-string">&quot;Hello&quot;</span>
+y = x + <span class="hljs-string">&quot;, World!&quot;</span>
+x = y
+
+<span class="hljs-keyword">assert</span>(x <span class="hljs-keyword">is</span> y)
+<span class="hljs-built_in">print</span>(x)
+</code></pre>
+<pre class="code-chunk-output">Hello, World!
+</pre>
+<pre><code class="hljs language-python">x = <span class="hljs-number">5</span>
+x = <span class="hljs-string">&quot;Hello&quot;</span>
+x = x * <span class="hljs-number">2</span>
+<span class="hljs-built_in">print</span>(x)
+</code></pre>
+<pre class="code-chunk-output">HelloHello
+</pre>
+<h3><code>if</code> Statements</h3>
+<p>An <code>if</code> statement checks if some expression is true and only executes teh code block if the answer is yes.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">if</span> <span class="hljs-number">5</span> &lt; <span class="hljs-number">3</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Five is smaller than three.&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Did I lie?&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Did I lie?
+</pre>
+<p>You can follow the block of code for an <code>if</code> statement with an <code>else</code> condition.
+This is another block that will only execute if the original statement was false.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">if</span> <span class="hljs-number">5</span> &lt; <span class="hljs-number">3</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Five is smaller than three.&quot;</span>)
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Five is NOT smaller than three.&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Did I lie?&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">Five is NOT smaller than three.
+Did I lie?
+</pre>
+<p>The expression <code>5 &lt; 3</code> evaluates to <code>False</code>.
+The value is a <strong>boolean</strong>, a value that is only either <code>True</code> or <code>False</code>.</p>
+<h3>Loops</h3>
+<p>The most basic kind of loop is a <code>while</code> loop.
+It is like an if statement except that the block will execute again and again if the condition is still true.</p>
+<pre><code class="hljs language-python">n = <span class="hljs-number">2</span>
+<span class="hljs-keyword">while</span> n &lt; <span class="hljs-number">30</span>:
+    <span class="hljs-built_in">print</span>(n)
+    n = n * <span class="hljs-number">2</span>
+</code></pre>
+<pre class="code-chunk-output">2
+4
+8
+16
+</pre>
+<p>The most common type of loop in real code is a <code>for</code> loop.
+A <code>for</code> loop has a variable called the <strong>loop variable</strong>.
+It loops over some collection of values such as a <code>list</code> or a <code>range</code>.
+Each time through the block, it assigns the loop variable to the next value.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-number">2</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>]:
+    <span class="hljs-built_in">print</span>(i)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">2
+5
+7
+</pre>
+</details>
+<pre><code class="hljs language-python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):
+    <span class="hljs-built_in">print</span>(i)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">0
+1
+2
+3
+</pre>
+</details>
+<p>We say that the code is <strong>iterating</strong> over some collection of values.
+Many different types of objects in Python are <strong>iterable</strong>.
+Anything that is iterable, can be used in a for loop.
+Here are some examples.</p>
+<pre><code class="hljs language-python">a_list = [<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+a_set = {<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>}
+a_tuple = (<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>)
+a_string = <span class="hljs-string">&quot;abcd&quot;</span>
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;List&quot;</span>)
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> a_list:
+    <span class="hljs-built_in">print</span>(item)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;---\nSet&quot;</span>)
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> a_set:
+    <span class="hljs-built_in">print</span>(item)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;---\nTuple&quot;</span>)
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> a_tuple:
+    <span class="hljs-built_in">print</span>(item)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;---\nString&quot;</span>)
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> a_string:
+    <span class="hljs-built_in">print</span>(item)
+
+</code></pre>
+<pre class="code-chunk-output">List
+2
+4
+5
+---
+Set
+1
+2
+4
+---
+Tuple
+4
+2
+1
+---
+String
+a
+b
+c
+d
+</pre>
+<p>You might be surprised that the set is not in the same order as it was written.
+This is an important property of sets.
+Things are in a set or not.  There is no fixed order (though you might notice one when iterating).</p>
+<h3>Functions</h3>
+<p>There are two ways you should think about functions.
+First, it changes the order that the code executes.
+When you <strong>call</strong> a function, control goes to the code block of the function and then it comes back with it is done.</p>
+<p>Second, it takes an input and gives you an output.
+The output of a function is its <strong>return value</strong>.
+This is specified by the keyword <code>return</code>.</p>
+<p>A function is defined and given a name using the <code>def</code> keyword.
+This is followed by a block.
+As always, a block is introduced by a colon, <code>:</code>.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">foo</span>():
+    <span class="hljs-keyword">return</span> <span class="hljs-number">3</span>
+
+<span class="hljs-built_in">print</span>(foo())
+</code></pre>
+<pre class="code-chunk-output">3
+</pre>
+<p>The inputs to a function are called <strong>arguments</strong>.
+The arguments get assigned to local variables in the function that are called <strong>parameters</strong> and are specified when the function is defined.
+Here is an example where the parameter name is <code>x</code>.
+Inside the function, the argument will be called <code>x</code>, regardless of whether it had another name outside the function call.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">bar</span>(<span class="hljs-params">x</span>):
+    <span class="hljs-keyword">return</span> x + <span class="hljs-number">1</span>
+
+y = <span class="hljs-number">3</span>
+<span class="hljs-built_in">print</span>(bar(y))
+</code></pre>
+<pre class="code-chunk-output">4
+</pre>
+<p>It's easy to confuse the words parameters and arguments.
+The difference is the same as the difference between variables and objects.
+The parameter is the variable (i.e., the name), but the actual object is the argument.
+Think of how hard it would be to write a useful function if you couldn't rename the arguments.</p>
+<h3>Names and Namespaces</h3>
+<p>You might call your mother &quot;Mom&quot;, but someone else might call their mother &quot;Mom&quot;.
+This means two people have the same name.
+To be able to know who you are referring to, you would need to add more information.
+In Python, names of things (like variables, function names, etc) are colleced into <strong>namespaces</strong>.
+Whenever you see a name with a dot in it, you are telling python where to look for the name you are trying to access.
+There are a couple common ways this happens, but perhaps the most common is when the name is attached to an object.</p>
+<p>Read the following code.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Foo</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, x</span>):
+        <span class="hljs-variable language_">self</span>.x = x
+
+x = <span class="hljs-number">5</span>
+f = Foo(x)  
+<span class="hljs-built_in">print</span>(f.x)      
+</code></pre>
+<pre class="code-chunk-output">5
+</pre>
+<p>Even in this very simple example, you can see the name <code>x</code> is actually defined in <strong>three</strong>  different namespaces.
+The line <code>x = 5</code> assigns to the variable <code>x</code>.
+Because it didn't exist before this, the variable is created and the name is stored at the top level of the program.
+This is known as the <strong>global namespace</strong>.
+Then, the initializer for the class <code>Foo</code> has a parameter called <code>x</code>.
+This means that <code>x</code> is now defined as a <strong>local variable</strong> in this function.
+That is a namespace associated with a call to this function.
+Every time this function is called, it creates a namespace and add this variable to it.
+The third time the variable <code>x</code> is defined is in the assignment to <code>self.x</code>.
+The variable <code>self</code> has a namespace attached to it.
+Writing <code>self.x</code> indicates that we are creating the variable in the namespace of <code>self</code>.
+This is why the code <code>self.x = x</code> is referring to two different variables.
+One (on the right) is the local variable and the the other (on the left) is an <strong>attribute</strong> of <code>self</code>.</p>
+<p>The pattern of taking an argument to the initializer and attaching it to the object being initialized is a very common pattern.
+The main reason is that you want to remember something.
+The local variables (the names) go away when the function returns.
+If an object no longer has a name, then the object will also go away.
+This is called garbage collection.
+By assigning a different name, <code>self.x</code>, to this object, the value of <code>x</code> will live on.</p>
+<p>Wait.  If the local variables go away, won't <code>self</code> also go away?
+Yes, but the object that self refers to doesn't go away.
+It is assigned to the variable <code>f</code> in the line <code>f = Foo()</code>.
+That's why we can access it lower by calling it <code>f.x</code>.</p>
+<h3>Classes and Methods</h3>
+<p>A <strong>class</strong> is another word for a <strong>type</strong>.
+The <code>class</code> keyword is used to define a new class.
+It is similar to <code>def</code> in that it introduces a block of code.
+The first thing to know about a class is that it defines a namespace.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Blah</span>:
+    myvariable = <span class="hljs-number">100</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">humbug</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;derp&quot;</span>
+
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(Blah))
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(Blah.humbug))
+<span class="hljs-built_in">print</span>(Blah.myvariable)
+</code></pre>
+<pre class="code-chunk-output">&lt;class 'type'&gt;
+&lt;class 'function'&gt;
+100
+</pre>
+<p>By defining a class, you can create an object with that type.
+You do this by calling the name of the class as if it's a function.
+Such an object is called an <strong>instance</strong> of the class.
+Here is some code that does this.</p>
+<pre><code class="hljs language-python">
+</code></pre>
+<pre class="code-chunk-output"></pre>
+<p>Functions defined inside a class are sometimes called <strong>methods</strong>.
+(Technically, some functions in a class are not methods, but you don't have to worry about that now).
+The difference in how we think about a function and how we think about a method is that that <em>a method is called on an object</em>.
+This is like asking the object to figure out what function to call and then to pass itself as the first parameter.
+We will see that this is often useful.</p>
+
+</body>
+</html>

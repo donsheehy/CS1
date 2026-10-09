@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Week 6 Homework</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Week 6 Homework</h1>
+<h2>Code Reading</h2>
+<p>Here are some examples of classes and methods.
+For each one, read the code and try to predict the output.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Point</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, x ,y</span>):
+        <span class="hljs-variable language_">self</span>.x = x
+        <span class="hljs-variable language_">self</span>.y = y
+
+x = <span class="hljs-number">5</span>
+y = <span class="hljs-number">100</span>
+p = Point(y,x)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;p = (<span class="hljs-subst">{p.x}</span>, <span class="hljs-subst">{p.y}</span>)&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">p = (100, 5)
+</pre>
+</details>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Foo</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-variable language_">self</span>.x = <span class="hljs-number">0</span>
+    
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">bump</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-variable language_">self</span>.x = <span class="hljs-variable language_">self</span>.x + <span class="hljs-number">1</span>
+
+f = Foo()
+f.bump()
+f.bump()
+<span class="hljs-built_in">print</span>(f.x)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">2
+</pre>
+</details>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Point</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, x ,y</span>):
+        <span class="hljs-variable language_">self</span>.x = x
+        <span class="hljs-variable language_">self</span>.y = y
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Segment</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, a, b</span>):
+        <span class="hljs-variable language_">self</span>.a = a
+        <span class="hljs-variable language_">self</span>.b = b
+    
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">slope</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.a.x == <span class="hljs-variable language_">self</span>.b.x:
+            <span class="hljs-keyword">return</span> <span class="hljs-built_in">float</span>(<span class="hljs-string">&quot;inf&quot;</span>)
+        <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.a.x &lt; <span class="hljs-variable language_">self</span>.b.x:
+            <span class="hljs-keyword">return</span> (<span class="hljs-variable language_">self</span>.b.y - <span class="hljs-variable language_">self</span>.a.y) / (<span class="hljs-variable language_">self</span>.b.x - <span class="hljs-variable language_">self</span>.a.y)
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">return</span> (<span class="hljs-variable language_">self</span>.a.y - <span class="hljs-variable language_">self</span>.b.y) / (<span class="hljs-variable language_">self</span>.a.x - <span class="hljs-variable language_">self</span>.b.y)
+
+p = Point(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)
+s = Segment(p, Point(-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>))
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(s.slope))
+<span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(Segment.slope))
+<span class="hljs-built_in">print</span>(s.slope())
+<span class="hljs-built_in">print</span>(Segment.slope(s))
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">&lt;class 'method'&gt;
+&lt;class 'function'&gt;
+1.0
+1.0
+</pre>
+</details>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Bar</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">init</span>(<span class="hljs-params">self, x, y</span>):
+        <span class="hljs-variable language_">self</span>.x = x
+        <span class="hljs-variable language_">self</span>.y = y
+
+b = Bar(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{b.x}</span>, <span class="hljs-subst">{b.y}</span>&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 6, in &lt;module&gt;
+TypeError: Bar() takes no arguments</pre>
+</details>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Bar</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">init</span>(<span class="hljs-params">self, x, y</span>):
+        <span class="hljs-variable language_">self</span>.x = x
+        <span class="hljs-variable language_">self</span>.y = y
+
+b = Bar()
+b.init(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{b.x}</span>, <span class="hljs-subst">{b.y}</span>&quot;</span>)
+
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">2, 3
+</pre>
+</details>
+<h2>Your Own Drawing Library</h2>
+<p>Here is a starting point for a very simple svg drawing library.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Figure</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-comment"># Make an emty list to hold the parts of the image</span>
+        <span class="hljs-variable language_">self</span>.element = []
+
+   <span class="hljs-keyword">def</span> <span class="hljs-title function_">draw</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;400&quot; height=&quot;400&quot;&gt;&#x27;</span>)
+        <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.elements:
+            <span class="hljs-built_in">print</span>(e.draw())
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;&lt;/svg&gt;&#x27;</span>)
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Point</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, x, y</span>):
+        <span class="hljs-variable language_">self</span>.x = x
+        <span class="hljs-variable language_">self</span>.y = y
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">draw</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f&#x27;&lt;circle cx=&quot;<span class="hljs-subst">{self.x}</span>&quot; cy=&quot;<span class="hljs-subst">{self.y}</span>&quot; r=&quot;2&quot;/&gt;&#x27;</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Line</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, a, b, color=<span class="hljs-string">&quot;#af3030&quot;</span></span>):
+        <span class="hljs-variable language_">self</span>.a = a
+        <span class="hljs-variable language_">self</span>.b = b
+        <span class="hljs-variable language_">self</span>.color = color
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">draw</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f&#x27;&lt;line stroke=&quot;<span class="hljs-subst">{self.color}</span>&quot; stroke-width=&quot;2&quot; x1=&quot;<span class="hljs-subst">{self.a.x}</span>&quot; y1=&quot;<span class="hljs-subst">{self.a.y}</span>&quot; x2=&quot;<span class="hljs-subst">{self.b.x}</span>&quot; y2=&quot;<span class="hljs-subst">{self.b.y}</span>&quot;/&gt;&#x27;</span>
+</code></pre>
+<pre class="code-chunk-output">File &quot;&lt;stdin&gt;&quot;, line 6
+    def draw(self):
+                   ^
+IndentationError: unindent does not match any outer indentation level</pre>
+<p>You can use this library by saving it to a file.
+For example, if you call that file <code>drawing.py</code> you can <code>import</code> that file into another program.
+Say your other program is called <code>opart.py</code>, you might have the following in that file.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">import</span> drawing
+
+fig = drawing.Figure()
+p = drawing.Point(<span class="hljs-number">2</span>,<span class="hljs-number">4</span>)
+</code></pre>
+<p>Notice that when we import code, it gives us an object called <code>drawing</code>.
+That object has all the names in <code>drawing.py</code> as attributes.
+That's why we refer to the <code>Point</code> class by typing <code>drawing.Point</code>.</p>
+<p>Python calls the <code>drawing</code> object a <strong>module</strong>.
+Any python program can be imported as a module.
+People often use the word module to refer to the file being imported.
+Techincally, one is the code and the other is the object that gathers all the objects defined by that code.</p>
+<p>If instead you want to bring all these names into the current global namespace, you can import individual names as follows.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> drawing <span class="hljs-keyword">import</span> Figure, Point
+
+fig = Figure()
+p = Point(<span class="hljs-number">2</span>,<span class="hljs-number">4</span>)
+</code></pre>
+<p>You can also just import everything using <code>*</code> like this.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> drawing <span class="hljs-keyword">import</span> *
+
+fig = Figure()
+p = Point(<span class="hljs-number">2</span>,<span class="hljs-number">4</span>)
+</code></pre>
+<p>Be carefule about importing everything from a module unless you really know what's there.
+The module could have names defined that you want to use.
+You could overwrite them.</p>
+<h2>Some Tasks</h2>
+<p>Take the starter library given above or write your own.
+Add the ability to set the size of the figure.
+This will require several steps.</p>
+<ol>
+<li>
+<p>Add parameters for the height and width to the initializer, <code>Figure.__init__</code>.</p>
+</li>
+<li>
+<p>Save the values of the parameters as attributes of the new Figure object, <code>self</code>.</p>
+</li>
+<li>
+<p>Modify the draw method to use the saved heigh and width inside the svg tag.</p>
+</li>
+</ol>
+<p>Once you have done this, you should be able to add other features.
+For example, maybe you want to be able to set the radius of a point.</p>
+<h3>Default Values</h3>
+<p>Every SVG object has LOTS of parameters.
+There are many attributes that you could specify.
+Sometimes, you just want to let it use a default choice.
+There is a nice way to set a default value of a parameter in Python.
+You simply set it equal to something in the <code>def</code> line.
+The example above has a default value for line color.
+This means you can choose not to set a color and it will make that red color.</p>
+<p>Be careful with default values.  There are a couple pitfalls.</p>
+<ol>
+<li>
+<p>All of the parameters that have default values must come after all the parameters that don't ahve defaults.</p>
+</li>
+<li>
+<p>If you have two parameters with default values, you cannot leave out only the first.
+The reason is that it will assign that last argument to the second to last parameter.</p>
+</li>
+</ol>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">foo</span>(<span class="hljs-params">x = <span class="hljs-number">3</span>, y = <span class="hljs-number">6</span></span>):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;(<span class="hljs-subst">{x}</span>,<span class="hljs-subst">{y}</span>)&quot;</span>)
+
+y = <span class="hljs-number">100</span>
+foo(y)
+</code></pre>
+<pre class="code-chunk-output">(100,6)
+</pre>
+<ol start="3">
+<li>If you want to assign to just some of the parameters with default values, you can use the name of the parameter and an equal sign (like an assignment) in the function call.</li>
+</ol>
+<pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">foo</span>(<span class="hljs-params">x = <span class="hljs-number">3</span>, y = <span class="hljs-number">6</span></span>):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;(<span class="hljs-subst">{x}</span>,<span class="hljs-subst">{y}</span>)&quot;</span>)
+
+foo(y=<span class="hljs-number">100</span>)
+</code></pre>
+<pre class="code-chunk-output">(3,100)
+</pre>
+<h2>The Chaos Game</h2>
+<p>Use your drawing library to draw a big triangle.
+Then, use that triangle to play something called <strong>The Chaos Game</strong>.
+The game works like this:</p>
+<ol>
+<li>
+<p>Pick a point inside the triangle and draw it.</p>
+</li>
+<li>
+<p>Pick a random corner of the triangle.You can put the corners in a list and choose one using <code>randrange</code>.
+As shown below, this will give you a random number in some range.</p>
+</li>
+</ol>
+<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> randrange
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
+    <span class="hljs-built_in">print</span>(randrange(<span class="hljs-number">3</span>))
+</code></pre>
+<pre class="code-chunk-output">2
+0
+1
+2
+0
+</pre>
+<ol start="3">
+<li>
+<p>Find the point that is exactly halfway between your current point and the random corner.  Set this to be your new point.  Draw it.</p>
+</li>
+<li>
+<p>Return to step 2 (until you have drawn many points).</p>
+</li>
+</ol>
+<p>Try running your program an looking at the results.
+Add more and more points until a pattern emerges.
+Maybe you can form guess for why this pattern appears.</p>
+
+</body>
+</html>
