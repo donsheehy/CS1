@@ -135,7 +135,7 @@ b.init(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
         <span class="hljs-comment"># Make an emty list to hold the parts of the image</span>
         <span class="hljs-variable language_">self</span>.element = []
 
-   <span class="hljs-keyword">def</span> <span class="hljs-title function_">draw</span>(<span class="hljs-params">self</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">draw</span>(<span class="hljs-params">self</span>):
         <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;400&quot; height=&quot;400&quot;&gt;&#x27;</span>)
         <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.elements:
             <span class="hljs-built_in">print</span>(e.draw())
@@ -158,10 +158,6 @@ b.init(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">draw</span>(<span class="hljs-params">self</span>):
         <span class="hljs-keyword">return</span> <span class="hljs-string">f&#x27;&lt;line stroke=&quot;<span class="hljs-subst">{self.color}</span>&quot; stroke-width=&quot;2&quot; x1=&quot;<span class="hljs-subst">{self.a.x}</span>&quot; y1=&quot;<span class="hljs-subst">{self.a.y}</span>&quot; x2=&quot;<span class="hljs-subst">{self.b.x}</span>&quot; y2=&quot;<span class="hljs-subst">{self.b.y}</span>&quot;/&gt;&#x27;</span>
 </code></pre>
-<pre class="code-chunk-output">File &quot;&lt;stdin&gt;&quot;, line 6
-    def draw(self):
-                   ^
-IndentationError: unindent does not match any outer indentation level</pre>
 <p>You can use this library by saving it to a file.
 For example, if you call that file <code>drawing.py</code> you can <code>import</code> that file into another program.
 Say your other program is called <code>opart.py</code>, you might have the following in that file.</p>
@@ -263,10 +259,10 @@ As shown below, this will give you a random number in some range.</p>
 <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
     <span class="hljs-built_in">print</span>(randrange(<span class="hljs-number">3</span>))
 </code></pre>
-<pre class="code-chunk-output">2
+<pre class="code-chunk-output">1
+2
 0
 1
-2
 0
 </pre>
 <ol start="3">
