@@ -32,6 +32,9 @@
   <hr/>
   <h1>For Loops</h1>
 <h2>Doing Something Five Times</h2>
+<p>Very often, you want a program to do the same thing over and over.
+The simplest version is doing something a fixed number of times.
+Here is a loop that runs five times and prints a number each time.</p>
 <pre><code class="hljs language-python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
     <span class="hljs-built_in">print</span>(i)
 </code></pre>
@@ -84,6 +87,8 @@ guess=2
 I have found that <code>range(1, 6)</code> reads strangely at first.
 Say it out loud as &quot;from 1 up to but not including 6&quot; a few times and it sticks.</p>
 <h2>Looping Over a List</h2>
+<p>So far, our loops have counted through numbers with <code>range</code>.
+Often, though, you already have a list and want to do something with each item in it.</p>
 <pre><code class="hljs language-python">names = [<span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;Grace&quot;</span>]
 <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> names:
     <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Hello, <span class="hljs-subst">{name}</span>!&quot;</span>)
@@ -111,6 +116,8 @@ It is also longer, and it gives you two chances to make an off by one error.</p>
 <p><strong>Key Idea: If you want the items, loop over the list. Loop over a range only when you really need the positions.</strong></p>
 </blockquote>
 <h2>Building Up an Answer</h2>
+<p>A loop is also how you compute one answer from a whole collection of values, like the total of a list of numbers.
+Here is a loop that adds up a list.</p>
 <pre><code class="hljs language-python">nums = [<span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>, <span class="hljs-number">23</span>]
 total = <span class="hljs-number">0</span>
 <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> nums:

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Dictionaries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Dictionaries</h1>
+<h2>Overview</h2>
+<p>A <strong>dictionary</strong> is a kind of data structure that is used throughout Python and throughout programming in general.
+It stores pairs of things.
+The pairs are called key-value pairs because the first part of the pair is a key and the second part is a value.
+The main requirement that is enforced by the data structure is that only one item in the dictionary can have a given key.
+We express this by saying, <strong>keys are unique</strong>.
+The name of the dictionary class in Python is <code>dict</code>.</p>
+<p>Dictionary literals are indicated with curly braces. <em>(Remember a literal is when you just write the object directly, without constructing it with other functions.)</em>
+The keys and values are separated by colons.
+The items (key-value pairs) are separated by commas.
+Here is an example of a dictionary literal.</p>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">1</span>: <span class="hljs-string">&quot;one&quot;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;two&quot;</span>}
+</code></pre>
+<p>In the example above, the keys are integers and the values are strings.</p>
+<p>Here is another example:</p>
+<pre><code class="hljs language-python">d = {<span class="hljs-string">&quot;hello&quot;</span> : <span class="hljs-number">3</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;Goodbye&quot;</span>}
+</code></pre>
+<p>In the example above, we see that the keys are not the same type.
+The first key is a string, the second key is an integer.
+This is okay.</p>
+<p>There are many examples of dictionaries that you have already used in Python.
+The most important one is a namespace.
+The keys are names, and the values are the objects that those names refer to.
+You can access the namespace associated with an object as follows.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Foo</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-variable language_">self</span>.secret = <span class="hljs-number">4</span>
+
+f = Foo()
+
+<span class="hljs-built_in">print</span>(f.__dict__)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">{'secret': 4}
+</pre>
+</details>
+<h2>Getting Values from Keys</h2>
+<p>The basic use of a dictionary is to get the value associated with a key. You give the key, you get the value.
+The notation uses square brackets, as in the following example.</p>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;one&#x27;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&#x27;two&#x27;</span>}
+
+<span class="hljs-built_in">print</span>(D[<span class="hljs-number">1</span>])
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">one
+</pre>
+</details>
+<h2>Assigning Values to Keys</h2>
+<p>Assigning a value to a key in a dictionary looks like a normal assignment. Again, the square brackets are used.</p>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;one&#x27;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&#x27;two&#x27;</span>}
+
+D[<span class="hljs-number">3</span>] = <span class="hljs-string">&#x27;three&#x27;</span>
+D[<span class="hljs-number">4</span>] = <span class="hljs-string">&#x27;four&#x27;</span>
+
+<span class="hljs-built_in">print</span>(D)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">{1: 'one', 2: 'two', 3: 'three', 4: 'four'}
+</pre>
+</details>
+<h2>Assignment Overwrites Old Values</h2>
+<p>If you assign the same key twice, the new value overwrites the old value.
+This is exactly the same as if you assign to the same variable twice.</p>
+<pre><code class="hljs language-python">D = {}
+D[<span class="hljs-string">&#x27;a&#x27;</span>] = <span class="hljs-number">100</span>
+D[<span class="hljs-string">&#x27;a&#x27;</span>] = <span class="hljs-number">200</span>
+<span class="hljs-built_in">print</span>(D)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">{'a': 200}
+</pre>
+</details>
+<p>The example above used an empty dictionary to start.
+The expression <code>{}</code> gives a dictionary with nothing in it.</p>
+<h2>Dealing with Errors</h2>
+<p>Common error when dealing with a dictionary is to look for a key that is not there.</p>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;one&#x27;</span>}
+
+<span class="hljs-built_in">print</span>(D[<span class="hljs-number">2</span>])
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 3, in &lt;module&gt;
+KeyError: 2</pre>
+</details>
+<p>The error you get is called a <code>KeyError</code>.</p>
+<blockquote>
+<p>Here's a quick sanity check. You will not get a key error for an assignment to a key that doesn't exist. <strong>Why not?</strong></p>
+</blockquote>
+<details><summary>Click to reveal.</summary>
+<p>The assignment creates a new item if the key doesn't exist.</p>
+</details>
+<p>There are four standard ways to deal with a <code>KeyError</code>.</p>
+<ol>
+<li>Check before you do anything.</li>
+</ol>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;one&#x27;</span>}
+<span class="hljs-keyword">if</span> <span class="hljs-number">2</span> <span class="hljs-keyword">in</span> D:
+    <span class="hljs-built_in">print</span>(D[<span class="hljs-number">2</span>])
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Oh no!&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">Oh no!
+</pre>
+</details>
+<p>Notice the keyword <code>in</code> is used here.
+It checks if the key is present or not.
+The expression <code>2 in D</code> evaluates to <code>True</code> or <code>False</code>.</p>
+<p>If you wanted to check that something was not present, the right way to do this is to use the <code>not in</code> keyword as follows.</p>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;one&#x27;</span>}
+<span class="hljs-keyword">if</span> <span class="hljs-number">2</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> D:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Oh no!&quot;</span>)
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-built_in">print</span>(D[<span class="hljs-number">2</span>])
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">Oh no!
+</pre>
+</details>
+<ol start="2">
+<li>Use the <code>get</code> method to return a default value when the key is missing.
+The second argument tells what to return if the key isn't there.</li>
+</ol>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;one&#x27;</span>}
+<span class="hljs-built_in">print</span>(D.get(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;oh no!&quot;</span>))
+<span class="hljs-built_in">print</span>(D.get(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;oh no!&quot;</span>))
+<span class="hljs-built_in">print</span>(D)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">one
+oh no!
+{1: 'one'}
+</pre>
+</details>
+<ol start="3">
+<li>Use the <code>setdefault</code> method to not only return the default, but also assign it in the dictionary.
+It behaves like the <code>get</code> method, but it also modifies the dictionary.</li>
+</ol>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;one&#x27;</span>}
+<span class="hljs-built_in">print</span>(D.setdefault(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;oh no!&quot;</span>))
+<span class="hljs-built_in">print</span>(D.setdefault(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;oh no!&quot;</span>))
+<span class="hljs-built_in">print</span>(D)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">one
+oh no!
+{1: 'one', 2: 'oh no!'}
+</pre>
+</details>
+<p>Make sure you see the difference between this one and the last one.</p>
+<ol start="4">
+<li>Catch the error and do something else instead.</li>
+</ol>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;one&#x27;</span>}
+<span class="hljs-keyword">try</span>:
+    <span class="hljs-built_in">print</span>(D[<span class="hljs-number">2</span>])
+<span class="hljs-keyword">except</span> KeyError:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Oh no!&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">Oh no!
+</pre>
+</details>
+<p>This construction will run the first block and then run the second block if there is a KeyError.
+This same pattern is used for other errors.</p>
+<p>Another word for this kind of error is an <strong>exception</strong>.
+The rule of thumb is that you should only use exceptions for exceptional situations.
+In other words, the try-except block is used only when you expect there to be no error most of the time.</p>
+<h2>Iterating over a Dictionary</h2>
+<p>The default way to iterate over a dictionary is to iterate over the keys.</p>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">10</span>: <span class="hljs-string">&#x27;ten&#x27;</span>, <span class="hljs-number">20</span>: <span class="hljs-string">&#x27;twenty&#x27;</span>, <span class="hljs-number">30</span>: <span class="hljs-string">&#x27;thirty&#x27;</span>}
+
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> D:
+    <span class="hljs-built_in">print</span>(n)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">10
+20
+30
+</pre>
+</details>
+<p>There is a method that lets you iterate over the values.
+Note that it will repeat values if they are not unique.</p>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">10</span>: <span class="hljs-string">&#x27;ten&#x27;</span>, <span class="hljs-number">20</span>: <span class="hljs-string">&#x27;twenty&#x27;</span>, <span class="hljs-string">&#x27;X&#x27;</span>: <span class="hljs-string">&#x27;ten&#x27;</span>}
+
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> D.values():
+    <span class="hljs-built_in">print</span>(n)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">ten
+twenty
+ten
+</pre>
+</details>
+<p>You can also iterate over the key-value pairs.
+This is very useful.</p>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">10</span>: <span class="hljs-string">&#x27;ten&#x27;</span>, <span class="hljs-number">20</span>: <span class="hljs-string">&#x27;twenty&#x27;</span>, <span class="hljs-string">&#x27;X&#x27;</span>: <span class="hljs-string">&#x27;ten&#x27;</span>}
+
+<span class="hljs-keyword">for</span> k,v <span class="hljs-keyword">in</span> D.items():
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{k}</span> is another way to write <span class="hljs-subst">{v}</span>&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">10 is another way to write ten
+20 is another way to write twenty
+X is another way to write ten
+</pre>
+</details>
+<p>Notice that we had to give two loop variables.
+You could also consider these one variable of type tuple.
+Parentheses make it more clear.</p>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">10</span>: <span class="hljs-string">&#x27;ten&#x27;</span>, <span class="hljs-number">20</span>: <span class="hljs-string">&#x27;twenty&#x27;</span>, <span class="hljs-string">&#x27;X&#x27;</span>: <span class="hljs-string">&#x27;ten&#x27;</span>}
+
+<span class="hljs-keyword">for</span> (k,v) <span class="hljs-keyword">in</span> D.items():
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{k}</span> is another way to write <span class="hljs-subst">{v}</span>&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">10 is another way to write ten
+20 is another way to write twenty
+X is another way to write ten
+</pre>
+</details>
+<p>It is, quite literally iterating over tuples.
+You could do the following (even though you shouldn't).</p>
+<pre><code class="hljs language-python">D = {<span class="hljs-number">10</span>: <span class="hljs-string">&#x27;ten&#x27;</span>, <span class="hljs-number">20</span>: <span class="hljs-string">&#x27;twenty&#x27;</span>, <span class="hljs-string">&#x27;X&#x27;</span>: <span class="hljs-string">&#x27;ten&#x27;</span>}
+
+<span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> D.items():
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{item[<span class="hljs-number">0</span>]}</span> is another way to write <span class="hljs-subst">{item[<span class="hljs-number">1</span>]}</span>&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">10 is another way to write ten
+20 is another way to write twenty
+X is another way to write ten
+</pre>
+</details>
+<p>Each item is a tuple.
+The first entry in the tuple (index 0) is the key.
+The second entry in the tuple (index 1) is the value.</p>
+<h2>Summary</h2>
+<ul>
+<li>dictionary</li>
+<li>key-value pairs</li>
+<li>keys are unique</li>
+<li>the <code>dict</code> class</li>
+<li>dictionary literal</li>
+<li>a namespace is a dictionary</li>
+<li>getting a value from a key</li>
+<li>assigning a value to a key</li>
+<li>assignment overwrites old values</li>
+<li>empty dictionary <code>{}</code></li>
+<li><code>KeyError</code></li>
+<li>the <code>in</code> and <code>not in</code> keywords</li>
+<li>the <code>get</code> method</li>
+<li>the <code>setdefault</code> method</li>
+<li>try-except</li>
+<li>exception</li>
+<li>iterating over keys</li>
+<li>the <code>values</code> method</li>
+<li>the <code>items</code> method</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Distribution Example</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Distribution Example</h1>
+<p>Here is a simple example of using a dictionary to represent a distribution.
+Let's suppose we are trying to decipher some text.
+We know that someone has scrambled the alphabet.
+One way to get a guess at which letter is which is to see that the most common letters appear the most.
+To do that, we should first see which letters are most common in English.
+I will just grad a document with a bunch of text and count how many times each letter appears.</p>
+<pre><code class="hljs language-python">distribution = {}
+alphabet = <span class="hljs-string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>
+
+<span class="hljs-keyword">for</span> letter <span class="hljs-keyword">in</span> alphabet:
+    distribution[letter] = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;charles_babbage.md&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
+    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f:
+        <span class="hljs-keyword">for</span> letter <span class="hljs-keyword">in</span> line.upper():
+            <span class="hljs-keyword">if</span> letter <span class="hljs-keyword">in</span> alphabet:
+                distribution[letter] += <span class="hljs-number">1</span>
+
+L = []
+<span class="hljs-keyword">for</span> letter, counts <span class="hljs-keyword">in</span> distribution.items():
+    L.append((counts, letter))
+
+L.sort(reverse=<span class="hljs-literal">True</span>)
+<span class="hljs-built_in">print</span>(L)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">[(286, 'E'), (221, 'A'), (192, 'I'), (183, 'N'), (167, 'T'), (165, 'O'), (143, 'S'), (137, 'R'), (100, 'H'), (98, 'L'), (97, 'C'), (91, 'D'), (69, 'M'), (63, 'U'), (63, 'F'), (60, 'G'), (58, 'B'), (47, 'P'), (41, 'W'), (38, 'Y'), (18, 'V'), (14, 'K'), (5, 'Z'), (4, 'X'), (2, 'J'), (1, 'Q')]
+</pre>
+</details>
+<p>This is maybe what you expected. <strong>E</strong> is the most common letter, then <strong>A</strong>, then <strong>I</strong>, then <strong>N</strong>, et cetera.
+That's just for the file I opened.
+In general, the second most common letter in English is actually <strong>T</strong>.
+But, we only looked at one file.
+If we looked at more text, we would see different numbers.</p>
+<p>The numbers we actually care about are percentages.
+For example, it is known that in English, the letter <strong>C</strong> appears 2.78% of the time.
+List we get the number 97 for C.
+We turn 97 into a percentage by calculating what fraction of all the letters is 97.
+When we make this change, we'll also tidy up our code and package it into a class.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">LetterDistribution</span>:
+    alphabet = <span class="hljs-string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-variable language_">self</span>.distribution = {letter: <span class="hljs-number">0</span> <span class="hljs-keyword">for</span> letter <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.alphabet}
+        <span class="hljs-variable language_">self</span>.total = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">self, letter</span>):
+        letter = letter.upper()
+        <span class="hljs-keyword">if</span> letter <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.alphabet:
+            <span class="hljs-variable language_">self</span>.distribution[letter] += <span class="hljs-number">1</span>
+            <span class="hljs-variable language_">self</span>.total += <span class="hljs-number">1</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">prob</span>(<span class="hljs-params">self, letter</span>):
+        letter = letter.upper()
+        <span class="hljs-keyword">if</span> <span class="hljs-variable language_">self</span>.total == <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        <span class="hljs-keyword">else</span>:
+            probability = <span class="hljs-number">100</span> * <span class="hljs-variable language_">self</span>.distribution[letter] / <span class="hljs-variable language_">self</span>.total 
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;<span class="hljs-subst">{probability:02f}</span>%&quot;</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__str__</span>(<span class="hljs-params">self</span>):
+        table = [(v,k) <span class="hljs-keyword">for</span> k,v <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.distribution.items()]
+        table.sort(reverse=<span class="hljs-literal">True</span>)
+        output = []
+        <span class="hljs-keyword">for</span> count, letter <span class="hljs-keyword">in</span> table:
+            output.append(<span class="hljs-string">f&quot;<span class="hljs-subst">{letter}</span> : <span class="hljs-subst">{self.prob(letter)}</span>&quot;</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;\n&#x27;</span>.join(output)
+
+
+distribution = LetterDistribution()
+
+files_to_read = [
+    <span class="hljs-string">&#x27;lists.md&#x27;</span>,
+    <span class="hljs-string">&#x27;dictionary.md&#x27;</span>,
+    <span class="hljs-string">&#x27;nesting.md&#x27;</span>,
+    <span class="hljs-string">&#x27;strings_and_print.md&#x27;</span>,
+    <span class="hljs-string">&#x27;computer_architecture.md&#x27;</span>
+]
+
+<span class="hljs-comment"># We will loop over several files to see the results.</span>
+<span class="hljs-keyword">for</span> filename <span class="hljs-keyword">in</span> files_to_read:
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filename, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
+        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f:
+            <span class="hljs-keyword">for</span> letter <span class="hljs-keyword">in</span> line:
+                distribution.add(letter)
+
+<span class="hljs-built_in">print</span>(distribution)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">E : 12.061557%
+T : 10.487548%
+A : 7.637671%
+S : 7.414065%
+N : 7.396528%
+I : 7.343914%
+O : 7.238688%
+R : 6.116275%
+H : 4.774640%
+L : 4.178358%
+D : 3.446159%
+U : 2.880568%
+C : 2.784111%
+P : 2.692038%
+M : 2.433357%
+G : 2.091371%
+Y : 2.043143%
+W : 1.731848%
+F : 1.727464%
+B : 0.960189%
+V : 0.929498%
+K : 0.806734%
+X : 0.486671%
+Q : 0.175377%
+J : 0.092073%
+Z : 0.070151%
+</pre>
+</details>
+<h2>Sample from a Distribution</h2>
+<p>As we have seen, a distribution gives us a probability to for each thing.
+The technical term for these things are events.
+This makes sense espoecially if you are thinking about what is the probability of some event.
+In our specific example we stored letters, so each letter gets a probability.</p>
+<p>A basic use of a distribution is to <strong>sample</strong> it.
+This means we want to extract a random item.
+The word <strong>random</strong> does not mean <strong>arbitrary</strong>.
+If we wanted an arbitrary item, the distribution could always give the letter <code>A</code>.
+Instead, we want it to work out that as we sample many times, the fraction of times we get each letter should be close to the probability.</p>
+<p>We will use Python's random number generator in the <code>random</code> module.
+The <code>randrange</code> function will return a random number ine a range, where every number will come up with the same proabability.</p>
+<p>Here is a function that uses <code>randrange</code> to give a random letter.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> randrange
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">sample</span>():
+    ALPHABET = <span class="hljs-string">&quot;ABCDEFGHIJKLMNOPQRWSTUVWXYZ&quot;</span>
+    index = randrange(<span class="hljs-number">26</span>)
+    <span class="hljs-keyword">return</span> ALPHABET[index]
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">50</span>):
+    <span class="hljs-built_in">print</span>(sample(), end=<span class="hljs-string">&quot;&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">OTAWPIOCDWRUQRDUCGTWSMFVWMGCNRGKSKLIASNQQFMRWPQRBW</pre>
+</details>
+<p>Notice that the sample function does not have any parameters.
+Despite not taking different inputs, it does produce different outputs.
+This is becuase inside, it is calling out to the random number generator.
+If we run this program again, we will get a different set of letters.</p>
+<blockquote>
+<p>Why doesn't the sample function we wrote achieve our goal for sampling from a distribution?</p>
+</blockquote>
+<details><summary>Click to reveal.</summary>
+<p>The letters will all show up with the same probability.
+That is, if we sample 26000 letters, we will get about 1000 <code>T</code>s and 1000 <code>Z</code>s.
+For the distributions we constructed from real text, we know there should be many more <code>T</code>s than <code>Z</code>s.</p>
+</details>
+<h2>Implementing a Sampling Algorithm</h2>
+<p>Here is some code to sample from a distribution.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> randrange
+<span class="hljs-keyword">from</span> distribution <span class="hljs-keyword">import</span> LetterDistribution
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">sample</span>(<span class="hljs-params">d</span>):
+    ALPHABET = <span class="hljs-string">&quot;ABCDEFGHIJKLMNOPQRWSTUVWXYZ&quot;</span>
+    n = d.total
+    my_random_number = randrange(n)
+    count = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span> letter <span class="hljs-keyword">in</span> ALPHABET:
+        count += d.distribution[letter]
+        <span class="hljs-keyword">if</span> count &gt; my_random_number:
+            <span class="hljs-keyword">return</span> letter
+
+<span class="hljs-comment"># Create a distribtion</span>
+D = LetterDistribution()
+<span class="hljs-keyword">for</span> letter <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;AAAAABBBZZ&quot;</span>:
+    D.add(letter)
+
+<span class="hljs-comment"># Make a new distribution</span>
+newD = LetterDistribution()
+
+<span class="hljs-comment"># Sample from the first distribution and add them to the second.</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">200</span>):
+    next_letter = sample(D)
+    newD.add(next_letter)
+
+<span class="hljs-comment"># Compare the distributions.</span>
+<span class="hljs-keyword">for</span> letter <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;ABXZ&quot;</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{letter}</span>:<span class="hljs-subst">{D.prob(letter)=}</span> vs. <span class="hljs-subst">{newD.prob(letter)=}</span>&quot;</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">A:D.prob(letter)='50.000000%' vs. newD.prob(letter)='43.500000%'
+B:D.prob(letter)='30.000000%' vs. newD.prob(letter)='37.500000%'
+X:D.prob(letter)='0.000000%' vs. newD.prob(letter)='0.000000%'
+Z:D.prob(letter)='20.000000%' vs. newD.prob(letter)='19.000000%'
+</pre>
+</details>
+<p>Notice, that the probabilities are close, but not exactly the same.
+In the code, we computed the <code>newD</code> distribution from 200 samples.
+If we used more samples, the distributions would start to look more and more similar.</p>
+<blockquote>
+<p>Note: A better design would put the sample method inside the <code>LetterDistribution</code> class.</p>
+</blockquote>
+<h2>Random Numbers Are Not Really &quot;Random&quot;</h2>
+<p>The computer doesn't have a way to flip coins and generate truly random numbers.
+It has to simulate this with some interesting mathematics.
+The technical term is <strong>pseudorandom generator</strong> of <strong>PRG</strong>.</p>
+<p>The idea is that we start with some number and then apply a function to produce the next number.
+That first number is called the seed.</p>
+<p>Often, when we write a program, we want to get the same output every time.
+One example would be if you used random numbers to generate a design of some kind and you just wanted to tweak the design in some small way, you would not want to have a whole new design when you rerun the code.
+Here is how to fix the seed.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">import</span> random
+
+random.seed(<span class="hljs-number">12</span>)
+<span class="hljs-built_in">print</span>(random.randrange(<span class="hljs-number">10</span>))
+<span class="hljs-built_in">print</span>(random.randrange(<span class="hljs-number">10</span>))
+<span class="hljs-built_in">print</span>(random.randrange(<span class="hljs-number">10</span>))
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">7
+4
+8
+</pre>
+</details>
+<pre><code class="hljs language-python"><span class="hljs-keyword">import</span> random
+
+random.seed(<span class="hljs-number">12</span>)
+<span class="hljs-built_in">print</span>(random.randrange(<span class="hljs-number">10</span>))
+<span class="hljs-built_in">print</span>(random.randrange(<span class="hljs-number">10</span>))
+<span class="hljs-built_in">print</span>(random.randrange(<span class="hljs-number">10</span>))
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">7
+4
+8
+</pre>
+</details>
+<p>Both programs produce the same random numbers.
+You will have to run this code yourself to see that this is really true.</p>
+<blockquote>
+<p>If you don't set the seed youself, you will get a different seed, every time you run the program.  How do you think this can work.  Where does Python go for a new seed?</p>
+</blockquote>
+<details><summary>Click to reveal.</summary>
+<p>The computer has a clock that counts in milliseconds.
+The time gives a seed that changes with each run.</p>
+</details>
+
+</body>
+</html>

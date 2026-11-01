@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Working with Files</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Working with Files</h1>
+<p>Early on, we used the <code>input()</code> function to take input from a user.
+This is nice and interactive, but it is also a pretty slow way to get input into a program.
+For some examples, we wanted to look at large inputs.
+In those cases, it makes sense to have a program that opens the file and reads it in.
+You'll notice that we did this in examples like our <a href="/CS1/distribution_example.html" class="wikilink">distribution_example</a>.
+In this note, I'll work through the techniques and the mental models for working with files.</p>
+<h2>Open and Close</h2>
+<p>When a program wants to access a file, it technically asks the operating system.
+Recall that the operating system is the main program that organizes and runs other programs on your computer (see <a href="/CS1/computer_architecture.html" class="wikilink">computer_architecture</a>).</p>
+<p>Python asks the operating system for access to a file by <strong>opening</strong> the file.
+It is then expected that your program will also <strong>close</strong> the file.</p>
+<p>You can think of this file access as a phone call.
+When you open the file, it's like you making the call.
+Then, you can read through the file in order.
+When you don't need the file anymore, closing the file is like hanging up the phone.</p>
+<p>Here is a very simple program that opens a file, reads the first line and closes it again.</p>
+<pre><code class="hljs language-python">f = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;working_with_files.md&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>)
+<span class="hljs-built_in">print</span>(f.readline())
+f.close()
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output"># Working with Files
+
+</pre>
+</details>
+<p>Let's walk through the pieces of this program.
+The first line calls a standard Python function called <code>open</code>.
+There are two arguments.
+The first is a filename.
+In this case, we passed the name of the markdown source for these notes.
+The second argument is a string <code>&quot;r&quot;</code>.
+This is how we tell the operating system that we want to open the file in order to <strong>read</strong> it.  (&quot;<strong>r</strong>&quot; for <strong>r</strong>ead).</p>
+<p>The <code>open</code> function returns an object that we can use to access the file.
+We assigned it to a variable called <code>f</code>.
+Then, we called <code>readline</code> method on <code>f</code> to read a line from the file.
+We also printed that line.
+Finally, we close the file by calling the <code>close</code> method.</p>
+<p>There are methods for reading from the file.
+For example, the <code>read</code> method reads the whole file into a string.
+You wouldn't want to do this if it's a really huge file.</p>
+<p>You can also iterate over the lines of a file.</p>
+<pre><code class="hljs language-python">f = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;working_with_files.md&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>)
+
+<span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f:
+    <span class="hljs-comment"># Check if the line is a heading.</span>
+    <span class="hljs-comment"># (headings starts with a `#` sign)</span>
+    <span class="hljs-keyword">if</span> line[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;#&#x27;</span>:
+        <span class="hljs-built_in">print</span>(line)
+
+f.close()
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output"># Working with Files
+
+## Open and Close
+
+## How to never forget to close the file
+
+## Writing to files
+
+### Write mode erases the file
+
+## Appending to files
+
+## Summary
+
+</pre>
+</details>
+<h2>How to never forget to close the file</h2>
+<p>The way I have been showing file commands, I was always manually closing the file.
+There is a standard alternative to this pattern.
+It is so standard that good Python programs almost never call the <code>close</code> method themselves.
+The syntax is a little different than you might expect.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;working_with_files.md&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
+    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f:
+        <span class="hljs-comment"># Check if the line is a heading.</span>
+        <span class="hljs-comment"># (headings starts with a `#` sign)</span>
+        <span class="hljs-keyword">if</span> line[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;#&#x27;</span>:
+            <span class="hljs-built_in">print</span>(line)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output"># Working with Files
+
+## Open and Close
+
+## How to never forget to close the file
+
+## Writing to files
+
+### Write mode erases the file
+
+## Appending to files
+
+## Summary
+
+</pre>
+</details>
+<p>This is the same program as above, but it uses the <code>with</code> keyword.
+All of the code that works with the file is indented into a block.
+The idea is simply that after this block of code, the file gets automatically closed.</p>
+<p>The <strong>with</strong> keyword introduces something called a <strong>context manager</strong>.
+We won't go into detial on how these work, but the idea is that the block has a context and there is some setup and cleanup that happens for this context.</p>
+<p>The other new aspect of this syntax is the <strong>as</strong> keyword.
+This is how we name the object that is controlling the context.</p>
+<h2>Writing to files</h2>
+<p>So far, we have only read from files.
+Writing uses the same <code>open</code> function and the same <code>with</code> block, but with a different second argument.
+Here is a program that writes a short shopping list to a file.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;shopping_list.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:
+    f.write(<span class="hljs-string">&quot;eggs\n&quot;</span>)
+    f.write(<span class="hljs-string">&quot;milk\n&quot;</span>)
+    f.write(<span class="hljs-string">&quot;bread\n&quot;</span>)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;shopping_list.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
+    <span class="hljs-built_in">print</span>(f.read())
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">eggs
+milk
+bread
+
+</pre>
+</details>
+<p>This program has two <code>with</code> blocks.
+The first one writes to a file and the second one reads it back so we can see what happened.</p>
+<p>To write to a file, we open it with the string <code>&quot;w&quot;</code> as the second argument.
+This is called <strong>write mode</strong> (&quot;<strong>w</strong>&quot; for <strong>w</strong>rite).
+If the file does not exist yet, opening it in write mode creates it.</p>
+<p>The <code>write</code> method takes a string and puts it into the file.
+Notice that every string we wrote ended with <code>\n</code>.
+That is the <strong>newline</strong> character from <a href="/CS1/strings_and_print.html" class="wikilink">strings_and_print</a>.
+Here is what happens if we leave it out.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;shopping_list.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:
+    f.write(<span class="hljs-string">&quot;eggs&quot;</span>)
+    f.write(<span class="hljs-string">&quot;milk&quot;</span>)
+    f.write(<span class="hljs-string">&quot;bread&quot;</span>)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;shopping_list.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
+    <span class="hljs-built_in">print</span>(f.read())
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">eggsmilkbread
+</pre>
+</details>
+<p>Everything runs together on one line.
+The <code>print</code> function adds a newline at the end for you, but the <code>write</code> method does not.
+It puts exactly the characters you give it into the file, and nothing else.</p>
+<blockquote>
+<p><strong>Key Idea: <code>write</code> does not add a newline. If you want separate lines, you have to write the <code>\n</code> yourself.</strong></p>
+</blockquote>
+<p>The <code>write</code> method also insists on getting a string.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;numbers.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:
+    f.write(<span class="hljs-number">42</span>)
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;
+TypeError: write() argument must be str, not int</pre>
+</details>
+<p>This gives a <code>TypeError</code>.
+The <code>print</code> function will happily print a number, but <code>write</code> will not convert it for you.
+The fix is to make the string yourself, either by casting with <code>str</code> or by using an f-string.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;numbers.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
+        f.write(<span class="hljs-string">f&quot;<span class="hljs-subst">{i}</span> squared is <span class="hljs-subst">{i**<span class="hljs-number">2</span>}</span>\n&quot;</span>)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;numbers.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
+    <span class="hljs-built_in">print</span>(f.read())
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">0 squared is 0
+1 squared is 1
+2 squared is 4
+3 squared is 9
+4 squared is 16
+
+</pre>
+</details>
+<h3>Write mode erases the file</h3>
+<p>There is one more thing to know about write mode, and it is the one that bites people.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;shopping_list.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:
+    f.write(<span class="hljs-string">&quot;eggs\n&quot;</span>)
+    f.write(<span class="hljs-string">&quot;milk\n&quot;</span>)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;shopping_list.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:
+    f.write(<span class="hljs-string">&quot;bread\n&quot;</span>)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;shopping_list.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
+    <span class="hljs-built_in">print</span>(f.read())
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">bread
+
+</pre>
+</details>
+<p>The eggs and the milk are gone.
+When you open a file in write mode, the first thing that happens is that the file is emptied.
+It does not matter what was in it before.
+Python does not ask if you are sure.</p>
+<blockquote>
+<p><strong>Key Idea: Opening a file with <code>&quot;w&quot;</code> erases everything that was already in it.</strong></p>
+</blockquote>
+<h2>Appending to files</h2>
+<p>Often you want to add to a file without losing what is already there.
+For that, there is a third mode.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;shopping_list.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:
+    f.write(<span class="hljs-string">&quot;eggs\n&quot;</span>)
+    f.write(<span class="hljs-string">&quot;milk\n&quot;</span>)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;shopping_list.txt&quot;</span>, <span class="hljs-string">&quot;a&quot;</span>) <span class="hljs-keyword">as</span> f:
+    f.write(<span class="hljs-string">&quot;bread\n&quot;</span>)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;shopping_list.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
+    <span class="hljs-built_in">print</span>(f.read())
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">eggs
+milk
+bread
+
+</pre>
+</details>
+<p>This is the same program as the last one, except the second <code>open</code> uses <code>&quot;a&quot;</code> instead of <code>&quot;w&quot;</code>.
+This is called <strong>append mode</strong> (&quot;<strong>a</strong>&quot; for <strong>a</strong>ppend).
+To <strong>append</strong> means to add something to the end.
+Now the bread goes after the eggs and milk, and nothing is erased.
+Like write mode, append mode will create the file if it does not exist yet.</p>
+<p>A common use for appending is a <strong>log file</strong>.
+A program adds a line to the log every time something happens, so you can look back later and see what it did.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;log.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>) <span class="hljs-keyword">as</span> f:
+    f.write(<span class="hljs-string">&quot;Log started\n&quot;</span>)
+
+<span class="hljs-keyword">for</span> score <span class="hljs-keyword">in</span> [<span class="hljs-number">88</span>, <span class="hljs-number">92</span>, <span class="hljs-number">75</span>]:
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;log.txt&quot;</span>, <span class="hljs-string">&quot;a&quot;</span>) <span class="hljs-keyword">as</span> f:
+        f.write(<span class="hljs-string">f&quot;Recorded a score of <span class="hljs-subst">{score}</span>\n&quot;</span>)
+
+<span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;log.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:
+    <span class="hljs-built_in">print</span>(f.read())
+</code></pre>
+<details class="code-chunk-output-details">
+<summary>Output</summary>
+<pre class="code-chunk-output">Log started
+Recorded a score of 88
+Recorded a score of 92
+Recorded a score of 75
+
+</pre>
+</details>
+<p>Notice that the file gets opened and closed again on every pass through the loop.
+Because we used append mode, nothing is lost each time it is reopened.
+If we had used <code>&quot;w&quot;</code> inside the loop, only the last score would be left.</p>
+<h2>Summary</h2>
+<ul>
+<li>opening a file</li>
+<li>closing a file</li>
+<li>the <code>open</code> function</li>
+<li>read mode <code>&quot;r&quot;</code></li>
+<li>the <code>readline</code> method</li>
+<li>the <code>read</code> method</li>
+<li>iterating over the lines of a file</li>
+<li>the <code>with</code> keyword</li>
+<li>context manager</li>
+<li>the <code>as</code> keyword</li>
+<li>write mode <code>&quot;w&quot;</code></li>
+<li>the <code>write</code> method</li>
+<li><code>write</code> does not add a newline</li>
+<li><code>write</code> needs a string</li>
+<li>write mode erases the file</li>
+<li>append mode <code>&quot;a&quot;</code></li>
+<li>log file</li>
+</ul>
+
+</body>
+</html>

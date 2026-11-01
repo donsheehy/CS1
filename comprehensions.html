@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Comprehensions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Comprehensions</h1>
+<h2>A Pattern You Already Know</h2>
+<p>Here is a loop you have written many times by now.
+It builds a list of squares one item at a time.</p>
+<pre><code class="hljs language-python">squares = []
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
+    squares.append(i * i)
+<span class="hljs-built_in">print</span>(squares)
+</code></pre>
+<pre class="code-chunk-output">[0, 1, 4, 9, 16]
+</pre>
+<p>This is the building-up pattern from <a href="/CS1/for_loops.html" class="wikilink">for_loops</a> and <a href="/CS1/lists.html" class="wikilink">lists</a>.
+Start with an empty list, loop, and append one item each time around.
+You will write this pattern so often that Python gives you a shortcut for it.</p>
+<h2>List Comprehensions</h2>
+<p>Here is the same list, built in a single line.</p>
+<pre><code class="hljs language-python">squares = [i * i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>)]
+<span class="hljs-built_in">print</span>(squares)
+</code></pre>
+<pre class="code-chunk-output">[0, 1, 4, 9, 16]
+</pre>
+<p>This is called a <strong>list comprehension</strong>.
+The square brackets on the outside tell you that the result is a list, just like a list literal.
+What goes inside the brackets is not a list of items, though.
+It is a recipe for making the items.</p>
+<h2>How to Read One</h2>
+<p>Here are the two versions side by side.</p>
+<pre><code class="hljs language-python">squares = []
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):
+    squares.append(i * i)
+
+squares = [i * i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>)]
+</code></pre>
+<p>The loop header <code>for i in range(5)</code> appears in both, word for word, except the comprehension has no colon.
+The thing that got appended, <code>i * i</code>, moves to the front.
+The empty list and the call to <code>append</code> disappear, because the comprehension handles those for you.</p>
+<p>I like to read a comprehension out loud like this: &quot;a list of <code>i * i</code>, for each <code>i</code> in <code>range(5)</code>.&quot;</p>
+<blockquote>
+<p><strong>Key Idea: The part before <code>for</code> is what goes into the list. The part after <code>for</code> says where the values come from.</strong></p>
+</blockquote>
+<p>The part before <code>for</code> can be any <strong>expression</strong> you like, as long as it uses the loop variable.</p>
+<pre><code class="hljs language-python">names = [<span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;Grace&quot;</span>]
+lengths = [<span class="hljs-built_in">len</span>(name) <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> names]
+greetings = [<span class="hljs-string">f&quot;Hello, <span class="hljs-subst">{name}</span>!&quot;</span> <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> names]
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{lengths=}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{greetings=}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{names=}</span>&quot;</span>)
+</code></pre>
+<pre class="code-chunk-output">lengths=[3, 4, 5]
+greetings=['Hello, Ada!', 'Hello, Alan!', 'Hello, Grace!']
+names=['Ada', 'Alan', 'Grace']
+</pre>
+<p>Notice that <code>names</code> is unchanged.
+A comprehension never changes the list it loops over.
+It builds a <strong>new list</strong> and gives it back to you.</p>
+<h2>Filtering with <code>if</code></h2>
+<p>Sometimes you don't want every value from the loop, only the ones that pass some test.
+For example, here are just the even numbers below 10.</p>
+<pre><code class="hljs language-python">evens = [i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">if</span> i % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>]
+<span class="hljs-built_in">print</span>(evens)
+</code></pre>
+<pre class="code-chunk-output">[0, 2, 4, 6, 8]
+</pre>
+<p>You can put an <code>if</code> at the end of a comprehension.
+It acts as a <strong>filter</strong>: only the values that pass the test make it into the new list.
+Here is the same thing as a loop.</p>
+<pre><code class="hljs language-python">evens = []
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):
+    <span class="hljs-keyword">if</span> i % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>:
+        evens.append(i)
+</code></pre>
+<p>The <code>if</code> keeps its place after the <code>for</code>, just as it sits inside the loop.
+You can filter and transform at the same time.</p>
+<pre><code class="hljs language-python">even_squares = [i * i <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">if</span> i % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>]
+<span class="hljs-built_in">print</span>(even_squares)
+</code></pre>
+<pre class="code-chunk-output">[0, 4, 16, 36, 64]
+</pre>
+<p>Read it as &quot;a list of <code>i * i</code>, for each <code>i</code> in <code>range(10)</code>, if <code>i</code> is even.&quot;</p>
+<h2>Comprehension or Loop?</h2>
+<p>A comprehension is not a new power.
+Anything it does, you can already do with a loop and <code>append</code>.
+It is just a shorter way to write one very common loop.</p>
+<p>I have found that the easiest way to write a comprehension is to write the <code>for</code> part first, then go back and fill in what goes in front of it.
+If you can't figure out how to say it as a comprehension, write the loop.
+And if a comprehension gets so long that you can't read it in one breath, the loop is probably the better choice anyway.</p>
+<h2>Dictionary Comprehensions</h2>
+<p>The same idea works for dictionaries (see <a href="/CS1/dictionary.html" class="wikilink">dictionary</a>).
+Here is a dictionary that maps each name to its length.</p>
+<pre><code class="hljs language-python">names = [<span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;Grace&quot;</span>]
+name_lengths = {name: <span class="hljs-built_in">len</span>(name) <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> names}
+<span class="hljs-built_in">print</span>(name_lengths)
+</code></pre>
+<pre class="code-chunk-output">{'Ada': 3, 'Alan': 4, 'Grace': 5}
+</pre>
+<p>This is a <strong>dictionary comprehension</strong>.
+It uses curly braces instead of square brackets, and the part before <code>for</code> is a key-value pair with a colon in the middle.
+Read it as &quot;a dictionary mapping each <code>name</code> to <code>len(name)</code>, for each <code>name</code> in <code>names</code>.&quot;</p>
+<h2>Set Comprehensions</h2>
+<p>A <strong>set</strong> is a collection that keeps each value only once.
+Duplicates are simply dropped.</p>
+<pre><code class="hljs language-python">words = [<span class="hljs-string">&quot;cat&quot;</span>, <span class="hljs-string">&quot;dog&quot;</span>, <span class="hljs-string">&quot;cat&quot;</span>, <span class="hljs-string">&quot;bird&quot;</span>, <span class="hljs-string">&quot;dog&quot;</span>]
+<span class="hljs-built_in">print</span>([<span class="hljs-built_in">len</span>(word) <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> words])
+<span class="hljs-built_in">print</span>({<span class="hljs-built_in">len</span>(word) <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> words})
+</code></pre>
+<pre class="code-chunk-output">[3, 3, 3, 4, 3]
+{3, 4}
+</pre>
+<p>The first line is a list comprehension, so you get one length for every word.
+The second line is a <strong>set comprehension</strong>.
+It uses curly braces with no colon, and every repeated length shows up only once.</p>
+<blockquote>
+<p><strong>Key Idea: The brackets decide what you get. Square brackets make a list. Curly braces with a colon make a dictionary. Curly braces without a colon make a set.</strong></p>
+</blockquote>
+<h2>Summary</h2>
+<ul>
+<li>list comprehension</li>
+<li>the expression goes before <code>for</code></li>
+<li>the <code>for</code> part says where the values come from</li>
+<li>a comprehension builds a new list</li>
+<li>filtering with <code>if</code></li>
+<li>a comprehension is a shortcut for a loop</li>
+<li>dictionary comprehension</li>
+<li>set</li>
+<li>set comprehension</li>
+<li>the brackets decide what you get</li>
+</ul>
+
+</body>
+</html>
