@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Homework</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Homework</h1>
+<p>In this homework, we will make some new additions to our image editing program.</p>
+<p>As a reminder, in class we developed the following image filter code.
+There might be some slight changes from the version from class.
+Make sure you understand what we did.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">posterize</span>(<span class="hljs-params">color</span>):
+    <span class="hljs-keyword">if</span> <span class="hljs-built_in">sum</span>(color) &gt; <span class="hljs-number">400</span>:
+        <span class="hljs-keyword">return</span> (<span class="hljs-number">255</span>,<span class="hljs-number">255</span>,<span class="hljs-number">0</span>)
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">return</span> (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">invert</span>(<span class="hljs-params">color</span>):
+    r, g, b = color
+    <span class="hljs-keyword">return</span> (<span class="hljs-number">255</span> - r, <span class="hljs-number">255</span> - g, <span class="hljs-number">255</span> - b)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">filter_image</span>(<span class="hljs-params">image_file, <span class="hljs-built_in">filter</span></span>):
+    width, height = image_file.size
+
+    <span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(height):
+        <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(width):
+            color = image_file.getpixel((x,y))
+            image_file.putpixel((x,y), <span class="hljs-built_in">filter</span>(color))
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    img = Image.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;shannon.jpg&quot;</span>)
+    filter_image(img, invert)
+    img.save(<span class="hljs-string">&quot;shannon_filtered.jpg&quot;</span>)
+
+</code></pre>
+<h2>Crop an image to make it a square</h2>
+<p>Let's write a function that takes an image and crops it so that the result is a square.</p>
+<p>For this, we can use the <code>crop</code> method.
+The argument for this method is a tuple of four integers describing the box that you want to keep.
+For example, <code>mypicture.crop((0,0,100,200))</code> will crop the image <code>mypicture</code> and only keep the box 100 pixels wide and 200 pixels tall at the top left corner of the image.</p>
+<p>This might seem backwards (or upsidedown) the first time you see it.
+The pixel <code>(0,0)</code> is the topleft pixel in the image.
+It is counting the rows from the top, starting at 0.
+This is also the way the raster would work in a cathode ray tube.</p>
+<p>For this part of the assignment, write a function called <code>crop_square</code> that crops an image so that the result is a square and it should be as large as possible.
+You should make sure that the center of the image stays the same.
+If the width is greater than the height, you will want to crop some of the left and the right.
+If the height is greater than the width, you will want to crop some of the top and the bottom.</p>
+<p>Your function should return a new Image object.
+Note that Image.crop also creates a new image rather than editing the one you gave it.</p>
+<h2>Blur an Image</h2>
+<p>Our image filters that we write previously determined the color of the output as a function of the color of the one current pixel.
+To blur an image, we will look at the neighboring pixels as well.
+Write a program that takes an image and produces a new image</p>
+<p>You will need to make your own new Image object.
+For this, we will use the <code>Image.new()</code> function.
+The arguments are the mode (as a string) and the size (as a tuple).
+We should stick with <code>&quot;RGB&quot;</code> mode for now.</p>
+<pre><code class="hljs language-python">width, height = (<span class="hljs-number">300</span>, <span class="hljs-number">400</span>)
+img = Image.new(<span class="hljs-string">&quot;RGB&quot;</span>, (width, height))
+</code></pre>
+<p>To blur the image. set every pixel to be the average of the pixel in the original image and the eight neighboring pixels.</p>
+<p><strong>Be careful.</strong> When you write this the first time, it is not uncommon to get into trouble at the edges of the image.
+There is no pixel to the right of any pixel on the right edge.
+There is no pixel below any pixel on the bottom edge.
+You will get an <code>IndexError</code> if you try to access such a pixel.</p>
+<p>Call your function <code>blur</code> and return the new image.</p>
+<h2>Combine Two Images</h2>
+<p>Let's put our tools together.
+We want two take two images blend them together.
+Write a function called <code>blend</code> that takes the two images, crops them to both be square, resizes them to be the same size (use <code>Image.resize()</code>), and then makes a new image where each pixel is the average of the two pixels from the two input images.</p>
+<p>In all these problems, you will need to separate the pixels into red, green, and blue to modify them.
+Don't forget to use integer division <code>\\</code> so that the colors are tuples of integers.</p>
+
+</body>
+</html>

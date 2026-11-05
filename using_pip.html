@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <base href="/CS1/">
+  <title>Using pip</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="hljs-github.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+  <script>
+    async function renderMath() {
+      const macros = await fetch('macros.json').then(r => r.json()).catch(() => ({})); 
+      // const response = await fetch('macros.json');
+      // const macros = await response.json();
+      renderMathInElement(document.body, {
+        macros,
+        delimiters: [
+          { left: "\\[", right: "\\]", display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+    document.addEventListener("DOMContentLoaded", renderMath);
+  </script>
+</head>
+<body>
+  <a href="index.html">Home</a>
+  <hr/>
+  <h1>Using pip</h1>
+<h2>What pip Is</h2>
+<p>Python comes with a lot built in, but not everything.
+Other people have written thousands of useful <strong>packages</strong> (also called <strong>libraries</strong>) that you can add to your own Python.
+The tool that downloads and installs them is called <strong>pip</strong>.</p>
+<p>Most packages live on a website called the <strong>Python Package Index</strong>, or <strong>PyPI</strong>, at <a href="https://pypi.org">pypi.org</a>.
+When you ask pip for a package, it looks it up there, downloads it, and puts it where Python can find it.</p>
+<p>You run pip from the Terminal, not from inside a Python program.</p>
+<h2>Checking That You Have It</h2>
+<p>First, make sure pip is there.
+Type this in the Terminal:</p>
+<pre><code class="hljs language-bash">pip --version
+</code></pre>
+<p>You should see a version number and a path to the Python it belongs to.
+On a Mac, the command is usually <code>pip3</code>, for the same reason you type <code>python3</code> instead of <code>python</code> (see <a href="/CS1/homebrew_on_mac.html" class="wikilink">homebrew_on_mac</a>).</p>
+<h2>Installing a Package</h2>
+<p>Say you want the <code>requests</code> package, which makes it easy to fetch web pages.
+If you try to use it before installing it, Python complains:</p>
+<pre><code class="hljs">ModuleNotFoundError: No module named &#x27;requests&#x27;
+</code></pre>
+<p>A <strong><code>ModuleNotFoundError</code></strong> almost always means &quot;you haven't installed this yet.&quot;
+So install it:</p>
+<pre><code class="hljs language-bash">pip install requests
+</code></pre>
+<p>pip prints a few lines as it downloads things, and ends with something like <code>Successfully installed requests-2.32.3</code>.
+You may notice it installed a few other packages too.
+Those are <strong>dependencies</strong>, packages that <code>requests</code> itself needs.
+pip handles them for you.</p>
+<p>Now <code>import requests</code> works in your programs.</p>
+<h2>A Few Other Commands</h2>
+<p>Here are the handful of pip commands you'll actually use.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pip install X</code></td>
+<td>Install the package <code>X</code></td>
+</tr>
+<tr>
+<td><code>pip install --upgrade X</code></td>
+<td>Update <code>X</code> to the newest version</td>
+</tr>
+<tr>
+<td><code>pip uninstall X</code></td>
+<td>Remove <code>X</code></td>
+</tr>
+<tr>
+<td><code>pip list</code></td>
+<td>List everything installed</td>
+</tr>
+<tr>
+<td><code>pip show X</code></td>
+<td>Show details about <code>X</code></td>
+</tr>
+</tbody>
+</table>
+<h2>The &quot;Externally Managed&quot; Error</h2>
+<p>If you installed Python with <a href="/CS1/homebrew_on_mac.html" class="wikilink">Homebrew</a> (or on some Linux systems), you may see this when you try to install something:</p>
+<pre><code class="hljs">error: externally-managed-environment
+</code></pre>
+<p>This is Python protecting itself.
+Homebrew wants to manage that copy of Python, and doesn't want you mixing your own packages into it.</p>
+<p>The fix is a <strong>virtual environment</strong>.
+A virtual environment is a private copy of Python that lives in a folder inside your project.
+You can install whatever you like there without disturbing anything else.</p>
+<pre><code class="hljs language-bash">python3 -m venv .venv
+<span class="hljs-built_in">source</span> .venv/bin/activate
+</code></pre>
+<p>The first line creates the environment in a folder called <code>.venv</code>.
+The second line <strong>activates</strong> it.
+Your Terminal prompt should now start with <code>(.venv)</code>.
+While it is active, <code>pip install</code> puts packages into <code>.venv</code>, and <code>python3</code> uses them.</p>
+<p>On Windows with Git Bash, the second line is <code>source .venv/Scripts/activate</code> instead.</p>
+<p>When you're done, type <code>deactivate</code>.
+Next time you work on the project, <code>cd</code> into its folder and run the <code>source</code> line again.
+In VS Code, you can also pick the <code>.venv</code> interpreter so it runs your code with the right packages (see <a href="/CS1/python_in_vscode.html" class="wikilink">python_in_vscode</a>).</p>
+<h2>Troubleshooting: Installed, but Still <code>ModuleNotFoundError</code></h2>
+<p>Sometimes pip says <code>Successfully installed</code>, but your program still can't find the package.
+The usual cause is that your computer has more than one Python on it.
+<code>pip</code> and <code>python3</code> are separate commands, and they can belong to different copies of Python.
+pip installed the package into one, and your program is running with the other.</p>
+<p>To check, run these two commands and compare the paths they print:</p>
+<pre><code class="hljs language-bash">pip --version
+python3 -m pip --version
+</code></pre>
+<p>The second one asks <code>python3</code> for <em>its own</em> pip.
+If the paths are different, you've found the problem.
+Install with the second form instead:</p>
+<pre><code class="hljs language-bash">python3 -m pip install requests
+</code></pre>
+<p>A virtual environment also fixes this, since activating it makes <code>pip</code> and <code>python</code> match.</p>
+<p>If your code runs from the Terminal but fails when you press Run in VS Code, it's the same problem in a different place.
+VS Code is using a different Python than your Terminal.
+Pick the matching interpreter in VS Code (see <a href="/CS1/python_in_vscode.html" class="wikilink">python_in_vscode</a>).</p>
+<h2>Summary</h2>
+<ul>
+<li>packages and libraries</li>
+<li>pip</li>
+<li>PyPI</li>
+<li><code>pip install</code>, <code>uninstall</code>, <code>list</code>, <code>show</code></li>
+<li><code>ModuleNotFoundError</code></li>
+<li>dependencies</li>
+<li>externally managed environments</li>
+<li>virtual environments</li>
+<li>activating and deactivating a virtual environment</li>
+<li><code>python3 -m pip</code></li>
+</ul>
+
+</body>
+</html>
