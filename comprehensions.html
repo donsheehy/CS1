@@ -53,7 +53,7 @@ You will write this pattern so often that Python gives you a shortcut for it.</p
 </pre>
 <p>This is called a <strong>list comprehension</strong>.
 The square brackets on the outside tell you that the result is a list, just like a list literal.
-What goes inside the brackets is not a list of items, though.
+What goes inside the brackets is not a list of items.
 It is a recipe for making the items.</p>
 <h2>How to Read One</h2>
 <p>Here are the two versions side by side.</p>
@@ -70,7 +70,7 @@ The empty list and the call to <code>append</code> disappear, because the compre
 <blockquote>
 <p><strong>Key Idea: The part before <code>for</code> is what goes into the list. The part after <code>for</code> says where the values come from.</strong></p>
 </blockquote>
-<p>The part before <code>for</code> can be any <strong>expression</strong> you like, as long as it uses the loop variable.</p>
+<p>The part before <code>for</code> can be any <strong>expression</strong>.  Usually, it will use the loop variable.</p>
 <pre><code class="hljs language-python">names = [<span class="hljs-string">&quot;Ada&quot;</span>, <span class="hljs-string">&quot;Alan&quot;</span>, <span class="hljs-string">&quot;Grace&quot;</span>]
 lengths = [<span class="hljs-built_in">len</span>(name) <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> names]
 greetings = [<span class="hljs-string">f&quot;Hello, <span class="hljs-subst">{name}</span>!&quot;</span> <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> names]
@@ -84,7 +84,7 @@ names=['Ada', 'Alan', 'Grace']
 </pre>
 <p>Notice that <code>names</code> is unchanged.
 A comprehension never changes the list it loops over.
-It builds a <strong>new list</strong> and gives it back to you.</p>
+It builds a <strong>new list</strong>.</p>
 <h2>Filtering with <code>if</code></h2>
 <p>Sometimes you don't want every value from the loop, only the ones that pass some test.
 For example, here are just the even numbers below 10.</p>
